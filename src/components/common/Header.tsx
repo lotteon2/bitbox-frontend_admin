@@ -19,7 +19,7 @@ export default function Header() {
       */
     return <ul className="w-full h-[100%] flex flex-col pl-5 pt-10 gap-10 bg-primary1 dark:bg-grayscale6 dark:text-grayscale1">
         <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/"><SpaceDashboardIcon fontSize="large"/> 대시보드</NavLink></li>
-        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/class"><Diversity1Icon fontSize="large" /> 종합정보 관리</NavLink></li>
+        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to={multiNav}><Diversity1Icon fontSize="large" /> 종합정보 관리</NavLink></li>
         <li className="ml-10" onClick={() => setEtcNav("/multi/student")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/student">교육생</NavLink></li>
         <li className="ml-10" onClick={() => setEtcNav("/multi/manager")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/manager">관리자</NavLink></li>
         <li className="ml-10" onClick={() => setEtcNav("/multi/class")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/class">클래스</NavLink></li>
