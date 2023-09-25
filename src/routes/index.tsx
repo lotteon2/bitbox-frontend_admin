@@ -12,7 +12,13 @@ const router = createBrowserRouter([
         children: [{index: true, path: "", element: <DashBoard />}],
     },
     {
-        path: "/student",
+        path: "/multi",
+        element: <MainLayout />,
+        errorElement: <NotFound />,
+        children: [{index: true, path: "", element: <DashBoard />}],
+    },
+    {
+        path: "/etc",
         element: <MainLayout />,
         errorElement: <NotFound />,
         children: [{path: "attendance", element: <DashBoard />}, {path: "request", element: <DashBoard />}, {path: "score", element: <DashBoard />}],

@@ -10,8 +10,8 @@ export default function Header() {
         color: "#FF6B6B"
     }
 
-    const [studentNav, setStudentNav] = useState<string>("/student/attendance");
-
+    const [etcNav, setEtcNav] = useState<string>("/etc/attendance");
+    const [multiNav, setMultiNav] = useState<string>("/multi/student");
     /** TODO: 경로 임의로 넣어놔서 나중에 편한대로 수정하면 됨!!
      *  1. NavLink의 to 부분 경로 수정
      *  2. 교육생 관리 하위의 onClick set() 경로 수정
@@ -19,11 +19,13 @@ export default function Header() {
       */
     return <ul className="w-full h-[100%] flex flex-col pl-5 pt-10 gap-10 bg-primary1 dark:bg-grayscale6 dark:text-grayscale1">
         <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/"><SpaceDashboardIcon fontSize="large"/> 대시보드</NavLink></li>
-        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/class"><Diversity1Icon fontSize="large" /> 반 관리</NavLink></li>
-        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to={studentNav}><PersonIcon fontSize="large" /> 교육생 관리</NavLink></li>
-        <li className="ml-10" onClick={() => setStudentNav("/student/attendance")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/student/attendance">출결 관리</NavLink></li>
-        <li className="ml-10" onClick={() => setStudentNav("/student/request")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/student/request">사유서 관리</NavLink></li>
-        <li className="ml-10" onClick={() => setStudentNav("/student/score")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/student/score">성적 관리</NavLink></li>
-        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/admin"><HeadphonesIcon fontSize="large" /> 관리자</NavLink></li>
+        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/class"><Diversity1Icon fontSize="large" /> 종합정보 관리</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/multi/student")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/student">교육생</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/multi/manager")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/manager">관리자</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/multi/class")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/multi/class">클래스</NavLink></li>
+        <li><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to={etcNav}><PersonIcon fontSize="large" /> 기타 관리</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/etc/attendance")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/etc/attendance">출결 관리</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/etc/request")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/etc/request">사유서 관리</NavLink></li>
+        <li className="ml-10" onClick={() => setEtcNav("/etc/score")}><NavLink style={({isActive}) => (isActive ? activeStyle : {})} to="/etc/score">성적 관리</NavLink></li>
     </ul>
 }
