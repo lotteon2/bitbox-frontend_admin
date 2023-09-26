@@ -3,6 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import NotFound from '../pages/NotFound';
 import DashBoard from '../pages/DashBoard';
+import Student from '../pages/multi/Student';
+import Manager from '../pages/multi/Manager';
+import Class from '../pages/multi/Class';
 
 const router = createBrowserRouter([
 	{
@@ -15,7 +18,11 @@ const router = createBrowserRouter([
 		path: '/multi',
 		element: <MainLayout />,
 		errorElement: <NotFound />,
-		children: [{ index: true, path: '', element: <DashBoard /> }],
+		children: [
+			{ path: 'student', element: <Student /> },
+			{ path: 'manager', element: <Manager /> },
+			{ path: 'class', element: <Class /> },
+		],
 	},
 	{
 		path: '/etc',
