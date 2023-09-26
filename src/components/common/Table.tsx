@@ -12,6 +12,10 @@ export interface DataType {
 	rate?: string;
 	name?: string;
 	email?: string;
+	imageSrc?: string;
+	class?: string;
+	isFinished?: boolean;
+	classCode?: string;
 }
 
 interface TableInterface<T> {

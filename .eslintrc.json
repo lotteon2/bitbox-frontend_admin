@@ -23,7 +23,8 @@
         "arrow-function", 
         "function-declaration"
       ] }
-    ]
+    ],
+    "react/require-default-props": "off"
   },
   "extends": [
     "prettier",
