@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import PersonIcon from '@mui/icons-material/Person';
-import HeadphonesIcon from '@mui/icons-material/Headphones';
 
 export default function Header() {
 	const activeStyle = {
@@ -29,17 +28,17 @@ export default function Header() {
 					<Diversity1Icon fontSize="large" /> 종합정보 관리
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/multi/student')}>
+			<li className="ml-10" onClick={() => setMultiNav('/multi/student')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/multi/student">
 					교육생
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/multi/manager')}>
+			<li className="ml-10" onClick={() => setMultiNav('/multi/manager')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/multi/manager">
 					관리자
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/multi/class')}>
+			<li className="ml-10" onClick={() => setMultiNav('/multi/class')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/multi/class">
 					클래스
 				</NavLink>
@@ -49,17 +48,17 @@ export default function Header() {
 					<PersonIcon fontSize="large" /> 기타 관리
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/etc/attendance')}>
+			<li className="ml-10" onClick={() => setEtcNav('/etc/attendance')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/attendance">
 					출결 관리
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/etc/request')}>
+			<li className="ml-10" onClick={() => setEtcNav('/etc/request')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/request">
 					사유서 관리
 				</NavLink>
 			</li>
-			<li className="ml-10" onClick={() => setEtcNav('/etc/score')}>
+			<li className="ml-10" onClick={() => setEtcNav('/etc/score')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/score">
 					성적 관리
 				</NavLink>
