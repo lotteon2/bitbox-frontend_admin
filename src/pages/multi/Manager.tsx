@@ -4,6 +4,8 @@ import { Avatar } from 'antd';
 import Table, { DataType } from '../../components/common/Table';
 import Badge from '../../components/common/Badge';
 import TableStateChip from '../../components/common/TableStateChip';
+import SelectClass from '../../components/common/SelectClass';
+import Button from '../../components/common/Button';
 
 function Manager() {
 	const [filteredInfo, setFilterInfo] = React.useState<string>();
@@ -135,8 +137,23 @@ function Manager() {
 		},
 	];
 
+	const handleChange = (value: string) => {
+		console.log(`selected ${value}`);
+	};
+
+	// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
+	const options = [
+		{ value: 'jx411', label: '롯데이커머스2기' },
+		{ value: 'lucy', label: 'Lucy' },
+		{ value: 'Yiminghe', label: 'yiminghe' },
+	];
+
 	return (
 		<div className="ml-10 w-11/12 h-full">
+			<div className="flex justify-between w-full my-5">
+				<SelectClass handleChange={handleChange} options={options} />
+				<Button content="관리자 추가" />
+			</div>
 			<Table data={data} columns={columns} />
 		</div>
 	);

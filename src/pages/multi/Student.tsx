@@ -2,6 +2,7 @@ import { ColumnsType } from 'antd/es/table';
 import { Avatar } from 'antd';
 import Table, { DataType } from '../../components/common/Table';
 import TableStateChip from '../../components/common/TableStateChip';
+import Button from '../../components/common/Button';
 
 const columns: ColumnsType<DataType> = [
 	{
@@ -112,6 +113,7 @@ export const data: DataType[] = [
 function Student() {
 	return (
 		<div className="ml-10 w-11/12 h-full">
+			<Button content="교육생 추가" />
 			<Table data={data} columns={columns} />
 		</div>
 	);
