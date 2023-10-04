@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = process.env['REACT_APP_API_URL '];
 
 // 기본 API 요청 처리
-const axiosApi = (baseURL: any) => {
+const axiosApi = (baseURL: string | undefined) => {
 	const instance = axios.create({
 		baseURL,
 		withCredentials: true,
@@ -12,7 +12,7 @@ const axiosApi = (baseURL: any) => {
 };
 
 // 로그인 이용자 API 요청 처리
-const axiosAuthApi = (baseURL: any) => {
+const axiosAuthApi = (baseURL: string | undefined) => {
 	const instance = axios.create({
 		baseURL,
 		withCredentials: true,

@@ -20,12 +20,12 @@ export default function TopHeader() {
 								{
 									key: '1',
 									icon: <SettingsOutlinedIcon />,
-									label: <a href="/dashboard">setting</a>,
+									label: <a href="/dashboard">설정</a>,
 								},
 								{
 									key: '2',
 									icon: <LogoutOutlinedIcon />,
-									label: <a href="/logout">logout</a>,
+									label: <a href="/logout">로그아웃</a>,
 								},
 							],
 						}}
