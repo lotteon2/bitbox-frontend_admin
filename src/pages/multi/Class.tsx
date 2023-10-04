@@ -113,18 +113,18 @@ export const data: DataType[] = [
 	},
 ];
 
+export const handleChange = (value: string) => {
+	console.log(`selected ${value}`);
+};
+
+// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
+export const options = [
+	{ value: 'jx411', label: '롯데이커머스2기' },
+	{ value: 'lucy', label: 'Lucy' },
+	{ value: 'Yiminghe', label: 'yiminghe' },
+];
+
 function Class() {
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
-	};
-
-	// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
-	const options = [
-		{ value: 'jx411', label: '롯데이커머스2기' },
-		{ value: 'lucy', label: 'Lucy' },
-		{ value: 'Yiminghe', label: 'yiminghe' },
-	];
-
 	return (
 		<div className="ml-10 w-11/12 h-full">
 			<div className="flex justify-between w-full my-5">

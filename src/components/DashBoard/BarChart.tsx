@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart as RechartBarchart, Bar, XAxis, YAxis } from 'recharts';
 
 interface BarChartInterface {
-	chartName: string;
+	chartName?: string;
 	data: { name: string; num: number }[];
 }
 

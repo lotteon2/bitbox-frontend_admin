@@ -5,7 +5,7 @@ import TopHeader from '../components/common/TopHeader';
 
 export default function MainLayout() {
 	return (
-		<div className="w-[1920px] h-screen flex flex-row">
+		<div className="w-full h-screen flex flex-row scrollbar-hide">
 			<div className="w-[300px] h-full font-regular text-3xl">
 				<Header />
 			</div>

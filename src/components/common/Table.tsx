@@ -20,6 +20,8 @@ export interface DataType {
 	quitTime?: string;
 	attendanceState?: string;
 	attendanceModifyReason?: string;
+	exam?: string;
+	score?: string;
 }
 
 interface TableInterface<T> {

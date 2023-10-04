@@ -33,7 +33,7 @@ const router = createBrowserRouter([
 		errorElement: <NotFound />,
 		children: [
 			{ path: 'attendance', element: <Attendance /> },
-			{ path: 'request', element: <Request /> },
+			// { path: 'request', element: <Request /> },
 			{ path: 'score', element: <Score /> },
 		],
 	},
