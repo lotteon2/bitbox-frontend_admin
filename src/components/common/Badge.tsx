@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BadgeInterface {
-	status: string;
+	status: '매니저' | '강사' | '관리자';
 }
 const Badge: React.FC<BadgeInterface> = ({ status }) => {
 	return (

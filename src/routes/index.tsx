@@ -6,6 +6,9 @@ import DashBoard from '../pages/DashBoard';
 import Student from '../pages/multi/Student';
 import Manager from '../pages/multi/Manager';
 import Class from '../pages/multi/Class';
+import Attendance from '../pages/etc/Attendance';
+import Request from '../pages/etc/Request';
+import Score from '../pages/etc/Score';
 
 const router = createBrowserRouter([
 	{
@@ -29,9 +32,9 @@ const router = createBrowserRouter([
 		element: <MainLayout />,
 		errorElement: <NotFound />,
 		children: [
-			{ path: 'attendance', element: <DashBoard /> },
-			{ path: 'request', element: <DashBoard /> },
-			{ path: 'score', element: <DashBoard /> },
+			{ path: 'attendance', element: <Attendance /> },
+			{ path: 'request', element: <Request /> },
+			{ path: 'score', element: <Score /> },
 		],
 	},
 ]);

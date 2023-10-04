@@ -16,6 +16,10 @@ export interface DataType {
 	class?: string;
 	isFinished?: boolean;
 	classCode?: string;
+	entranceTime?: string;
+	quitTime?: string;
+	attendanceState?: string;
+	attendanceModifyReason?: string;
 }
 
 interface TableInterface<T> {

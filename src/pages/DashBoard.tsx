@@ -1,4 +1,3 @@
-import React from 'react';
 import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../components/common/SelectClass';
 import BarChart from '../components/DashBoard/BarChart';
