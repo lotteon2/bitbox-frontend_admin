@@ -11,7 +11,7 @@ const BarChart: React.FC<BarChartInterface> = ({ chartName, data }) => {
 		<div className="shadow-lg grayscale3 flex flex-col items-center rounded-xl">
 			<div className="font-bold text-xl">{chartName}</div>
 			<RechartBarchart width={700} height={300} data={data}>
-				<Bar dataKey="num" className="fill-primary3" />
+				<Bar dataKey="num" className="fill-primary3" radius={[5, 5, 0, 0]} barSize={25} />
 				<XAxis dataKey="name" className="font-regular" />
 				<YAxis className="font-regular" />
 			</RechartBarchart>
