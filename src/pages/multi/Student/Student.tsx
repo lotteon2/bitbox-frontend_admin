@@ -18,13 +18,7 @@ const handleDelete = (id: number) => {
 		// 만약 Promise리턴을 받으면,
 		if (result.isConfirmed) {
 			// 모달창에서 confirm 버튼을 눌렀다면
-
-			Toast.fire({
-				iconHtml: '<a><img style="width: 80px" src="https://i.ibb.co/Y3dNf6N/success.png" alt="success"></a>',
-				title: '교육생 정보가 삭제되었습니다.',
-				background: '#FFFFFF',
-				color: '#212B36',
-			});
+			Toast(true, '교육생 정보가 삭제되었습니다.');
 		} else {
 			// 모달창에서 cancel 버튼을 눌렀다면
 		}
@@ -167,7 +161,19 @@ export const data: DataType[] = [
 ];
 
 function Student() {
-	const { isModalOpen, setIsModalOpen, loading, setLoading, showModal, handleOk, handleCancel } = useStudentModal();
+	const {
+		email,
+		setEmail,
+		isModalOpen,
+		invitedEmails,
+		handleClickAddBtn,
+		setIsModalOpen,
+		loading,
+		setLoading,
+		showModal,
+		handleOk,
+		handleCancel,
+	} = useStudentModal();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -191,13 +197,26 @@ function Student() {
 				<div className="my-10 flex flex-col justify-center">
 					<SelectClass options={options} handleChange={handleChange} />
 					<div className="w-full flex justify-between items-center">
-						<input id="swal2-input" className="swal2-input" />
-						<AddOutlinedIcon className="ml-5 cursor-pointer grow-0" />
+						<input
+							id="swal2-input"
+							className="swal2-input w-full"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+						<button type="button" onClick={handleClickAddBtn}>
+							<AddOutlinedIcon className="ml-5 cursor-pointer grow-0" />
+						</button>
 					</div>
 					<br />
 					<br />
 					<div className="swal2-label">초대된 명단</div>
-					<div id="swal2-input" className="swal2-input" />
+					<div className="swal2-div">
+						<ul>
+							{invitedEmails.map((invitedEmail) => (
+								<li key={invitedEmail}>{invitedEmail}</li>
+							))}
+						</ul>
+					</div>
 				</div>
 			</Modal>
 		</div>

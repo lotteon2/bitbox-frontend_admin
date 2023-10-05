@@ -42,12 +42,7 @@ export const useClassTable = () => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				// 모달창에서 confirm 버튼을 눌렀다면
-				Toast.fire({
-					iconHtml: '<a><img style="width: 80px" src="https://i.ibb.co/Y3dNf6N/success.png" alt="success"></a>',
-					title: '관리자 정보가 삭제되었습니다.',
-					background: '#FFFFFF',
-					color: '#212B36',
-				});
+				Toast(true, '관리자 정보가 삭제되었습니다.');
 			} else {
 				// 모달창에서 cancel 버튼을 눌렀다면
 			}
