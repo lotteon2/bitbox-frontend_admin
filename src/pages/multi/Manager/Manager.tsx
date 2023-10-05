@@ -16,8 +16,20 @@ function Manager() {
 		{ value: 'Yiminghe', label: 'yiminghe' },
 	];
 
-	const { isModalOpen, setIsModalOpen, loading, setLoading, showModal, handleOk, handleCancel } = useManagerModal();
-	const { handleDelete, data, columns } = useManagerTable();
+	const {
+		email,
+		setEmail,
+		name,
+		setName,
+		isModalOpen,
+		setIsModalOpen,
+		isLoading,
+		isDisabled,
+		showModal,
+		handleOk,
+		handleCancel,
+	} = useManagerModal();
+	const { data, columns } = useManagerTable();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -35,15 +47,36 @@ function Manager() {
 				maskClosable={false}
 				footer={[
 					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
-					<Button handleClick={handleOk} content="확인" loading={loading} type="positive" key="b2" />,
+					<Button
+						handleClick={handleOk}
+						content="확인"
+						loading={isLoading}
+						disabled={isDisabled}
+						type="positive"
+						key="b2"
+					/>,
 				]}
 			>
 				<div className="my-10 flex flex-col justify-center">
 					<div className="text-grayscale5 mb-5">*초대된 계정의 초기 비밀번호는 1111입니다.</div>
-					<SelectClass options={options} handleChange={handleChange} />
-					<SelectClass options={options} handleChange={handleChange} />
-					<input id="swal2-input" className="swal2-input mb-2" placeholder="등록할 담당자의 이메일을 입력해주세요." />
-					<input id="swal2-input" className="swal2-input" placeholder="등록할 담당자의 이름을 입력해주세요." />
+					<div className="w-full flex justify-between">
+						<SelectClass options={options} handleChange={handleChange} />
+						<SelectClass options={options} handleChange={handleChange} />
+					</div>
+					<input
+						id="swal2-input"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						className="swal2-input mb-2"
+						placeholder="등록할 담당자의 이메일을 입력해주세요."
+					/>
+					<input
+						id="swal2-input"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						className="swal2-input"
+						placeholder="등록할 담당자의 이름을 입력해주세요."
+					/>
 				</div>
 			</Modal>
 		</div>

@@ -16,8 +16,19 @@ export const options = [
 ];
 
 function Class() {
-	const { handleDelete, data, columns } = useClassTable();
-	const { isModalOpen, setIsModalOpen, loading, setLoading, showModal, handleOk, handleCancel } = useClassModal();
+	const { data, columns } = useClassTable();
+	const {
+		isModalOpen,
+		isDisabled,
+		isLoading,
+		classCode,
+		name,
+		setName,
+		setClassCode,
+		showModal,
+		handleOk,
+		handleCancel,
+	} = useClassModal();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -35,16 +46,28 @@ function Class() {
 				maskClosable={false}
 				footer={[
 					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
-					<Button handleClick={handleOk} content="확인" loading={loading} type="positive" key="b2" />,
+					<Button
+						handleClick={handleOk}
+						content="확인"
+						loading={isLoading}
+						disabled={isDisabled}
+						type="positive"
+						key="b2"
+					/>,
 				]}
 			>
 				<div className="my-10 flex flex-col align-center justify-center">
 					<div className="swal2-label">반 이름</div>
-					<input id="swal2-input" className="swal2-input" />
+					<input value={name} onChange={(e) => setName(e.target.value)} id="swal2-input" className="swal2-input" />
 					<br />
 					<br />
 					<div className="swal2-label">반 코드</div>
-					<input id="swal2-input" className="swal2-input" />
+					<input
+						value={classCode}
+						onChange={(e) => setClassCode(e.target.value)}
+						id="swal2-input"
+						className="swal2-input"
+					/>
 				</div>
 			</Modal>
 		</div>

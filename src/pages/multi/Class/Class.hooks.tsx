@@ -1,34 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ColumnsType } from 'antd/es/table';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import { Dropdown, Modal } from 'antd';
+import { Dropdown } from 'antd';
 import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
 
 export const useClassModal = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [classCode, setClassCode] = useState<string>('');
+	const [name, setName] = useState<string>('');
+	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	const clearValues = () => {
+		setIsDisabled(true);
+		setClassCode('');
+		setName('');
+	};
 
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
 
 	const handleOk = () => {
+		setIsLoading(true);
+		Toast(true, '반이 추가되었어요');
+		clearValues();
+		setIsLoading(false);
 		setIsModalOpen(false);
 	};
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
+		clearValues();
 	};
 
+	useEffect(() => {
+		if (classCode && name) {
+			setIsDisabled(false);
+		}
+	}, [classCode, name]);
+
 	return {
+		isDisabled,
+		classCode,
+		setClassCode,
+		name,
+		setName,
 		isModalOpen,
 		setIsModalOpen,
-		loading,
-		setLoading,
+		isLoading,
 		showModal,
 		handleOk,
 		handleCancel,

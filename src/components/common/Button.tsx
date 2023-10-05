@@ -6,11 +6,20 @@ interface ButtonInterface {
 	loading?: boolean;
 	type?: 'positive' | 'negative' | 'cancel';
 	key: string;
+	disabled?: boolean;
 }
 
-const Button: React.FC<ButtonInterface> = ({ content, handleClick, loading, type = 'positive', key }) => {
+const Button: React.FC<ButtonInterface> = ({
+	content,
+	handleClick,
+	loading,
+	type = 'positive',
+	key,
+	disabled = false,
+}) => {
 	return (
 		<AntdBtn
+			disabled={disabled}
 			key={key}
 			onClick={handleClick}
 			className={

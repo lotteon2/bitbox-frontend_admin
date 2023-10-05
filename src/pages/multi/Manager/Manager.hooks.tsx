@@ -1,5 +1,5 @@
 import { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -10,26 +10,52 @@ import { Alert } from '../../../components/common/Alert';
 import { Toast } from '../../../components/common/Toast';
 
 export const useManagerModal = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [email, setEmail] = useState<string>('');
+	const [name, setName] = useState<string>('');
+	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	const clearValues = () => {
+		setIsDisabled(true);
+		setEmail('');
+		setName('');
+	};
 
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
 
+	/* TODO : 서버 통신 */
 	const handleOk = () => {
+		setIsLoading(true);
+		Toast(true, '관리자가 초대되었어요');
+		clearValues();
+		setIsLoading(false);
 		setIsModalOpen(false);
 	};
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
+		clearValues();
 	};
 
+	useEffect(() => {
+		if (email && name) {
+			setIsDisabled(false);
+		}
+	}, [email, name]);
+
 	return {
+		email,
+		setEmail,
+		name,
+		setName,
 		isModalOpen,
 		setIsModalOpen,
-		loading,
-		setLoading,
+		isLoading,
+		isDisabled,
+		setIsLoading,
 		showModal,
 		handleOk,
 		handleCancel,

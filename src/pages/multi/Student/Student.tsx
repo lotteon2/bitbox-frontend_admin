@@ -189,12 +189,10 @@ function Student() {
 				onOk={handleOk}
 				onCancel={handleCancel}
 				maskClosable={false}
-				footer={[
-					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
-					<Button handleClick={handleOk} content="확인" loading={loading} type="positive" key="b2" />,
-				]}
+				footer={[<Button handleClick={handleOk} content="닫기" loading={loading} type="positive" key="b2" />]}
 			>
 				<div className="my-10 flex flex-col justify-center">
+					<div className="text-grayscale5 mb-5">*반드시 카카오 로그인이 가능한 계정으로 초대해주세요.</div>
 					<SelectClass options={options} handleChange={handleChange} />
 					<div className="w-full flex justify-between items-center">
 						<input
