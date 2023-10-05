@@ -64,6 +64,16 @@ code {
   height: 40px;
   padding: 5px;
 }
+
+.swal2-div {
+  margin-top: 10px;
+  border: 1px solid #E9E9E9;
+  border-radius: 8px;
+  height: 100px;
+  padding: 5px;
+  overflow-y:scroll;
+}
+
 .swal2-textarea {
   max-height: 300px;
 }
