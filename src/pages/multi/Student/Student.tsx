@@ -1,28 +1,20 @@
 import { ColumnsType } from 'antd/es/table';
-import { Avatar, Dropdown } from 'antd';
+import { Avatar, Dropdown, Modal } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import Swal from 'sweetalert2';
-import Table, { DataType } from '../../components/common/Table';
-import Button from '../../components/common/Button';
-import { Toast } from '../../components/common/Toast';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import Table, { DataType } from '../../../components/common/Table';
+import Button from '../../../components/common/Button';
+import { Toast } from '../../../components/common/Toast';
+import SelectClass from '../../../components/common/SelectClass';
+import { handleChange, options } from '../Class/Class';
+import { Alert } from '../../../components/common/Alert';
+import { useStudentModal } from './Student.hooks';
 
 const handleDelete = (id: number) => {
 	console.log('hi');
-	Swal.fire({
-		title: '교육생 정보를 삭제하시겠습니까?',
-		text: '삭제하시면 되돌릴 수 없습니다',
-		iconHtml: '<a><img src="https://i.ibb.co/gFW7m2H/danger.png" alt="danger"></a>',
-		showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-		confirmButtonColor: '#DC2626', // confrim 버튼 색깔 지정
-		cancelButtonColor: '#808080', // cancel 버튼 색깔 지정
-		confirmButtonText: '삭제하기', // confirm 버튼 텍스트 지정
-		cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-		reverseButtons: true, // 버튼 순서 거꾸로
-		background: '#FFFFFF',
-		color: '#212B36',
-	}).then((result) => {
+	Alert('교육생 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 		// 만약 Promise리턴을 받으면,
 		if (result.isConfirmed) {
 			// 모달창에서 confirm 버튼을 눌렀다면
@@ -175,10 +167,39 @@ export const data: DataType[] = [
 ];
 
 function Student() {
+	const { isModalOpen, setIsModalOpen, loading, setLoading, showModal, handleOk, handleCancel } = useStudentModal();
+
 	return (
 		<div className="ml-10 w-11/12 h-full">
-			<Button content="교육생 추가" />
+			<div className="flex justify-between w-full my-5">
+				<SelectClass handleChange={handleChange} options={options} />
+				<Button content="교육생 추가" key="addStudent" handleClick={showModal} />
+			</div>
 			<Table data={data} columns={columns} />
+			<Modal
+				title="교육생 추가"
+				open={isModalOpen}
+				destroyOnClose
+				onOk={handleOk}
+				onCancel={handleCancel}
+				maskClosable={false}
+				footer={[
+					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
+					<Button handleClick={handleOk} content="확인" loading={loading} type="positive" key="b2" />,
+				]}
+			>
+				<div className="my-10 flex flex-col justify-center">
+					<SelectClass options={options} handleChange={handleChange} />
+					<div className="w-full flex justify-between items-center">
+						<input id="swal2-input" className="swal2-input" />
+						<AddOutlinedIcon className="ml-5 cursor-pointer grow-0" />
+					</div>
+					<br />
+					<br />
+					<div className="swal2-label">초대된 명단</div>
+					<div id="swal2-input" className="swal2-input" />
+				</div>
+			</Modal>
 		</div>
 	);
 }

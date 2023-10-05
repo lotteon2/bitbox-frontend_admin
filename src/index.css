@@ -36,6 +36,56 @@ code {
   border: none;
 }
 
+/*Modal custom*/
+.swal2-icon {
+  border: none;
+}
+.swal2-modal {
+  border-radius: 30px;
+}
+.swal2-confirm {
+  width: 150px;
+}
+.swal2-cancel {
+  width: 150px;
+}
+.swal2-title {
+  text-align: left;
+  font-size: 25px;
+}
+.swal2-html-container {
+  margin: 5px !important;
+}
+.swal2-input,
+.swal2-textarea {
+  margin-top: 10px;
+  border: 1px solid #E9E9E9;
+  border-radius: 8px;
+  height: 40px;
+  padding: 5px;
+}
+.swal2-textarea {
+  max-height: 300px;
+}
+.swal2-file {
+  display: none;
+}
+.swal2-label {
+  text-align: left;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-modal .ant-modal-footer {
+  text-align:center;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-modal .ant-modal-content{
+  padding: 40px;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+  color: white;
+}
+
 @font-face {
   font-family: "thin";
   src: url("/src/assets/fonts/jamsil-thin.ttf");

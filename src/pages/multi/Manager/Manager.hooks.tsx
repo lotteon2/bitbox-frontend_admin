@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
 import { ColumnsType } from 'antd/es/table';
+import { useState } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import Swal from 'sweetalert2';
-import Table, { DataType } from '../../components/common/Table';
-import Badge from '../../components/common/Badge';
-import SelectClass from '../../components/common/SelectClass';
-import Button from '../../components/common/Button';
-import { Toast } from '../../components/common/Toast';
+import Badge from '../../../components/common/Badge';
+import { DataType } from '../../../components/common/Table';
+import { Alert } from '../../../components/common/Alert';
+import { Toast } from '../../../components/common/Toast';
 
-function Manager() {
-	const [filteredInfo, setFilterInfo] = React.useState<string>();
+export const useManagerModal = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
 
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
+	return {
+		isModalOpen,
+		setIsModalOpen,
+		loading,
+		setLoading,
+		showModal,
+		handleOk,
+		handleCancel,
+	};
+};
+
+export const useManagerTable = () => {
 	const handleDelete = (id: number) => {
 		console.log('hi');
-		Swal.fire({
-			title: '관리자 정보를 삭제하시겠습니까?',
-			text: '삭제하시면 되돌릴 수 없습니다',
-			iconHtml: '<a><img src="https://i.ibb.co/gFW7m2H/danger.png" alt="danger"></a>',
-			showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-			confirmButtonColor: '#DC2626', // confrim 버튼 색깔 지정
-			cancelButtonColor: '#808080', // cancel 버튼 색깔 지정
-			confirmButtonText: '삭제하기', // confirm 버튼 텍스트 지정
-			cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-			reverseButtons: true, // 버튼 순서 거꾸로
-			background: '#FFFFFF',
-			color: '#212B36',
-		}).then((result) => {
+
+		Alert('관리자 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				// 모달창에서 confirm 버튼을 눌렀다면
@@ -202,25 +214,9 @@ function Manager() {
 		},
 	];
 
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
+	return {
+		handleDelete,
+		columns,
+		data,
 	};
-
-	// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
-	const options = [
-		{ value: 'jx411', label: '롯데이커머스2기' },
-		{ value: 'lucy', label: 'Lucy' },
-		{ value: 'Yiminghe', label: 'yiminghe' },
-	];
-
-	return (
-		<div className="ml-10 w-11/12 h-full">
-			<div className="flex justify-between w-full my-5">
-				<SelectClass handleChange={handleChange} options={options} />
-				<Button content="관리자 추가" />
-			</div>
-			<Table data={data} columns={columns} />
-		</div>
-	);
-}
-export default Manager;
+};

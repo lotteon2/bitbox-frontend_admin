@@ -4,7 +4,7 @@ import BarChart from '../../components/DashBoard/BarChart';
 import Button from '../../components/common/Button';
 import SelectClass from '../../components/common/SelectClass';
 import Table, { DataType } from '../../components/common/Table';
-import { handleChange, options } from '../multi/Class';
+import { handleChange, options } from '../multi/Class/Class';
 import TableStateChip from '../../components/common/TableStateChip';
 
 const Score = () => {
@@ -103,7 +103,7 @@ const Score = () => {
 					<SelectClass handleChange={handleChange} options={options} />
 				</div>
 				<div>
-					<Button content="시험 추가" />
+					<Button content="시험 추가" key="addExam" />
 				</div>
 			</div>
 			<div className="flex justify-between h-2/3">
