@@ -32,6 +32,10 @@ code {
     monospace;
 }
 
+.swal2-icon {
+  border: none;
+}
+
 @font-face {
   font-family: "thin";
   src: url("/src/assets/fonts/jamsil-thin.ttf");

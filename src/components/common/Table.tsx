@@ -34,7 +34,12 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName })
 	return (
 		<div className="flex flex-col items-center rounded-xl w-full">
 			{tableName && <div className="font-bold text-xl m-5">{tableName}</div>}
-			<AntdTable columns={columns} dataSource={data} pagination={false} className="w-full shadow-lg grayscale3" />
+			<AntdTable
+				columns={columns}
+				dataSource={data}
+				pagination={false}
+				className="w-full shadow-lg grayscale3 font-regular"
+			/>
 		</div>
 	);
 };

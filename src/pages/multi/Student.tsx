@@ -1,9 +1,43 @@
 import { ColumnsType } from 'antd/es/table';
-import { Avatar } from 'antd';
+import { Avatar, Dropdown } from 'antd';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import Swal from 'sweetalert2';
 import Table, { DataType } from '../../components/common/Table';
-import TableStateChip from '../../components/common/TableStateChip';
 import Button from '../../components/common/Button';
+import { Toast } from '../../components/common/Toast';
 
+const handleDelete = (id: number) => {
+	console.log('hi');
+	Swal.fire({
+		title: '교육생 정보를 삭제하시겠습니까?',
+		text: '삭제하시면 되돌릴 수 없습니다',
+		iconHtml: '<a><img src="https://i.ibb.co/gFW7m2H/danger.png" alt="danger"></a>',
+		showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+		confirmButtonColor: '#DC2626', // confrim 버튼 색깔 지정
+		cancelButtonColor: '#808080', // cancel 버튼 색깔 지정
+		confirmButtonText: '삭제하기', // confirm 버튼 텍스트 지정
+		cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+		reverseButtons: true, // 버튼 순서 거꾸로
+		background: '#FFFFFF',
+		color: '#212B36',
+	}).then((result) => {
+		// 만약 Promise리턴을 받으면,
+		if (result.isConfirmed) {
+			// 모달창에서 confirm 버튼을 눌렀다면
+
+			Toast.fire({
+				iconHtml: '<a><img style="width: 80px" src="https://i.ibb.co/Y3dNf6N/success.png" alt="success"></a>',
+				title: '교육생 정보가 삭제되었습니다.',
+				background: '#FFFFFF',
+				color: '#212B36',
+			});
+		} else {
+			// 모달창에서 cancel 버튼을 눌렀다면
+		}
+	});
+};
 const columns: ColumnsType<DataType> = [
 	{
 		title: '',
@@ -36,7 +70,37 @@ const columns: ColumnsType<DataType> = [
 		title: '',
 		dataIndex: 'state',
 		key: 'state',
-		render: (text) => <TableStateChip title={text} />,
+		width: '30px',
+		align: 'right',
+		render: (text) => (
+			<Dropdown
+				className="cursor-pointer"
+				menu={{
+					items: [
+						{
+							key: 'd1',
+							label: (
+								<a href="/dashboard">
+									<SettingsOutlinedIcon className="mr-2" />
+									수정
+								</a>
+							),
+						},
+						{
+							key: 'd2',
+							label: (
+								<button type="button" onClick={() => handleDelete(1)}>
+									<DeleteOutlineOutlinedIcon className="mr-2" />
+									삭제
+								</button>
+							),
+						},
+					],
+				}}
+			>
+				<MoreVertOutlinedIcon />
+			</Dropdown>
+		),
 	},
 ];
 
