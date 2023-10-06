@@ -6,11 +6,25 @@ import SelectClass from '../../../components/common/SelectClass';
 import Table, { DataType } from '../../../components/common/Table';
 import { handleChange, options } from '../../multi/Class/Class';
 import TableStateChip from '../../../components/common/TableStateChip';
-import { useChangeScoreModal } from './Score.hooks';
+import { useAddScoreModal, useChangeScoreModal } from './Score.hooks';
 
 const Score = () => {
 	const { name, exam, isModalOpen, isDisabled, isLoading, score, setScore, showModal, handleOk, handleCancel } =
 		useChangeScoreModal();
+
+	const {
+		examName,
+		setExamName,
+		perfectScore,
+		setPerfectScore,
+		isModalOpen: isAddScoreModalOpen,
+		setIsModalOpen,
+		isDisabled: isAddScoreModalDisabled,
+		isLoading: isAddScoreLoading,
+		showModal: showAddScoreModal,
+		handleOk: handleAddScoreOk,
+		handleCancel: handleAddScoreCancel,
+	} = useAddScoreModal();
 
 	const chartData = [
 		{
@@ -113,7 +127,7 @@ const Score = () => {
 					<SelectClass handleChange={handleChange} options={options} />
 				</div>
 				<div>
-					<Button content="시험 추가" key="addExam" />
+					<Button content="시험 추가" key="addExam" handleClick={showAddScoreModal} />
 				</div>
 			</div>
 			<div className="flex justify-between h-2/3">
@@ -150,6 +164,44 @@ const Score = () => {
 					<div className="swal2-label">시험명</div>
 					<input defaultValue={exam} id="swal2-input" className="swal2-input" readOnly disabled />
 					<input value={score} onChange={(e) => setScore(e.target.value)} id="swal2-input" className="swal2-input" />
+					<br />
+					<br />
+				</div>
+			</Modal>
+			<Modal
+				title="시험 추가"
+				open={isAddScoreModalOpen}
+				destroyOnClose
+				onOk={handleAddScoreOk}
+				onCancel={handleAddScoreCancel}
+				maskClosable={false}
+				footer={[
+					<Button handleClick={handleAddScoreCancel} content="취소" type="cancel" key="b1" />,
+					<Button
+						handleClick={handleAddScoreOk}
+						content="확인"
+						loading={isAddScoreLoading}
+						disabled={isAddScoreModalDisabled}
+						type="positive"
+						key="b2"
+					/>,
+				]}
+			>
+				<div className="my-10 flex flex-col align-center justify-center">
+					<div className="swal2-label">시험명</div>
+					<input
+						value={examName}
+						onChange={(e) => setExamName(e.target.value)}
+						id="swal2-input"
+						className="swal2-input"
+					/>
+					<div className="swal2-label">만점</div>
+					<input
+						value={perfectScore}
+						onChange={(e) => setPerfectScore(e.target.value)}
+						id="swal2-input"
+						className="swal2-input"
+					/>
 					<br />
 					<br />
 				</div>
