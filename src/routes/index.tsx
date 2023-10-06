@@ -6,7 +6,7 @@ import DashBoard from '../pages/DashBoard';
 import Student from '../pages/multi/Student/Student';
 import Manager from '../pages/multi/Manager/Manager';
 import Class from '../pages/multi/Class/Class';
-import Attendance from '../pages/etc/Attendance';
+import Attendance from '../pages/etc/Attendance/Attendance';
 import Request from '../pages/etc/Request';
 import Score from '../pages/etc/Score';
 

@@ -56,8 +56,7 @@ code {
 .swal2-html-container {
   margin: 5px !important;
 }
-.swal2-input,
-.swal2-textarea {
+.swal2-input {
   margin-top: 10px;
   border: 1px solid #E9E9E9;
   border-radius: 8px;
@@ -65,7 +64,7 @@ code {
   padding: 5px;
 }
 
-.swal2-div {
+.swal2-div, .swal2-textarea  {
   margin-top: 10px;
   border: 1px solid #E9E9E9;
   border-radius: 8px;
