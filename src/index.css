@@ -32,6 +32,43 @@ code {
     monospace;
 }
 
+/* table custom */
+
+table.htCore thead th {
+  background-color: #FFBCBC !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+table.htCore tbody tr, table.htCore tbody td, table.htCore th {
+  font-size: 14px;
+}
+
+table.htCore tr.odd td {
+  background: #fafbff;
+}
+/*
+  A stylesheet customizing Handsontable style
+*/
+
+.handsontable {
+  text-align: center;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.collapsibleIndicator {
+  text-align: center;
+}
+
+.handsontable .htRight .changeType {
+  margin: 3px 1px 0 13px;
+}
+
+
 .swal2-icon {
   border: none;
 }
@@ -62,6 +99,7 @@ code {
   border-radius: 8px;
   height: 40px;
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 .swal2-div, .swal2-textarea  {
@@ -81,6 +119,7 @@ code {
 }
 .swal2-label {
   text-align: left;
+  margin-top: 5px;
 }
 
 :where(.css-dev-only-do-not-override-1vr7spz).ant-modal .ant-modal-footer {
