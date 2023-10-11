@@ -2,7 +2,7 @@ import { Modal } from 'antd';
 import SelectClass from '../../../components/common/SelectClass';
 import Button from '../../../components/common/Button';
 import Table from '../../../components/common/Table';
-import { useClassModal, useClassTable } from './Class.hooks';
+import { useClassModal, useClassTable, useClassUpdateModal } from './Class.hooks';
 
 export const handleChange = (value: string) => {
 	console.log(`selected ${value}`);
@@ -15,8 +15,23 @@ export const options = [
 	{ value: 'Yiminghe', label: 'yiminghe' },
 ];
 
+// TODO : 백 구현후 value change
+const graduateOptions = [
+	{ value: 'isNotGraduate', label: '교육' },
+	{ value: 'isGraduate', label: '수료' },
+];
 function Class() {
-	const { data, columns } = useClassTable();
+	const {
+		data,
+		columns,
+		isModalOpen: isClassUpdateModalOpen,
+		isDisabled: isClassUpdateDisabled,
+		isLoading: isClassUpdateLoading,
+		handleOk: handleClassUpdateOk,
+		handleCancel: handleClassUpdateCancel,
+		isGraduate,
+		setIsGradudate,
+	} = useClassTable();
 	const {
 		isModalOpen,
 		isDisabled,
@@ -45,14 +60,14 @@ function Class() {
 				onCancel={handleCancel}
 				maskClosable={false}
 				footer={[
-					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
+					<Button handleClick={handleCancel} content="취소" type="cancel" key="cancelAddClass" />,
 					<Button
 						handleClick={handleOk}
 						content="확인"
 						loading={isLoading}
 						disabled={isDisabled}
 						type="positive"
-						key="b2"
+						key="addClass"
 					/>,
 				]}
 			>
@@ -68,6 +83,41 @@ function Class() {
 						id="swal2-input"
 						className="swal2-input"
 					/>
+				</div>
+			</Modal>
+			<Modal
+				title="클래스 수정"
+				open={isClassUpdateModalOpen}
+				destroyOnClose
+				onOk={handleClassUpdateOk}
+				onCancel={handleClassUpdateCancel}
+				maskClosable={false}
+				footer={[
+					<Button handleClick={handleClassUpdateCancel} content="취소" type="cancel" key="cancelUpdateClass" />,
+					<Button
+						handleClick={handleOk}
+						content="확인"
+						loading={isClassUpdateLoading}
+						disabled={isClassUpdateDisabled}
+						type="positive"
+						key="updateClass"
+					/>,
+				]}
+			>
+				<div className="my-10 flex flex-col align-center justify-center">
+					<div className="swal2-label">반 코드</div>
+					<input
+						value={classCode}
+						onChange={(e) => setClassCode(e.target.value)}
+						id="swal2-input"
+						className="swal2-input"
+						readOnly
+					/>
+					<div className="swal2-label">반 이름</div>
+					<input value={name} onChange={(e) => setName(e.target.value)} id="swal2-input" className="swal2-input" />
+					<SelectClass options={graduateOptions} handleChange={setIsGradudate} />
+					<br />
+					<br />
 				</div>
 			</Modal>
 		</div>

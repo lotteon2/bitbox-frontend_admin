@@ -59,14 +59,78 @@ export const useClassModal = () => {
 	};
 };
 
+export const useClassUpdateModal = () => {
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [classCode, setClassCode] = useState<string>('');
+	const [name, setName] = useState<string>('');
+	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	const clearValues = () => {
+		setIsDisabled(true);
+		setClassCode('');
+		setName('');
+	};
+
+	const showModal = (id: number) => {
+		setIsModalOpen(true);
+	};
+
+	const handleOk = () => {
+		setIsLoading(true);
+		Toast(true, '클래스 정보가 수정되었어요');
+		clearValues();
+		setIsLoading(false);
+		setIsModalOpen(false);
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false);
+		clearValues();
+	};
+
+	useEffect(() => {
+		if (classCode && name) {
+			setIsDisabled(false);
+		}
+	}, [classCode, name]);
+
+	return {
+		isDisabled,
+		classCode,
+		setClassCode,
+		name,
+		setName,
+		isModalOpen,
+		setIsModalOpen,
+		isLoading,
+		showModal,
+		handleOk,
+		handleCancel,
+	};
+};
+
 export const useClassTable = () => {
+	const [isGraduate, setIsGradudate] = useState<string>('isNotGraduate');
+	const {
+		isModalOpen,
+		isDisabled,
+		isLoading,
+		// classCode: ,
+		// name,
+		// setName,
+		// setClassCode,
+		showModal,
+		handleOk,
+		handleCancel,
+	} = useClassUpdateModal();
+
 	const handleDelete = (id: number) => {
-		console.log('hi');
 		Alert('클래스 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				// 모달창에서 confirm 버튼을 눌렀다면
-				Toast(true, '관리자 정보가 삭제되었습니다.');
+				Toast(true, '클래스 정보가 삭제되었습니다.');
 			} else {
 				// 모달창에서 cancel 버튼을 눌렀다면
 			}
@@ -106,7 +170,7 @@ export const useClassTable = () => {
 			key: 'state',
 			width: '30px',
 			align: 'right',
-			render: (text) => (
+			render: (text, temp, idx) => (
 				<Dropdown
 					className="cursor-pointer"
 					menu={{
@@ -114,16 +178,16 @@ export const useClassTable = () => {
 							{
 								key: 'd1',
 								label: (
-									<a href="/dashboard">
+									<button type="button" onClick={() => showModal(idx)}>
 										<SettingsOutlinedIcon className="mr-2" />
 										수정
-									</a>
+									</button>
 								),
 							},
 							{
 								key: 'd2',
 								label: (
-									<button type="button" onClick={() => handleDelete(1)}>
+									<button type="button" onClick={() => handleDelete(idx)}>
 										<DeleteOutlineOutlinedIcon className="mr-2" />
 										삭제
 									</button>
@@ -213,6 +277,17 @@ export const useClassTable = () => {
 	];
 
 	return {
+		isDisabled,
+		isGraduate,
+		setIsGradudate,
+		// name,
+		// setName,
+		isModalOpen,
+		// setIsModalOpen,
+		isLoading,
+		showModal,
+		handleOk,
+		handleCancel,
 		handleDelete,
 		data,
 		columns,

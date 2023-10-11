@@ -87,8 +87,8 @@ table.htCore tr.odd td {
   width: 150px;
 }
 .swal2-title {
-  text-align: left;
   font-size: 25px;
+  text-align: center;
 }
 .swal2-html-container {
   margin: 5px !important;
@@ -132,6 +132,12 @@ table.htCore tr.odd td {
 
 :where(.css-dev-only-do-not-override-1vr7spz).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   color: white;
+}
+
+
+/*Image Uploader custom*/
+:where(.css-dev-only-do-not-override-1vr7spz).ant-upload-wrapper.ant-upload-picture-card-wrapper, :where(.css-dev-only-do-not-override-1vr7spz).ant-upload-wrapper.ant-upload-picture-circle-wrapper {
+  text-align: center;
 }
 
 @font-face {

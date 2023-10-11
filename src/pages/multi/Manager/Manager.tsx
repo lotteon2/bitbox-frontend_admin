@@ -5,6 +5,8 @@ import SelectClass from '../../../components/common/SelectClass';
 import Button from '../../../components/common/Button';
 import { useManagerModal, useManagerTable } from './Manager.hooks';
 import { handleChange } from '../Class/Class';
+import ProfileUpdater from '../../../components/common/ProfileUpdater';
+import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
 
 function Manager() {
 	const [filteredInfo, setFilterInfo] = React.useState<string>();
@@ -16,20 +18,21 @@ function Manager() {
 		{ value: 'Yiminghe', label: 'yiminghe' },
 	];
 
+	const { email, setEmail, name, setName, isModalOpen, isLoading, isDisabled, showModal, handleOk, handleCancel } =
+		useManagerModal();
+
 	const {
-		email,
-		setEmail,
-		name,
-		setName,
-		isModalOpen,
-		setIsModalOpen,
-		isLoading,
-		isDisabled,
-		showModal,
-		handleOk,
-		handleCancel,
-	} = useManagerModal();
-	const { data, columns } = useManagerTable();
+		name: updateName,
+		setName: setUpdateName,
+		isModalOpen: isUpdateProfileModalOpen,
+		isLoading: isLoadingProfileModal,
+		isDisabled: isDisabledProfileModal,
+		showModal: showUpdateModal,
+		handleOk: handleUpdateOk,
+		handleCancel: handleUpdateCancel,
+	} = useUpdateProfileModal();
+
+	const { data, columns } = useManagerTable(showUpdateModal);
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -79,6 +82,16 @@ function Manager() {
 					/>
 				</div>
 			</Modal>
+			<ProfileUpdater
+				isModalOpen={isUpdateProfileModalOpen}
+				isLoading={isLoadingProfileModal}
+				isDisabled={isDisabledProfileModal}
+				name={updateName}
+				setName={setUpdateName}
+				handleOk={handleUpdateOk}
+				handleCancel={handleUpdateCancel}
+				changePassword
+			/>
 		</div>
 	);
 }

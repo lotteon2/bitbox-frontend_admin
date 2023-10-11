@@ -8,6 +8,7 @@ import Badge from '../../../components/common/Badge';
 import { DataType } from '../../../components/common/Table';
 import { Alert } from '../../../components/common/Alert';
 import { Toast } from '../../../components/common/Toast';
+import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
 
 export const useManagerModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -23,7 +24,8 @@ export const useManagerModal = () => {
 	};
 
 	const showModal = () => {
-		setIsModalOpen(true);
+		console.log('here');
+		setIsModalOpen(() => true);
 	};
 
 	/* TODO : 서버 통신 */
@@ -44,7 +46,7 @@ export const useManagerModal = () => {
 		if (email && name) {
 			setIsDisabled(false);
 		}
-	}, [email, name]);
+	}, [isModalOpen, email, name]);
 
 	return {
 		email,
@@ -62,10 +64,8 @@ export const useManagerModal = () => {
 	};
 };
 
-export const useManagerTable = () => {
+export const useManagerTable = (showModal: () => void) => {
 	const handleDelete = (id: number) => {
-		console.log('hi');
-
 		Alert('관리자 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
@@ -135,10 +135,10 @@ export const useManagerTable = () => {
 							{
 								key: 'd1',
 								label: (
-									<a href="/dashboard">
+									<button type="button" onClick={showModal}>
 										<SettingsOutlinedIcon className="mr-2" />
 										수정
-									</a>
+									</button>
 								),
 							},
 							{
