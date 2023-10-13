@@ -17,7 +17,7 @@ export default function Header() {
 	 *  3. routes -> intex.tsx의 경로 수정 및 컴포넌트 생성 & 연결
 	 */
 	return (
-		<ul className="w-full h-[100%] flex flex-col pl-5 pt-10 gap-10 bg-primary1 dark:bg-grayscale6 dark:text-grayscale1">
+		<ul className="sidebar w-full h-[100%] flex flex-col pl-5 pt-10 gap-10 bg-primary1 dark:bg-grayscale6 dark:text-grayscale1">
 			<li>
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/">
 					<SpaceDashboardIcon fontSize="large" /> 대시보드

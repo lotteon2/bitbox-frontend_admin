@@ -32,6 +32,27 @@ code {
     monospace;
 }
 
+a{
+  display: inline-block; 
+  white-space: nowrap; 
+  overflow: hidden;
+}
+
+/* 반응형 헤더 */
+.hamburger{
+  display: none;
+  @media screen and (max-width: 641px) {
+    display: block;
+  }
+}
+
+.sidebar {
+  display: flex;
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
+}
+
 /* table custom */
 
 table.htCore thead th {

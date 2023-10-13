@@ -24,6 +24,12 @@ module.exports = {
 				grayscale2: '#F3F3F3',
 				grayscale1: '#FFFFFF',
 			},
+			fontSize: {
+				sm: ['14px', '20px'],
+				base: ['16px', '24px'],
+				lg: ['20px', '28px'],
+				xl: ['24px', '32px'],
+			},
 			// 폰트 설정
 			fontFamily: {
 				thin: ['thin'],
