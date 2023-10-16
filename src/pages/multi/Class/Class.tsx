@@ -22,7 +22,6 @@ const graduateOptions = [
 ];
 function Class() {
 	const {
-		data,
 		columns,
 		isModalOpen: isClassUpdateModalOpen,
 		isDisabled: isClassUpdateDisabled,
@@ -31,6 +30,7 @@ function Class() {
 		handleCancel: handleClassUpdateCancel,
 		isGraduate,
 		setIsGradudate,
+		classesData,
 	} = useClassTable();
 	const {
 		isModalOpen,
@@ -51,7 +51,7 @@ function Class() {
 				<SelectClass handleChange={handleChange} options={options} />
 				<Button content="클래스 추가" handleClick={showModal} key="addClass" />
 			</div>
-			<Table data={data} columns={columns} />
+			<Table data={classesData} columns={columns} />
 			<Modal
 				title="클래스 추가"
 				open={isModalOpen}
@@ -79,7 +79,7 @@ function Class() {
 					<div className="swal2-label">반 코드</div>
 					<input
 						value={classCode}
-						onChange={(e) => setClassCode(e.target.value)}
+						onChange={(e) => setClassCode(e.target.value as unknown as number)}
 						id="swal2-input"
 						className="swal2-input"
 					/>
@@ -108,7 +108,7 @@ function Class() {
 					<div className="swal2-label">반 코드</div>
 					<input
 						value={classCode}
-						onChange={(e) => setClassCode(e.target.value)}
+						onChange={(e) => setClassCode(e.target.value as unknown as number)}
 						id="swal2-input"
 						className="swal2-input"
 						readOnly

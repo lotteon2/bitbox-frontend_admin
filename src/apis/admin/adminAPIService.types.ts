@@ -15,11 +15,19 @@ export interface CreateAdminResponseData {
 export type CreateAdminResponse = APIResponse<CreateAdminResponseData>;
 
 export interface GetAllAdminResponseData {
-	adminId: string;
+	adminId: number;
 	adminEmail: string;
 	adminName: string;
 	adminProfileImg: string;
 	adminAuthority: string;
+	classInfoResponses: { classId: number; className: string; classCdoe: string }[];
 }
 
 export type GetAllAdminResponse = APIResponse<GetAllAdminResponseData[]>;
+
+export interface UpdateAdminInfoParams {
+	adminProfileImg?: string;
+	adminName?: string;
+	adminPassword?: string;
+	isDeleted?: boolean;
+}

@@ -3,9 +3,10 @@ import {
 	CreateClassParams,
 	CreateClassResponse,
 	GetClassParams,
-	GetClassReponse,
+	GetClassResponseData,
 	UpdateClassParams,
 	UpdateClassResponse,
+	UpdateClassResponseData,
 } from './classAPIService.types';
 
 // TODO : 추후 BASE_URL 변경
@@ -23,13 +24,14 @@ class ClassAPIService extends APIService {
 	}
 
 	async getClasses(params: GetClassParams) {
-		const { data } = await this.get<GetClassReponse>(`?classId=${params.classId}`);
+		const { data } = await this.get<GetClassResponseData[]>(`?classId=${params.classId}`);
 		return data;
 	}
 
 	// class 삭제, 수정
 	async updateClasses(classId: number, params: UpdateClassParams) {
-		const { data } = await this.get<UpdateClassResponse>(`${classId}`, params);
+		const { data } = await this.patch<boolean>(`${classId}`, params);
+		return data;
 	}
 }
 export const classApi: ClassAPIService = ClassAPIService.shared();

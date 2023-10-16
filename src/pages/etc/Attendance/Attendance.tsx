@@ -14,7 +14,7 @@ const Attendance = () => {
 
 	const data: DataType[] = [
 		{
-			key: '1',
+			key: 1,
 			name: '김명준',
 			attendanceState: '결석',
 			entranceTime: '',
@@ -24,7 +24,7 @@ const Attendance = () => {
 			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
 		},
 		{
-			key: '2',
+			key: 2,
 			name: '김정윤',
 			attendanceState: '출석',
 			entranceTime: '2023/09/08 8:30',
@@ -34,30 +34,12 @@ const Attendance = () => {
 			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
 		},
 		{
-			key: '3',
+			key: 3,
 			name: '마혜경',
 			attendanceState: '외출',
 			entranceTime: '2023/09/08 8:30',
 			quitTime: '2023/09/08 22:00',
 			attendanceModifyReason: '병원으로 인한 외출',
-			state: '변경',
-		},
-		{
-			key: '4',
-			name: '최성훈',
-			attendanceState: '지각',
-			entranceTime: '2023/09/08 10:30',
-			quitTime: '2023/09/08 22:00',
-			attendanceModifyReason: '',
-			state: '변경',
-		},
-		{
-			key: '5',
-			name: '전종민',
-			attendanceState: '지각',
-			entranceTime: '2023/09/08 10:30',
-			quitTime: '2023/09/08 22:00',
-			attendanceModifyReason: '',
 			state: '변경',
 		},
 	];

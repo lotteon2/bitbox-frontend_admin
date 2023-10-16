@@ -12,6 +12,7 @@ import { Toast } from '../../../components/common/Toast';
 import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
 import { adminApi } from '../../../apis/admin/adminAPIService';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
+import { UpdateAdminInfoParams } from '../../../apis/admin/adminAPIService.types';
 
 export const useManagerModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -21,15 +22,6 @@ export const useManagerModal = () => {
 	const [authority, setAuthority] = useState<string>(getAuthority(AUTHORITY.ADMIN));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-	// const getAuthorityValueTypeForSelect = () => {
-	// 	const result = [];
-	// 	const authorityArray = Object.values(AUTHORITY);
-	// 	for (let i = 0; i < 3; i += 1) {
-	// 		result.push({ value: getAuthority(authorityArray[i]), label: getAuthority(authorityArray[i]) });
-	// 	}
-	// 	return result;
-	// };
-
 	const handleChangeAuthority = (value: string) => {
 		setAuthority(() => value);
 	};
@@ -38,18 +30,18 @@ export const useManagerModal = () => {
 		setIsDisabled(true);
 		setEmail('');
 		setName('');
+		setAuthority(getAuthority(AUTHORITY.ADMIN));
 	};
 
 	const showModal = () => {
-		console.log('here');
 		setIsModalOpen(() => true);
 	};
 
 	const handleOk = async () => {
-		console.log(authority);
 		setIsLoading(true);
+		console.log(authority);
 		await adminApi
-			.createAdmin({ adminEmail: email, adminName: name, adminAuthority: authority })
+			.createAdmin(1, { adminEmail: email, adminName: name, adminAuthority: authority })
 			.then((res) => {
 				Toast(true, '관리자가 초대되었어요');
 				clearValues();
@@ -91,8 +83,19 @@ export const useManagerModal = () => {
 	};
 };
 
+const updateAdmin = async (params: UpdateAdminInfoParams) => {
+	const result = await adminApi.updateAdmin(params);
+	return result;
+};
+
 export const useManagerTable = (showModal: () => void) => {
 	const [admins, setAdmins] = useState<DataType[]>([]);
+	const [authority, setAuthority] = useState<string>();
+
+	const handleChangeAuthority = (value: string) => {
+		setAuthority(() => value);
+	};
+
 	const getAllAdminInfo = useCallback(async () => {
 		await adminApi
 			.getAllAdmin()
@@ -106,6 +109,7 @@ export const useManagerTable = (showModal: () => void) => {
 						email: it.adminEmail,
 						rate: it.adminAuthority,
 						imageSrc: it.adminProfileImg,
+						class: it.classInfoResponses[0].className,
 					});
 				});
 				setAdmins([...temp]);
@@ -117,18 +121,18 @@ export const useManagerTable = (showModal: () => void) => {
 
 	useEffect(() => {
 		getAllAdminInfo();
-	}, []);
+	}, [getAllAdminInfo, authority]);
 
 	const handleDelete = async (id: number) => {
 		console.log('test');
-		await adminApi.getAllAdmin().then((res) => console.log(res));
 		Alert('관리자 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
-				// 모달창에서 confirm 버튼을 눌렀다면
-				Toast(true, '관리자 정보가 삭제되었습니다');
-			} else {
-				// 모달창에서 cancel 버튼을 눌렀다면
+				updateAdmin({ isDeleted: true })
+					.then(() => {
+						Toast(true, '관리자 정보가 삭제되었습니다');
+					})
+					.catch((err: AxiosError) => Toast(false, err.message));
 			}
 		});
 	};
@@ -216,8 +220,8 @@ export const useManagerTable = (showModal: () => void) => {
 	];
 
 	return {
-		handleDelete,
 		columns,
 		admins,
+		handleChangeAuthority,
 	};
 };

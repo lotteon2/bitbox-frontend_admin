@@ -1,35 +1,30 @@
-interface ApiResponse<T> {
-	isSuccess: boolean;
-	code: number;
-	message: string;
-	result: T;
-}
+import { APIResponse } from '../../libs/core/api';
 
 export interface CreateClassParams {
 	className: string;
-	classCode: string;
+	classCode: number;
 }
 
 export interface CreateClassResponseData {
 	classId: number;
 }
 
-export type CreateClassResponse = ApiResponse<CreateClassResponseData>;
+export type CreateClassResponse = APIResponse<CreateClassResponseData>;
 
 export interface GetClassParams {
-	classId: number;
+	classId?: number;
 }
 
 export interface GetClassResponseData {
 	classId: number;
 	className: string;
-	classCode: string;
+	classCode: number;
 	createdAt: string;
 	deleted: false;
 	graduated: false;
 }
 
-export type GetClassReponse = ApiResponse<GetClassResponseData[]>;
+// export type GetClassReponse = APIResponse<GetClassResponseData[]>;
 
 export interface UpdateClassParams {
 	className?: string;
@@ -40,4 +35,4 @@ export interface UpdateClassParams {
 // boolean일지 추가될 지 아직 모름!
 export interface UpdateClassResponseData {}
 
-export type UpdateClassResponse = ApiResponse<UpdateClassResponseData[]>;
+export type UpdateClassResponse = APIResponse<UpdateClassResponseData[]>;

@@ -92,7 +92,7 @@ const columns: ColumnsType<DataType> = [
 
 export const data: DataType[] = [
 	{
-		key: '1',
+		key: 1,
 		name: '김명준',
 		class: '롯데e커머스 2기',
 		email: 'abc@naver.com',
@@ -100,7 +100,7 @@ export const data: DataType[] = [
 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
 	},
 	{
-		key: '2',
+		key: 2,
 		name: '안광현',
 		class: '롯데e커머스 1기',
 		email: 'hi123@naver.com',
@@ -108,7 +108,7 @@ export const data: DataType[] = [
 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
 	},
 	{
-		key: '3',
+		key: 3,
 		name: '마덤보',
 		class: '롯데e커머스 2기',
 		email: 'hello@daum.com',
@@ -116,47 +116,12 @@ export const data: DataType[] = [
 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
 	},
 	{
-		key: '4',
+		key: 4,
 		name: '강사3',
 		email: 'hello@daum.com',
 		class: '코엑스 3기',
 		state: '변경',
 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: '5',
-		name: '강사3',
-		email: 'hello@daum.com',
-		class: '코엑스 3기',
-		state: '변경',
-		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: '6',
-		name: '학생10',
-		email: 'hello@daum.com',
-		class: '코엑스 3기',
-		rate: '강사',
-		state: '변경',
-		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: '7',
-		name: '학생5',
-		email: 'hello@daum.com',
-		class: '코엑스 3기',
-		rate: '강사',
-		state: '변경',
-		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: '8',
-		name: '학생8',
-		email: 'hello@daum.com',
-		class: '코엑스 3기',
-		rate: '강사',
-		state: '변경',
-		imageSrc: '',
 	},
 ];
 

@@ -35,7 +35,7 @@ export const columns: ColumnsType<DataType> = [
 
 export const data: DataType[] = [
 	{
-		key: '1',
+		key: 1,
 		title: '사유서제출합니다',
 		content: '입원으로 인해 결석합니다',
 		date: '2023/09/21',
@@ -43,7 +43,7 @@ export const data: DataType[] = [
 		state: '반려',
 	},
 	{
-		key: '2',
+		key: 2,
 		title: '사유서제출합니다',
 		content: '입원으로 인해 결석합니다',
 		date: '2023/09/23',
@@ -51,20 +51,12 @@ export const data: DataType[] = [
 		state: '승인',
 	},
 	{
-		key: '3',
+		key: 3,
 		title: '사유서제출합니다',
 		content: '입원으로 인해 결석합니다',
 		date: '2023/09/22',
 		writer: '다다다다',
 		state: '승인',
-	},
-	{
-		key: '4',
-		title: '사유서제출합니다',
-		content: '입원으로 인해 결석합니다',
-		date: '2023/09/22',
-		writer: '다다다다',
-		state: '',
 	},
 ];
 

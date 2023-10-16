@@ -9,7 +9,7 @@ import ProfileUpdater from '../../../components/common/ProfileUpdater';
 import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 
-const getAuthorityValueTypeForSelect = () => {
+export const getAuthorityValueTypeForSelect = () => {
 	const result = [];
 	const authorityArray = Object.values(AUTHORITY);
 	for (let i = 0; i < 3; i += 1) {
@@ -17,6 +17,7 @@ const getAuthorityValueTypeForSelect = () => {
 	}
 	return result;
 };
+
 function Manager() {
 	const [filteredInfo, setFilterInfo] = React.useState<string>();
 
@@ -38,7 +39,7 @@ function Manager() {
 		showModal,
 		handleOk,
 		handleCancel,
-		handleChangeAuthority,
+		handleChangeAuthority: handleChangeAuthorityForAdd,
 	} = useManagerModal();
 
 	const {
@@ -52,7 +53,7 @@ function Manager() {
 		handleCancel: handleUpdateCancel,
 	} = useUpdateProfileModal();
 
-	const { admins, columns } = useManagerTable(showUpdateModal);
+	const { admins, columns, handleChangeAuthority } = useManagerTable(showUpdateModal);
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -84,21 +85,22 @@ function Manager() {
 					<div className="text-grayscale5 mb-5">*초대된 계정의 초기 비밀번호는 1111입니다.</div>
 					<div className="w-full flex justify-between">
 						<SelectClass options={options} handleChange={handleChange} />
-						<SelectClass options={getAuthorityValueTypeForSelect()} handleChange={handleChangeAuthority} />
+						<SelectClass options={getAuthorityValueTypeForSelect()} handleChange={handleChangeAuthorityForAdd} />
 					</div>
-					<input
-						id="swal2-input"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						className="swal2-input mb-2"
-						placeholder="등록할 담당자의 이메일을 입력해주세요."
-					/>
 					<input
 						id="swal2-input"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						className="swal2-input"
 						placeholder="등록할 담당자의 이름을 입력해주세요."
+					/>
+					<input
+						id="swal2-input"
+						value={email}
+						type="email"
+						onChange={(e) => setEmail(e.target.value)}
+						className="swal2-input mb-2"
+						placeholder="등록할 담당자의 이메일을 입력해주세요."
 					/>
 				</div>
 			</Modal>
@@ -111,6 +113,8 @@ function Manager() {
 				handleOk={handleUpdateOk}
 				handleCancel={handleUpdateCancel}
 				changePassword
+				handleChangeAuthority={handleChangeAuthority}
+				options={getAuthorityValueTypeForSelect()}
 			/>
 		</div>
 	);

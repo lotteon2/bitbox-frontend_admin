@@ -20,7 +20,7 @@ export default function TopHeader() {
 					</div>
 				</div>
 				<div className="absolute flex gap-5 right-10 top-10">
-					<Badge status="매니저" />
+					<Badge status="ADMIN" />
 					<div className="mt-2 font-bold">이름</div>
 					{logged ? (
 						<Dropdown

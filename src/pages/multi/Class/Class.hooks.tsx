@@ -13,13 +13,13 @@ import { classApi } from '../../../apis/class/classAPIService';
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [classCode, setClassCode] = useState<string>('');
+	const [classCode, setClassCode] = useState<number>(-1);
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
 	const clearValues = () => {
 		setIsDisabled(true);
-		setClassCode('');
+		setClassCode(-1);
 		setName('');
 	};
 
@@ -123,6 +123,7 @@ export const useClassUpdateModal = () => {
 };
 
 export const useClassTable = () => {
+	const [classesData, setClassesData] = useState<DataType[]>([]);
 	const [isGraduate, setIsGradudate] = useState<string>('isNotGraduate');
 	const {
 		isModalOpen,
@@ -137,12 +138,41 @@ export const useClassTable = () => {
 		handleCancel,
 	} = useClassUpdateModal();
 
+	const getAllClass = async () => {
+		await classApi
+			.getClasses({ classId: 0 })
+			.then((res) => {
+				console.log(res);
+				const temp: DataType[] = [];
+				res.forEach((it) => {
+					temp.push({
+						key: it.classId,
+						classCode: it.classCode,
+						name: it.className,
+						class: it.className,
+						isFinished: it.graduated,
+					});
+				});
+				setClassesData([...temp]);
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, err.message);
+			});
+	};
+
 	const handleDelete = (id: number) => {
-		Alert('클래스 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
+		Alert('클래스 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then(async (result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
-				// 모달창에서 confirm 버튼을 눌렀다면
-				Toast(true, '클래스 정보가 삭제되었습니다.');
+				await classApi
+					.updateClasses(classesData[id].key, { isDeleted: true })
+					.then((res) => {
+						console.log(res);
+						Toast(true, '클래스 정보가 삭제되었습니다.');
+					})
+					.catch((err: AxiosError) => {
+						Toast(false, err.message);
+					});
 			} else {
 				// 모달창에서 cancel 버튼을 눌렀다면
 			}
@@ -214,80 +244,6 @@ export const useClassTable = () => {
 		},
 	];
 
-	const data: DataType[] = [
-		{
-			key: '1',
-			name: '매니저32',
-			isFinished: false,
-			class: '롯데e커머스 2기',
-			classCode: 'JX411',
-			email: 'abc@naver.com',
-			state: '변경',
-		},
-		{
-			key: '2',
-			name: '안광현',
-			class: '롯데e커머스 1기',
-			isFinished: false,
-			email: 'hi123@naver.com',
-			state: '변경',
-		},
-		{
-			key: '3',
-			name: '마덤보',
-			class: '롯데e커머스 2기',
-			isFinished: true,
-			email: 'hello@daum.com',
-			state: '변경',
-		},
-		{
-			key: '4',
-			name: '강사3',
-			email: 'hello@daum.com',
-			isFinished: true,
-			class: '코엑스 3기',
-			state: '변경',
-		},
-		{
-			key: '5',
-			name: '강사3',
-			isFinished: false,
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			state: '변경',
-		},
-		{
-			key: '6',
-			name: '학생10',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			isFinished: false,
-			rate: '강사',
-			state: '변경',
-			classCode: 'JX415',
-		},
-		{
-			key: '7',
-			name: '학생5',
-			email: 'hello@daum.com',
-			classCode: 'JX411',
-			class: '코엑스 3기',
-			rate: '강사',
-			isFinished: true,
-			state: '변경',
-		},
-		{
-			key: '8',
-			name: '학생8',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			isFinished: true,
-			imageSrc: '',
-		},
-	];
-
 	const getData = async () => {
 		await classApi.getClasses({ classId: 1 }).then((res) => {
 			console.log(res);
@@ -295,6 +251,7 @@ export const useClassTable = () => {
 	};
 	useEffect(() => {
 		getData();
+		getAllClass();
 	}, []);
 
 	return {
@@ -310,7 +267,7 @@ export const useClassTable = () => {
 		handleOk,
 		handleCancel,
 		handleDelete,
-		data,
 		columns,
+		classesData,
 	};
 };

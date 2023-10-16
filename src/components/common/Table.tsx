@@ -3,7 +3,7 @@ import { Table as AntdTable } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 export interface DataType {
-	key: string;
+	key: number;
 	title?: string;
 	content?: string;
 	date?: string;
@@ -15,7 +15,7 @@ export interface DataType {
 	imageSrc?: string;
 	class?: string;
 	isFinished?: boolean;
-	classCode?: string;
+	classCode?: number;
 	entranceTime?: string;
 	quitTime?: string;
 	attendanceState?: string;

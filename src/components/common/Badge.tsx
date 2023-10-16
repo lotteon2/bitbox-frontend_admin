@@ -1,15 +1,16 @@
 import React from 'react';
+import { AUTHORITY } from '../../constants/AuthorityType';
 
 interface BadgeInterface {
-	status: '매니저' | '강사' | '관리자';
+	status: keyof typeof AUTHORITY;
 }
 const Badge: React.FC<BadgeInterface> = ({ status }) => {
 	return (
 		<div
 			className={
-				status === '매니저'
+				status === 'MANAGER'
 					? 'w-[80px] h-[40px] text-center pt-2 bg-grayscale5 rounded-lg text-grayscale1 font-bold'
-					: status === '강사'
+					: status === 'TEACHER'
 					? 'w-[80px] h-[40px] text-center pt-2 bg-[#3056D3] rounded-lg text-grayscale1 font-bold'
 					: 'w-[80px] h-[40px] text-center pt-2 bg-secondary1 rounded-lg text-grayscale1 font-bold'
 			}

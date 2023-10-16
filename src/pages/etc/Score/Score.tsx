@@ -72,7 +72,7 @@ const Score = () => {
 
 	const data: DataType[] = [
 		{
-			key: '1',
+			key: 1,
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',
@@ -80,7 +80,7 @@ const Score = () => {
 			state: '변경',
 		},
 		{
-			key: '2',
+			key: 2,
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',
@@ -88,7 +88,7 @@ const Score = () => {
 			state: '변경',
 		},
 		{
-			key: '3',
+			key: 3,
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',

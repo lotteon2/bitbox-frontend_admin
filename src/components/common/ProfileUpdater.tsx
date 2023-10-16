@@ -1,6 +1,9 @@
 import { Modal } from 'antd';
 import Button from './Button';
 import ImageUploader from './ImageUploader';
+import SelectClass from './SelectClass';
+import { handleChange } from '../../pages/multi/Class/Class';
+import { AUTHORITY } from '../../constants/AuthorityType';
 
 interface ProfileUpdaterInterface {
 	isModalOpen?: boolean;
@@ -15,6 +18,8 @@ interface ProfileUpdaterInterface {
 	handleCancel: () => void;
 	isDisabled: boolean;
 	changePassword: boolean;
+	handleChangeAuthority?: (value: string) => void;
+	options?: { value: string | keyof typeof AUTHORITY; label: string }[];
 }
 
 const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
@@ -30,6 +35,8 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 	setPrevPassword,
 	handleOk,
 	handleCancel,
+	handleChangeAuthority,
+	options,
 }) => {
 	return (
 		<Modal
@@ -81,6 +88,7 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 						/>
 					</>
 				)}
+				{options && handleChangeAuthority && <SelectClass options={options} handleChange={handleChangeAuthority} />}
 			</div>
 		</Modal>
 	);
