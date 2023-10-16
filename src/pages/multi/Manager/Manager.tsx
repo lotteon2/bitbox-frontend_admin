@@ -7,7 +7,16 @@ import { useManagerModal, useManagerTable } from './Manager.hooks';
 import { handleChange } from '../Class/Class';
 import ProfileUpdater from '../../../components/common/ProfileUpdater';
 import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
+import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 
+const getAuthorityValueTypeForSelect = () => {
+	const result = [];
+	const authorityArray = Object.values(AUTHORITY);
+	for (let i = 0; i < 3; i += 1) {
+		result.push({ value: getAuthority(authorityArray[i]), label: getAuthority(authorityArray[i]) });
+	}
+	return result;
+};
 function Manager() {
 	const [filteredInfo, setFilterInfo] = React.useState<string>();
 
@@ -18,8 +27,19 @@ function Manager() {
 		{ value: 'Yiminghe', label: 'yiminghe' },
 	];
 
-	const { email, setEmail, name, setName, isModalOpen, isLoading, isDisabled, showModal, handleOk, handleCancel } =
-		useManagerModal();
+	const {
+		email,
+		setEmail,
+		name,
+		setName,
+		isModalOpen,
+		isLoading,
+		isDisabled,
+		showModal,
+		handleOk,
+		handleCancel,
+		handleChangeAuthority,
+	} = useManagerModal();
 
 	const {
 		name: updateName,
@@ -32,7 +52,7 @@ function Manager() {
 		handleCancel: handleUpdateCancel,
 	} = useUpdateProfileModal();
 
-	const { data, columns } = useManagerTable(showUpdateModal);
+	const { admins, columns } = useManagerTable(showUpdateModal);
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -40,7 +60,7 @@ function Manager() {
 				<SelectClass handleChange={handleChange} options={options} />
 				<Button content="관리자 추가" key="addManager" handleClick={showModal} />
 			</div>
-			<Table data={data} columns={columns} />
+			<Table data={admins} columns={columns} />
 			<Modal
 				title="관리자 추가"
 				open={isModalOpen}
@@ -49,14 +69,14 @@ function Manager() {
 				onCancel={handleCancel}
 				maskClosable={false}
 				footer={[
-					<Button handleClick={handleCancel} content="취소" type="cancel" key="b1" />,
+					<Button handleClick={handleCancel} content="취소" type="cancel" key="cancleAddManager" />,
 					<Button
 						handleClick={handleOk}
 						content="확인"
 						loading={isLoading}
 						disabled={isDisabled}
 						type="positive"
-						key="b2"
+						key="addManager"
 					/>,
 				]}
 			>
@@ -64,7 +84,7 @@ function Manager() {
 					<div className="text-grayscale5 mb-5">*초대된 계정의 초기 비밀번호는 1111입니다.</div>
 					<div className="w-full flex justify-between">
 						<SelectClass options={options} handleChange={handleChange} />
-						<SelectClass options={options} handleChange={handleChange} />
+						<SelectClass options={getAuthorityValueTypeForSelect()} handleChange={handleChangeAuthority} />
 					</div>
 					<input
 						id="swal2-input"

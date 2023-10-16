@@ -1,9 +1,10 @@
 import { Select } from 'antd';
+import { AUTHORITY } from '../../constants/AuthorityType';
 
 interface SelectClassIntferface {
 	handleChange: (value: string) => void;
 	defaultValue?: string;
-	options: { value: string; label: string }[];
+	options: { value: string | keyof typeof AUTHORITY; label: string }[];
 	placeholder?: string;
 }
 const SelectClass: React.FC<SelectClassIntferface> = ({ handleChange, defaultValue, options, placeholder }) => {

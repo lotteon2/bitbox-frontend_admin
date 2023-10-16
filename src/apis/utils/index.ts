@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env['REACT_APP_API_URL '];
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // 기본 API 요청 처리
 const axiosApi = (baseURL: string | undefined) => {

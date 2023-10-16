@@ -4,9 +4,11 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { Dropdown } from 'antd';
+import { AxiosError } from 'axios';
 import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
+import { classApi } from '../../../apis/class/classAPIService';
 
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,12 +27,22 @@ export const useClassModal = () => {
 		setIsModalOpen(true);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
 		setIsLoading(true);
-		Toast(true, '반이 추가되었어요');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
+		await classApi
+			.createClass({ className: name, classCode })
+			.then((res) => {
+				console.log(res);
+				Toast(true, '반이 추가되었어요');
+				clearValues();
+				setIsModalOpen(false);
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, err.message);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	const handleCancel = () => {
@@ -275,6 +287,15 @@ export const useClassTable = () => {
 			imageSrc: '',
 		},
 	];
+
+	const getData = async () => {
+		await classApi.getClasses({ classId: 1 }).then((res) => {
+			console.log(res);
+		});
+	};
+	useEffect(() => {
+		getData();
+	}, []);
 
 	return {
 		isDisabled,

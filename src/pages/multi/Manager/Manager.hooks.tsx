@@ -1,21 +1,38 @@
 import { ColumnsType } from 'antd/es/table';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import { AxiosError } from 'axios';
 import Badge from '../../../components/common/Badge';
 import { DataType } from '../../../components/common/Table';
 import { Alert } from '../../../components/common/Alert';
 import { Toast } from '../../../components/common/Toast';
 import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
+import { adminApi } from '../../../apis/admin/adminAPIService';
+import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 
 export const useManagerModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [name, setName] = useState<string>('');
+	const [authority, setAuthority] = useState<string>(getAuthority(AUTHORITY.ADMIN));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	// const getAuthorityValueTypeForSelect = () => {
+	// 	const result = [];
+	// 	const authorityArray = Object.values(AUTHORITY);
+	// 	for (let i = 0; i < 3; i += 1) {
+	// 		result.push({ value: getAuthority(authorityArray[i]), label: getAuthority(authorityArray[i]) });
+	// 	}
+	// 	return result;
+	// };
+
+	const handleChangeAuthority = (value: string) => {
+		setAuthority(() => value);
+	};
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -28,13 +45,22 @@ export const useManagerModal = () => {
 		setIsModalOpen(() => true);
 	};
 
-	/* TODO : 서버 통신 */
-	const handleOk = () => {
+	const handleOk = async () => {
+		console.log(authority);
 		setIsLoading(true);
-		Toast(true, '관리자가 초대되었어요');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
+		await adminApi
+			.createAdmin({ adminEmail: email, adminName: name, adminAuthority: authority })
+			.then((res) => {
+				Toast(true, '관리자가 초대되었어요');
+				clearValues();
+				setIsModalOpen(false);
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, err.message);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	const handleCancel = () => {
@@ -46,7 +72,7 @@ export const useManagerModal = () => {
 		if (email && name) {
 			setIsDisabled(false);
 		}
-	}, [isModalOpen, email, name]);
+	}, [isModalOpen, email, name, authority]);
 
 	return {
 		email,
@@ -61,11 +87,41 @@ export const useManagerModal = () => {
 		showModal,
 		handleOk,
 		handleCancel,
+		handleChangeAuthority,
 	};
 };
 
 export const useManagerTable = (showModal: () => void) => {
-	const handleDelete = (id: number) => {
+	const [admins, setAdmins] = useState<DataType[]>([]);
+	const getAllAdminInfo = useCallback(async () => {
+		await adminApi
+			.getAllAdmin()
+			.then((res) => {
+				console.log(res);
+				const temp: DataType[] = [];
+				res.forEach((it) => {
+					temp.push({
+						key: it.adminId,
+						name: it.adminName,
+						email: it.adminEmail,
+						rate: it.adminAuthority,
+						imageSrc: it.adminProfileImg,
+					});
+				});
+				setAdmins([...temp]);
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, err.message);
+			});
+	}, []);
+
+	useEffect(() => {
+		getAllAdminInfo();
+	}, []);
+
+	const handleDelete = async (id: number) => {
+		console.log('test');
+		await adminApi.getAllAdmin().then((res) => console.log(res));
 		Alert('관리자 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
@@ -100,7 +156,7 @@ export const useManagerTable = (showModal: () => void) => {
 			align: 'center',
 		},
 		{
-			title: '등급',
+			title: '권한',
 			dataIndex: 'rate',
 			key: 'rate',
 			align: 'center',
@@ -159,84 +215,9 @@ export const useManagerTable = (showModal: () => void) => {
 		},
 	];
 
-	const data: DataType[] = [
-		{
-			key: '1',
-			name: '지니리',
-			rate: '강사',
-			class: '롯데e커머스 2기',
-			email: 'abc@naver.com',
-			state: '변경',
-			imageSrc: '',
-		},
-		{
-			key: '2',
-			name: '안광현',
-			rate: '매니저',
-			class: '롯데e커머스 1기',
-			email: 'hi123@naver.com',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '3',
-			name: '마덤보',
-			rate: '매니저',
-			class: '롯데e커머스 2기',
-			email: 'hello@daum.com',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '4',
-			name: '강사3',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '5',
-			name: '강사3',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '6',
-			name: '강사3',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '7',
-			name: '강사3',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: '8',
-			name: '강사3',
-			email: 'hello@daum.com',
-			class: '코엑스 3기',
-			rate: '강사',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-	];
-
 	return {
 		handleDelete,
 		columns,
-		data,
+		admins,
 	};
 };

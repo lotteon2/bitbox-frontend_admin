@@ -35,6 +35,7 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName })
 		<div className="flex flex-col items-center rounded-xl w-full">
 			{tableName && <div className="font-bold text-xl m-5">{tableName}</div>}
 			<AntdTable
+				key={tableName}
 				columns={columns}
 				dataSource={data}
 				pagination={false}
@@ -44,4 +45,4 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName })
 	);
 };
 
-export default Table;
+export default React.memo(Table);
