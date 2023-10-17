@@ -6,7 +6,7 @@ import Button from '../../../components/common/Button';
 import { useManagerModal, useManagerTable } from './Manager.hooks';
 import { handleChange } from '../Class/Class';
 import ProfileUpdater from '../../../components/common/ProfileUpdater';
-import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
+import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 
 export const getAuthorityValueTypeForSelect = () => {

@@ -9,7 +9,7 @@ import Badge from '../../../components/common/Badge';
 import { DataType } from '../../../components/common/Table';
 import { Alert } from '../../../components/common/Alert';
 import { Toast } from '../../../components/common/Toast';
-import { useUpdateProfileModal } from '../../../hooks/UpdateProfile';
+import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { adminApi } from '../../../apis/admin/adminAPIService';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 import { UpdateAdminInfoParams } from '../../../apis/admin/adminAPIService.types';

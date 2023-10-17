@@ -1,8 +1,8 @@
 import APIService from '../../libs/core/api/APIService';
 import {
 	CreateAdminParams,
-	CreateAdminResponse,
-	GetAllAdminResponseData,
+	CreateAdminResponseData,
+	GetAdminInfoResponseData,
 	UpdateAdminInfoParams,
 } from './adminAPIService.types';
 
@@ -16,17 +16,22 @@ class AdminAPIService extends APIService {
 	}
 
 	async createAdmin(classId: number, params: CreateAdminParams) {
-		const { data } = await this.post<CreateAdminResponse>(classId.toString(), params);
+		const { data } = await this.post<CreateAdminResponseData>(classId.toString(), params);
 		return data;
 	}
 
 	async getAllAdmin() {
-		const { data } = await this.get<GetAllAdminResponseData[]>('');
+		const { data } = await this.get<GetAdminInfoResponseData[]>('');
 		return data;
 	}
 
 	async updateAdmin(params: UpdateAdminInfoParams) {
-		const { data } = await this.patch<boolean>('');
+		const { data } = await this.patch<boolean>('', params);
+		return data;
+	}
+
+	async getMyAdminInfo() {
+		const { data } = await this.get<GetAdminInfoResponseData>('/one');
 		return data;
 	}
 }

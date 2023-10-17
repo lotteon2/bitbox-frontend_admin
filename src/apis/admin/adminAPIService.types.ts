@@ -12,9 +12,7 @@ export interface CreateAdminResponseData {
 	uuid: string;
 }
 
-export type CreateAdminResponse = APIResponse<CreateAdminResponseData>;
-
-export interface GetAllAdminResponseData {
+export interface GetAdminInfoResponseData {
 	adminId: number;
 	adminEmail: string;
 	adminName: string;
@@ -22,8 +20,6 @@ export interface GetAllAdminResponseData {
 	adminAuthority: string;
 	classInfoResponses: { classId: number; className: string; classCdoe: string }[];
 }
-
-export type GetAllAdminResponse = APIResponse<GetAllAdminResponseData[]>;
 
 export interface UpdateAdminInfoParams {
 	adminProfileImg?: string;

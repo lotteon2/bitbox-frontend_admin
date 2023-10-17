@@ -5,7 +5,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import Badge from './Badge';
 import ProfileUpdater from './ProfileUpdater';
-import { useUpdateProfileModal } from '../../hooks/UpdateProfile';
+import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
 
 export default function TopHeader() {
 	const [logged, setLogged] = useState<boolean>(true);
