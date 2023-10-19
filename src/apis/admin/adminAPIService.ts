@@ -7,7 +7,7 @@ import {
 } from './adminAPIService.types';
 
 // TODO : 추후 BASE_URL 변경
-const BASE_URL = 'http://localhost:9999/admin';
+const BASE_URL = 'http://localhost:8000/admin-service/admin';
 
 class AdminAPIService extends APIService {
 	constructor() {
