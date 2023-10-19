@@ -1,12 +1,10 @@
 import APIService from '../../libs/core/api/APIService';
 import {
 	CreateClassParams,
-	CreateClassResponse,
+	CreateClassResponseData,
 	GetClassParams,
 	GetClassResponseData,
 	UpdateClassParams,
-	UpdateClassResponse,
-	UpdateClassResponseData,
 } from './classAPIService.types';
 
 // TODO : 추후 BASE_URL 변경
@@ -19,7 +17,7 @@ class ClassAPIService extends APIService {
 	}
 
 	async createClass(params: CreateClassParams) {
-		const { data } = await this.post<CreateClassResponse>('', params);
+		const { data } = await this.post<CreateClassResponseData>('', params);
 		return data;
 	}
 

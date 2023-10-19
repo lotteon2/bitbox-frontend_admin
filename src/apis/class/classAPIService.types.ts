@@ -9,7 +9,7 @@ export interface CreateClassResponseData {
 	classId: number;
 }
 
-export type CreateClassResponse = APIResponse<CreateClassResponseData>;
+// export type CreateClassResponse = APIResponse<CreateClassResponseData>;
 
 export interface GetClassParams {
 	classId?: number;
