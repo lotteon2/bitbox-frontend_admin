@@ -63,6 +63,11 @@ export default function Header() {
 					성적 관리
 				</NavLink>
 			</li>
+			<li className="ml-10" onClick={() => setEtcNav('/etc/exam')} role="presentation">
+				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/exam">
+					시험 관리
+				</NavLink>
+			</li>
 		</ul>
 	);
 }
