@@ -20,7 +20,7 @@ const graduateOptions = [
 	{ value: 'isNotGraduate', label: '교육' },
 	{ value: 'isGraduate', label: '수료' },
 ];
-function Class() {
+const Class = () => {
 	const {
 		columns,
 		isModalOpen: isClassUpdateModalOpen,
@@ -122,5 +122,5 @@ function Class() {
 			</Modal>
 		</div>
 	);
-}
+};
 export default Class;
