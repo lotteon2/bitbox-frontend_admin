@@ -20,10 +20,10 @@ class AttendanceAPIService extends APIService {
 		return data;
 	}
 
-	// async updateAttendanceInfo(params: UpdateAttendanceInfoParams){
-	//     const {data} = await this.patch();
-	//     return data;
-	// }
+	async updateAttendanceInfo(params: UpdateAttendanceInfoParams) {
+		const { data } = await this.patch<string>('', params);
+		return data;
+	}
 }
 
 export const attendanceApi: AttendanceAPIService = AttendanceAPIService.shared();

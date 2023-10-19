@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestUserPermission } from '../../hooks/App.hooks';
-import { gradeApi } from '../../apis/grade/gradeAPIService.types';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 import { Toast } from '../../components/common/Toast';
-import { GetGradesResponseData } from '../../apis/grade/gradeAPIService';
+import { gradeApi } from '../../apis/grade/gradeAPIService';
+import { GetGradesResponseData } from '../../apis/grade/gradeAPIService.types';
 
 export const useDashBoard = () => {
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();

@@ -5,97 +5,14 @@ import Table, { DataType } from '../../../components/common/Table';
 import TableStateChip from '../../../components/common/TableStateChip';
 import AttendanceState from '../../../components/common/AttendanceState';
 import SelectClass from '../../../components/common/SelectClass';
-import { useAttendanceModal } from './Attendance.hooks';
+import { useAttendanceModal, useAttendanceTable } from './Attendance.hooks';
 import Button from '../../../components/common/Button';
 
 const Attendance = () => {
-	const { isModalOpen, isDisabled, isLoading, comment, name, setName, setComment, showModal, handleOk, handleCancel } =
+	const { isModalOpen, isDisabled, isLoading, comment, name, setName, setComment, handleOk, handleCancel } =
 		useAttendanceModal();
 
-	const data: DataType[] = [
-		{
-			key: 1,
-			name: '김명준',
-			attendanceState: '결석',
-			entranceTime: '',
-			quitTime: '',
-			attendanceModifyReason: '개인 사정으로 인한 결석',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: 2,
-			name: '김정윤',
-			attendanceState: '출석',
-			entranceTime: '2023/09/08 8:30',
-			quitTime: '2023/09/08 22:00',
-			attendanceModifyReason: '',
-			state: '변경',
-			imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-		},
-		{
-			key: 3,
-			name: '마혜경',
-			attendanceState: '외출',
-			entranceTime: '2023/09/08 8:30',
-			quitTime: '2023/09/08 22:00',
-			attendanceModifyReason: '병원으로 인한 외출',
-			state: '변경',
-		},
-	];
-
-	const columns: ColumnsType<DataType> = [
-		{
-			title: '',
-			dataIndex: 'imageSrc',
-			key: 'imageSrc',
-			render: (text) => <Avatar src={text} size="large" />,
-			width: '100px',
-		},
-		{
-			title: '교육생',
-			dataIndex: 'name',
-			key: 'name',
-			render: (text) => <a href="/dashboard">{text}</a>,
-			align: 'center',
-		},
-		{
-			title: '출석 상태',
-			dataIndex: 'attendanceState',
-			key: 'attendanceState',
-			render: (text) => (
-				<div className="w-full">
-					<AttendanceState status={text} />
-				</div>
-			),
-			align: 'center',
-			width: '100px',
-		},
-		{
-			title: '입실시간',
-			dataIndex: 'entranceTime',
-			key: 'entranceTime',
-			align: 'center',
-		},
-		{
-			title: '퇴실시간',
-			dataIndex: 'quitTime',
-			key: 'quitTime',
-			align: 'center',
-		},
-		{
-			title: '참고',
-			dataIndex: 'attendanceModifyReason',
-			key: 'attendanceModifyReason',
-			align: 'center',
-		},
-		{
-			title: '',
-			dataIndex: 'state',
-			key: 'state',
-			render: (text, a, id) => <TableStateChip title={text} handleClick={() => showModal(data[id].name || '')} />,
-		},
-	];
+	const { userData, columns } = useAttendanceTable();
 
 	const handleChange = (value: string) => {
 		console.log(`selected ${value}`);
@@ -123,7 +40,7 @@ const Attendance = () => {
 					<Search placeholder="이름을 검색해주세요" allowClear />
 				</div>
 			</div>
-			<Table data={data} columns={columns} />
+			<Table data={userData} columns={columns} />
 			<Modal
 				title="출석 상태 변경"
 				open={isModalOpen}

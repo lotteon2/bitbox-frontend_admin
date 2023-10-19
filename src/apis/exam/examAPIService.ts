@@ -6,7 +6,7 @@ import {
 	UpdateExamParams,
 } from './examAPIService.typex';
 
-const BASE_URL = 'http://localhost:9999/admin/exam';
+const BASE_URL = 'http://localhost:8000/admin-service/admin/exam';
 
 class ExamAPIService extends APIService {
 	constructor() {
