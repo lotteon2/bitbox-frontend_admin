@@ -2,7 +2,8 @@ import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
 import BarChart from '../../components/DashBoard/BarChart';
 import Table, { DataType } from '../../components/common/Table';
-import { useAppMount } from './DashBoard.hooks';
+import { useAppMount, useDashBoard } from './DashBoard.hooks';
+import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 
 export const columns: ColumnsType<DataType> = [
 	{
@@ -62,6 +63,7 @@ export const data: DataType[] = [
 ];
 
 export default function DashBoard() {
+	const { gradeData } = useDashBoard();
 	useAppMount();
 	const handleChange = (value: string) => {
 		console.log(`selected ${value}`);
@@ -108,7 +110,7 @@ export default function DashBoard() {
 				<SelectClass handleChange={handleChange} options={options} />
 				<div className="flex justify-between w-full">
 					<BarChart chartName="출석률" data={chartData} />
-					<BarChart chartName="평균 성적" data={chartData} />
+					<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
 				</div>
 			</div>
 			<div className="h-1/2">
