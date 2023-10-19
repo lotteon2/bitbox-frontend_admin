@@ -5,6 +5,13 @@ interface BadgeInterface {
 	status: keyof typeof AUTHORITY;
 }
 const Badge: React.FC<BadgeInterface> = ({ status }) => {
+	const translateAuthority = () => {
+		if (status === 'ADMIN') return '관리자';
+		if (status === 'MANAGER') return '매니저';
+		if (status === 'TEACHER') return '강사';
+		return '';
+	};
+
 	return (
 		<div
 			className={
@@ -15,7 +22,7 @@ const Badge: React.FC<BadgeInterface> = ({ status }) => {
 					: 'w-[80px] h-[40px] text-center pt-2 bg-secondary1 rounded-lg text-grayscale1 font-bold'
 			}
 		>
-			{status}
+			{translateAuthority()}
 		</div>
 	);
 };
