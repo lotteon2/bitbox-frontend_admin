@@ -2,7 +2,7 @@ import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
 import BarChart from '../../components/DashBoard/BarChart';
 import Table, { DataType } from '../../components/common/Table';
-import { useAppMount, useDashBoard } from './DashBoard.hooks';
+import { useDashBoardMount, useDashBoard } from './DashBoard.hooks';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 
 export const columns: ColumnsType<DataType> = [
@@ -64,7 +64,7 @@ export const data: DataType[] = [
 
 export default function DashBoard() {
 	const { gradeData } = useDashBoard();
-	useAppMount();
+	useDashBoardMount();
 	const handleChange = (value: string) => {
 		console.log(`selected ${value}`);
 	};

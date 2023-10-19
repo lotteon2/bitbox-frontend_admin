@@ -13,6 +13,8 @@ import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { adminApi } from '../../../apis/admin/adminAPIService';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 import { UpdateAdminInfoParams } from '../../../apis/admin/adminAPIService.types';
+import { useCreateAdminMutation } from '../../../mutations/useCreateAdminMutation';
+import { useGetAllAdminQuery } from '../../../queries/useGetAllAdminQuery';
 
 export const useManagerModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -21,6 +23,10 @@ export const useManagerModal = () => {
 	const [name, setName] = useState<string>('');
 	const [authority, setAuthority] = useState<string>(getAuthority(AUTHORITY.ADMIN));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	// TODO : classId 추가
+	const { mutateAsync } = useCreateAdminMutation(1);
+	const { data, refetch } = useGetAllAdminQuery();
 
 	const handleChangeAuthority = (value: string) => {
 		setAuthority(() => value);
@@ -40,12 +46,12 @@ export const useManagerModal = () => {
 	const handleOk = async () => {
 		setIsLoading(true);
 		console.log(authority);
-		await adminApi
-			.createAdmin(1, { adminEmail: email, adminName: name, adminAuthority: authority })
+		await mutateAsync({ adminEmail: email, adminName: name, adminAuthority: authority })
 			.then((res) => {
 				Toast(true, '관리자가 초대되었어요');
 				clearValues();
 				setIsModalOpen(false);
+				refetch();
 			})
 			.catch((err: AxiosError) => {
 				Toast(false, err.message);
@@ -91,6 +97,27 @@ const updateAdmin = async (params: UpdateAdminInfoParams) => {
 export const useManagerTable = (showModal: () => void) => {
 	const [admins, setAdmins] = useState<DataType[]>([]);
 	const [authority, setAuthority] = useState<string>();
+
+	const { data, refetch } = useGetAllAdminQuery();
+
+	useEffect(() => {
+		const temp: DataType[] = [];
+		if (!data) {
+			Toast(false, '관리자 리스트를 불러오지 못했어요.');
+			return;
+		}
+		data.forEach((it) => {
+			temp.push({
+				key: it.adminId,
+				name: it.adminName,
+				email: it.adminEmail,
+				rate: it.adminAuthority,
+				imageSrc: it.adminProfileImg,
+				class: it.classInfoResponses[0].className,
+			});
+		});
+		setAdmins([...temp]);
+	}, [data]);
 
 	const handleChangeAuthority = (value: string) => {
 		setAuthority(() => value);
@@ -222,6 +249,7 @@ export const useManagerTable = (showModal: () => void) => {
 	return {
 		columns,
 		admins,
+		data,
 		handleChangeAuthority,
 	};
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import Table from '../../../components/common/Table';
+import Table, { DataType } from '../../../components/common/Table';
 import SelectClass from '../../../components/common/SelectClass';
 import Button from '../../../components/common/Button';
 import { useManagerModal, useManagerTable } from './Manager.hooks';
@@ -8,6 +8,7 @@ import { handleChange } from '../Class/Class';
 import ProfileUpdater from '../../../components/common/ProfileUpdater';
 import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
+import { GetAdminInfoResponseData } from '../../../apis/admin/adminAPIService.types';
 
 export const getAuthorityValueTypeForSelect = () => {
 	const result = [];
@@ -53,7 +54,7 @@ function Manager() {
 		handleCancel: handleUpdateCancel,
 	} = useUpdateProfileModal();
 
-	const { admins, columns, handleChangeAuthority } = useManagerTable(showUpdateModal);
+	const { admins, columns, handleChangeAuthority, data } = useManagerTable(showUpdateModal);
 
 	return (
 		<div className="ml-10 w-11/12 h-full">

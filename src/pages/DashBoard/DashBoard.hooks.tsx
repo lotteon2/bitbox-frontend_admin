@@ -1,10 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestUserPermission } from '../../hooks/App.hooks';
+
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 import { Toast } from '../../components/common/Toast';
 import { gradeApi } from '../../apis/grade/gradeAPIService';
 import { GetGradesResponseData } from '../../apis/grade/gradeAPIService.types';
+import { requestUserPermission } from '../../App.hooks';
 
 export const useDashBoard = () => {
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
@@ -35,14 +36,14 @@ export const useDashBoard = () => {
 	};
 };
 
-export const useAppMount = () => {
+export const useDashBoardMount = () => {
 	console.log('hre');
 	const { getGradesByClassId } = useDashBoard();
 	const navigate = useNavigate();
 	useEffect(() => {
 		getGradesByClassId(1);
 	}, [getGradesByClassId]);
-	useEffect(() => {
-		requestUserPermission(navigate);
-	}, [navigate]);
+	// useEffect(() => {
+	// 	requestUserPermission(navigate);
+	// }, [navigate]);
 };
