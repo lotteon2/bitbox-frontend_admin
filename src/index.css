@@ -161,6 +161,10 @@ table.htCore tr.odd td {
   text-align: center;
 }
 
+.ant-form-item-label {
+  text-align: left !important;
+}
+
 @font-face {
   font-family: "thin";
   src: url("/src/assets/fonts/jamsil-thin.ttf");

@@ -33,11 +33,11 @@ const Login = () => {
 						name="username"
 						rules={[{ required: true, message: '이메일을 입력해주세요' }]}
 					>
-						<Input value={email} onChange={(e) => setEmail(e.target.value)} />
+						<Input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" />
 					</Form.Item>
 
 					<Form.Item<FieldType>
-						label="Password"
+						label="비밀번호"
 						name="password"
 						rules={[{ required: true, message: '비밀번호를 입력해주세요' }]}
 					>
