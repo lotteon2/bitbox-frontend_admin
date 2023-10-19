@@ -15,7 +15,6 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<QueryClientProvider client={queryClient}>
-		{/* 여기를 통해 라우팅 관리 routes -> index.tsx */}
 		<RouterProvider router={router} fallbackElement={<Loading />} />
 		<ReactQueryDevtools initialIsOpen />
 	</QueryClientProvider>,
