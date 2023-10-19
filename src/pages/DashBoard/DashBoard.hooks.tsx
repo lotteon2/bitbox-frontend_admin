@@ -36,6 +36,7 @@ export const useDashBoard = () => {
 };
 
 export const useAppMount = () => {
+    console.log('hre');
 	const { getGradesByClassId } = useDashBoard();
 	const navigate = useNavigate();
 	useEffect(() => {
