@@ -21,7 +21,8 @@ export interface DataType {
 	attendanceState?: string;
 	attendanceModifyReason?: string;
 	exam?: string;
-	score?: string;
+	score?: number;
+	avgScore?: number;
 }
 
 interface TableInterface<T> {

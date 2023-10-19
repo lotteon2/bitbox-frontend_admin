@@ -32,7 +32,7 @@ export interface UpdateClassParams {
 	isDeleted?: boolean;
 }
 
-// boolean일지 추가될 지 아직 모름!
-export interface UpdateClassResponseData {}
+// // boolean일지 추가될 지 아직 모름!
+// export interface UpdateClassResponseData {}
 
-export type UpdateClassResponse = APIResponse<UpdateClassResponseData[]>;
+// export type UpdateClassResponse = APIResponse<UpdateClassResponseData[]>;

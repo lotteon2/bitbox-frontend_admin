@@ -7,7 +7,7 @@ import SelectClass from '../../../components/common/SelectClass';
 import Table, { DataType } from '../../../components/common/Table';
 import { handleChange, options } from '../../multi/Class/Class';
 import TableStateChip from '../../../components/common/TableStateChip';
-import { useAddExamModal, useAddScoreModal, useChangeScoreModal } from './Score.hooks';
+import { useAddScoreModal, useChangeScoreModal } from './Score.hooks';
 import { TableData } from '../../../constants/TableConstants';
 import { addClassesToRows } from '../../../hooks/TableHooks';
 import 'handsontable/dist/handsontable.min.css';
@@ -17,18 +17,18 @@ const Score = () => {
 	const { name, exam, isModalOpen, isDisabled, isLoading, score, setScore, showModal, handleOk, handleCancel } =
 		useChangeScoreModal();
 
-	const {
-		examName,
-		setExamName,
-		perfectScore,
-		setPerfectScore,
-		isModalOpen: isAddExamModalOpen,
-		isDisabled: isAddExamModalDisabled,
-		isLoading: isAddExamLoading,
-		showModal: showAddExamModal,
-		handleOk: handleAddExamOk,
-		handleCancel: handleAddExamCancel,
-	} = useAddExamModal();
+	// const {
+	// 	examName,
+	// 	setExamName,
+	// 	perfectScore,
+	// 	setPerfectScore,
+	// 	isModalOpen: isAddExamModalOpen,
+	// 	isDisabled: isAddExamModalDisabled,
+	// 	isLoading: isAddExamLoading,
+	// 	showModal: showAddExamModal,
+	// 	handleOk: handleAddExamOk,
+	// 	handleCancel: handleAddExamCancel,
+	// } = useAddExamModal();
 
 	const {
 		// examName,
@@ -76,7 +76,7 @@ const Score = () => {
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',
-			score: '90/100',
+			score: 90,
 			state: '변경',
 		},
 		{
@@ -84,7 +84,7 @@ const Score = () => {
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',
-			score: '90/100',
+			score: 80,
 			state: '변경',
 		},
 		{
@@ -92,7 +92,7 @@ const Score = () => {
 			name: '김명준',
 			imageSrc: '',
 			exam: 'HTML',
-			score: '90/100',
+			score: 30,
 			state: '변경',
 		},
 	];
@@ -130,7 +130,7 @@ const Score = () => {
 			render: (text: string, a, id) => (
 				<TableStateChip
 					title={text}
-					handleClick={() => showModal(data[id].name || '', data[id].score || '', data[id].exam || '')}
+					handleClick={() => showModal(data[id].name || '', data[id].score || 0, data[id].exam || '')}
 				/>
 			),
 		},
@@ -142,7 +142,6 @@ const Score = () => {
 				<div className="flex gap-x-10 items-center">
 					<SelectClass handleChange={handleChange} options={options} />
 					<SelectClass handleChange={handleChange} options={options} />
-					<Button content="시험 추가" key="addExam" handleClick={showAddExamModal} />
 				</div>
 				<div className="flex gap-x-10">
 					<Button content="변경사항 저장" key="addScore" handleClick={showAddScoreModal} />
@@ -213,45 +212,14 @@ const Score = () => {
 					<input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
 					<div className="swal2-label">시험명</div>
 					<input defaultValue={exam} id="swal2-input" className="swal2-input" readOnly disabled />
-					<input value={score} onChange={(e) => setScore(e.target.value)} id="swal2-input" className="swal2-input" />
-					<br />
-					<br />
-				</div>
-			</Modal>
-			<Modal
-				title="시험 추가"
-				open={isAddExamModalOpen}
-				destroyOnClose
-				onOk={handleAddExamOk}
-				onCancel={handleAddExamCancel}
-				maskClosable={false}
-				footer={[
-					<Button handleClick={handleAddExamCancel} content="취소" type="cancel" key="cancleExam" />,
-					<Button
-						handleClick={handleAddExamOk}
-						content="확인"
-						loading={isAddExamLoading}
-						disabled={isAddExamModalDisabled}
-						type="positive"
-						key="addExamOk"
-					/>,
-				]}
-			>
-				<div className="my-10 flex flex-col align-center justify-center">
-					<div className="swal2-label">시험명</div>
 					<input
-						value={examName}
-						onChange={(e) => setExamName(e.target.value)}
+						value={score}
+						onChange={(e) => setScore(e.target.value as unknown as number)}
 						id="swal2-input"
 						className="swal2-input"
 					/>
-					<div className="swal2-label">만점</div>
-					<input
-						value={perfectScore}
-						onChange={(e) => setPerfectScore(e.target.value)}
-						id="swal2-input"
-						className="swal2-input"
-					/>
+					<br />
+					<br />
 				</div>
 			</Modal>
 			{/* <Modal

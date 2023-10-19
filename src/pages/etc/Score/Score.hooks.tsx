@@ -4,7 +4,7 @@ import { Toast } from '../../../components/common/Toast';
 export const useChangeScoreModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [score, setScore] = useState<string>();
+	const [score, setScore] = useState<number>();
 	const [exam, setExam] = useState<string>();
 	const [name, setName] = useState<string>();
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -14,7 +14,7 @@ export const useChangeScoreModal = () => {
 		// setScore(0);
 	};
 
-	const showModal = (nameProp: string, scoreProp: string, examProp: string) => {
+	const showModal = (nameProp: string, scoreProp: number, examProp: string) => {
 		setIsModalOpen(true);
 		setScore(scoreProp);
 		setName(nameProp);
@@ -55,56 +55,56 @@ export const useChangeScoreModal = () => {
 	};
 };
 
-export const useAddExamModal = () => {
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [examName, setExamName] = useState<string>('');
-	const [perfectScore, setPerfectScore] = useState<string>('');
+// export const useAddExamModal = () => {
+// 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+// 	const [isLoading, setIsLoading] = useState<boolean>(false);
+// 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+// 	const [examName, setExamName] = useState<string>('');
+// 	const [perfectScore, setPerfectScore] = useState<string>('');
 
-	const clearValues = () => {
-		setIsDisabled(true);
-	};
+// 	const clearValues = () => {
+// 		setIsDisabled(true);
+// 	};
 
-	const showModal = () => {
-		setIsModalOpen(true);
-		setExamName('');
-		setPerfectScore('');
-	};
+// 	const showModal = () => {
+// 		setIsModalOpen(true);
+// 		setExamName('');
+// 		setPerfectScore('');
+// 	};
 
-	const handleOk = () => {
-		setIsLoading(true);
-		Toast(true, '시험이 추가되었어요.');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
-	};
+// 	const handleOk = () => {
+// 		setIsLoading(true);
+// 		Toast(true, '시험이 추가되었어요.');
+// 		clearValues();
+// 		setIsLoading(false);
+// 		setIsModalOpen(false);
+// 	};
 
-	const handleCancel = () => {
-		setIsModalOpen(false);
-		clearValues();
-	};
+// 	const handleCancel = () => {
+// 		setIsModalOpen(false);
+// 		clearValues();
+// 	};
 
-	useEffect(() => {
-		if (examName && perfectScore) {
-			setIsDisabled(false);
-		}
-	}, [examName, perfectScore]);
+// 	useEffect(() => {
+// 		if (examName && perfectScore) {
+// 			setIsDisabled(false);
+// 		}
+// 	}, [examName, perfectScore]);
 
-	return {
-		examName,
-		setExamName,
-		perfectScore,
-		setPerfectScore,
-		isModalOpen,
-		setIsModalOpen,
-		isLoading,
-		showModal,
-		handleOk,
-		handleCancel,
-		isDisabled,
-	};
-};
+// 	return {
+// 		examName,
+// 		setExamName,
+// 		perfectScore,
+// 		setPerfectScore,
+// 		isModalOpen,
+// 		setIsModalOpen,
+// 		isLoading,
+// 		showModal,
+// 		handleOk,
+// 		handleCancel,
+// 		isDisabled,
+// 	};
+// };
 
 export const useAddScoreModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

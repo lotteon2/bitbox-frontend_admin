@@ -62,9 +62,10 @@ class APIService {
 			options.params = params;
 		}
 
+		/* eslint no-useless-catch: "off" */
+
 		try {
 			const response: AxiosResponse<R> = await axios(options);
-
 			return {
 				status: response.status,
 				data: response.data,

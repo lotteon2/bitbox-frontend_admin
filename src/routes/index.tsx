@@ -11,6 +11,7 @@ import Request from '../pages/etc/Request';
 import Score from '../pages/etc/Score/Score';
 import LoginLayout from '../layouts/LoginLayout';
 import Login from '../pages/Login';
+import Exam from '../pages/etc/Exam/Exam';
 
 const router = createBrowserRouter([
 	{
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
 			{ path: 'attendance', element: <Attendance /> },
 			// { path: 'request', element: <Request /> },
 			{ path: 'score', element: <Score /> },
+			{ path: 'exam', element: <Exam /> },
 		],
 	},
 	{

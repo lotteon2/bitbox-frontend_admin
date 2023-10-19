@@ -1,5 +1,3 @@
-import { APIResponse } from '../../libs/core/api';
-
 export interface CreateAdminParams {
 	adminEmail: string;
 	adminProfile?: string;

@@ -5,7 +5,7 @@ import { UserState, UserStateDispatcher } from './user.types';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
 const initialState: UserState = {
-	isLogin: false,
+	isLogin: true,
 	name: '',
 	id: '',
 	authority: AUTHORITY.GENERAL,

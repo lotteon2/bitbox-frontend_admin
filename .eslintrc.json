@@ -9,6 +9,8 @@
     }
   },
   "rules":{
+    "no-useless-catch": "off",
+    "no-use-before-define": ["off", {"functions": false, "classes": false}],
     "no-console": "off",
     "no-unused-vars": "off",
     "global-require": 0,

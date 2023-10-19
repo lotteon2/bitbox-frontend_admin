@@ -173,8 +173,6 @@ export const useClassTable = () => {
 					.catch((err: AxiosError) => {
 						Toast(false, err.message);
 					});
-			} else {
-				// 모달창에서 cancel 버튼을 눌렀다면
 			}
 		});
 	};
