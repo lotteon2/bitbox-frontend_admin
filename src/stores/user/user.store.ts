@@ -5,8 +5,8 @@ import { UserState, UserStateDispatcher } from './user.types';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
 const initialState: UserState = {
-	isFirstLogin: false,
-	isLogin: false,
+	isFirstLogin: true,
+	isLogin: !!localStorage.getItem('accessToken'),
 	name: '',
 	authority: AUTHORITY.GENERAL,
 	initialized: false,
