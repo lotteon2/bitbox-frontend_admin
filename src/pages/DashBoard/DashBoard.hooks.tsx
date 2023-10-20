@@ -5,12 +5,20 @@ import { Toast } from '../../components/common/Toast';
 import { gradeApi } from '../../apis/grade/gradeAPIService';
 import { GetGradesResponseData } from '../../apis/grade/gradeAPIService.types';
 import { useUserStore } from '../../stores/user/user.store';
+import { attendanceApi } from '../../apis/attendance/attendanceAPIService';
 
 export const useDashBoard = () => {
 	const navigate = useNavigate();
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
+	const [attendanceData, setAttendanceData] = useState<BarChartDataType[]>();
 	const [classId, setClassId] = useState<number>(1);
 	const [isLogin] = useUserStore((state) => [state.isLogin]);
+
+	const getAttendancesByClassId = useCallback(async (id: number) => {
+		await attendanceApi.getAttendanceInfoByClassIdForDashBoard(id).then((res: BarChartDataType[]) => {
+			console.log(res);
+		});
+	}, []);
 
 	const getGradesByClassId = useCallback(async (id: number) => {
 		await gradeApi
@@ -31,7 +39,8 @@ export const useDashBoard = () => {
 			navigate('/login');
 		}
 		getGradesByClassId(classId);
-	}, [isLogin, classId, getGradesByClassId, navigate]);
+		getAttendancesByClassId(classId);
+	}, [isLogin, classId, getGradesByClassId, navigate, getAttendancesByClassId]);
 
 	return {
 		getGradesByClassId,

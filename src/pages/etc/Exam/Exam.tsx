@@ -61,11 +61,11 @@ const Exam = () => {
 				]}
 			>
 				<div className="my-10 flex flex-col align-center justify-center">
-					<div className="swal2-label">반 이름</div>
+					<div className="swal2-label">시험 이름</div>
 					<input value={name} onChange={(e) => setName(e.target.value)} id="swal2-input" className="swal2-input" />
 					<br />
 					<br />
-					<div className="swal2-label">반 코드</div>
+					<div className="swal2-label">만점</div>
 					<input
 						value={perfectScore as number}
 						onChange={(e) => setPerfectScore(e.target.value as unknown as number)}

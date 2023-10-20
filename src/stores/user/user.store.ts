@@ -10,6 +10,8 @@ const initialState: UserState = {
 	name: '',
 	authority: AUTHORITY.GENERAL,
 	initialized: false,
+	profileImg: '',
+	email: '',
 };
 
 export const useUserStore = create(
@@ -29,6 +31,12 @@ export const useUserStore = create(
 		},
 		dispatchInitialized: (value: boolean) => {
 			set({ initialized: value });
+		},
+		dispatchProfileImg: (value: string) => {
+			set({ profileImg: value });
+		},
+		dispatchEmail: (value: string) => {
+			set({ email: value });
 		},
 	})),
 );

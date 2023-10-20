@@ -6,9 +6,12 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import Badge from './Badge';
 import ProfileUpdater from './ProfileUpdater';
 import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
+import { useUserStore } from '../../stores/user/user.store';
 
 export default function TopHeader() {
 	const [logged, setLogged] = useState<boolean>(true);
+	const [name, authority, profileImg] = useUserStore((state) => [state.name, state.authority, state.profileImg]);
+
 	// const { name, setName, isModalOpen, isLoading, isDisabled, showModal, handleOk, handleCancel } =
 	// 	useUpdateProfileModal();
 	return (
@@ -20,8 +23,8 @@ export default function TopHeader() {
 					</div>
 				</div>
 				<div className="absolute flex gap-5 right-10 top-10">
-					<Badge status="ADMIN" />
-					<div className="mt-2 font-bold">이름</div>
+					<Badge status={authority} />
+					<div className="mt-2 font-bold">{name}</div>
 					{logged ? (
 						<Dropdown
 							menu={{
@@ -47,10 +50,7 @@ export default function TopHeader() {
 								],
 							}}
 						>
-							<Avatar
-								src="https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340"
-								size="large"
-							/>
+							<Avatar src={profileImg} size="large" />
 						</Dropdown>
 					) : (
 						<a style={{ cursor: 'pointer' }} href="/login">

@@ -6,6 +6,8 @@ export interface UserState {
 	name: string;
 	authority: keyof typeof AUTHORITY;
 	initialized: boolean;
+	profileImg: string;
+	email: string;
 }
 
 export interface UserStateDispatcher extends UserState {
@@ -14,4 +16,6 @@ export interface UserStateDispatcher extends UserState {
 	dispatchName: (value: string) => void;
 	dispatchAuthority: (value: keyof typeof AUTHORITY) => void;
 	dispatchInitialized: (value: boolean) => void;
+	dispatchProfileImg: (value: string) => void;
+	dispatchEmail: (value: string) => void;
 }

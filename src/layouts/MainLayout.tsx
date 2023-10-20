@@ -1,20 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
 import TopHeader from '../components/common/TopHeader';
 import { useUserStore } from '../stores/user/user.store';
+import { adminApi } from '../apis/admin/adminAPIService';
 
 export default function MainLayout() {
 	const navigate = useNavigate();
-	const [isLogin, isFirstLogin] = useUserStore((state) => [state.isLogin, state.isFirstLogin]);
+	const [isLogin, dispatchAuthority, isFirstLogin, dispatchProfileImg, dispatchName, dispatchEmail] = useUserStore(
+		(state) => [
+			state.isLogin,
+			state.dispatchAuthority,
+			state.isFirstLogin,
+			state.dispatchProfileImg,
+			state.dispatchName,
+			state.dispatchEmail,
+		],
+	);
+
+	const getMyInfo = useCallback(async () => {
+		// TODO : 내 정보 초기화
+		await adminApi.getMyAdminInfo().then((res) => {
+			dispatchName(res.adminName);
+			dispatchProfileImg(res.adminProfileImg);
+			dispatchEmail(res.adminEmail);
+			dispatchAuthority(res.adminAuthority);
+		});
+	}, [dispatchAuthority, dispatchEmail, dispatchName, dispatchProfileImg]);
 
 	useEffect(() => {
 		if (!isLogin) {
 			if (!isFirstLogin) {
 				navigate('/first');
 			} else navigate('/login');
+		} else {
+			getMyInfo();
 		}
-	}, [isLogin, isFirstLogin, navigate]);
+	}, [isLogin, isFirstLogin, navigate, getMyInfo]);
 
 	return (
 		<div className="w-full h-screen flex flex-row scrollbar-hide">
