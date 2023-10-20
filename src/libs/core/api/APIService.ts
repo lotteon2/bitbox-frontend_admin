@@ -16,6 +16,7 @@ class APIService {
 
 	headers: Headers = {
 		'Content-Type': 'application/json',
+		Authorization: localStorage.getItem('accessToken') || '',
 	};
 
 	withCredentials = true;

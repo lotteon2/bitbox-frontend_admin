@@ -4,6 +4,7 @@ import { authApi } from '../../apis/auth/authAPIService';
 import { useUserStore } from '../../stores/user/user.store';
 import { GetLoginResponseData } from '../../apis/auth/authAPIService.types';
 import { Toast } from '../../components/common/Toast';
+import APIService from '../../libs/core/api/APIService';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const useLogin = () => {
 				dispatchIsLogin(true);
 				dispatchAuthority(res.authority);
 				dispatchIsFirstLogin(res.firstLogin);
+				localStorage.setItem('accessToken', res.accessToken);
 				if (!isFirstLogin) {
 					navigate('/first');
 				}
