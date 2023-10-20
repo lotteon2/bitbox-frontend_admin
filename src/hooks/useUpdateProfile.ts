@@ -1,10 +1,4 @@
-import { useState, useEffect } from 'react';
-import { AxiosError } from 'axios';
-import { Toast } from '../components/common/Toast';
-import { useGetAllAdminQuery } from '../queries/useGetAllAdminQuery';
-import { usePatchAdminMutation } from '../mutations/usePatchAdminMutation';
-import { AUTHORITY } from '../constants/AuthorityType';
-import { GetAdminInfoResponseData } from '../apis/admin/adminAPIService.types';
+import { useState } from 'react';
 
 // Image, password, 이름 수정
 export const useUpdateProfileModal = () => {

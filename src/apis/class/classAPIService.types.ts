@@ -9,12 +9,6 @@ export interface CreateClassResponseData {
 	classId: number;
 }
 
-// export type CreateClassResponse = APIResponse<CreateClassResponseData>;
-
-export interface GetClassParams {
-	classId?: number;
-}
-
 export interface GetClassResponseData {
 	classId: number;
 	className: string;

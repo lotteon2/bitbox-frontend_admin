@@ -25,8 +25,8 @@ class AdminAPIService extends APIService {
 		return data;
 	}
 
-	async updateAdmin(params: UpdateAdminInfoParams) {
-		const { data } = await this.patch<boolean>('', params);
+	async updateAdmin(adminId: string, params: UpdateAdminInfoParams) {
+		const { data } = await this.patch<boolean>(`/${adminId}`, params);
 		return data;
 	}
 

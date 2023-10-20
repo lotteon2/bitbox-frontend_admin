@@ -27,7 +27,7 @@ export const useManagerModal = () => {
 
 	// TODO : classId 추가
 	const { mutateAsync } = useCreateAdminMutation(1);
-	const { data, refetch } = useGetAllAdminQuery();
+	const { refetch } = useGetAllAdminQuery();
 
 	const handleChangeAuthority = (value: string) => {
 		setAuthority(() => value);
@@ -114,8 +114,11 @@ export const useManagerTable = () => {
 	const handleUpdateOk = async () => {
 		setIsLoadingProfileModal(true);
 		await mutateAsync({
-			adminProfileImg: selectedProfileImgSrc,
-			adminName: selectedName,
+			adminId: admins[selectedIdx as number].key.toString(),
+			params: {
+				adminProfileImg: selectedProfileImgSrc,
+				adminName: selectedName,
+			},
 		})
 			.then((res) => {
 				Toast(true, '정보가 수정되었어요');
@@ -150,9 +153,11 @@ export const useManagerTable = () => {
 			Toast(false, '관리자 리스트를 불러오지 못했어요.');
 			return;
 		}
-		data.forEach((it) => {
+		console.log(data);
+		data.forEach((it, idx) => {
 			temp.push({
-				key: it.adminId,
+				key: idx,
+				state: it.adminId,
 				name: it.adminName,
 				email: it.adminEmail,
 				rate: it.adminAuthority,
@@ -167,18 +172,19 @@ export const useManagerTable = () => {
 		setAuthority(() => value);
 	};
 
-	const updateAdmin = async (isDeleted: boolean) => {
-		await mutateAsync({ isDeleted: true })
+	const deleteAdmin = async (id: string) => {
+		await mutateAsync({ adminId: id, params: { isDeleted: true } })
 			.then(() => {
 				Toast(true, '관리자 정보가 삭제됐어요.');
+				refetch();
 			})
-			.catch((err: AxiosError) => Toast(false, '관리자 정보 삭제에 실패했어요'));
+			.catch((err: AxiosError) => Toast(false, '관리자 정보 삭제에 실패했어요.'));
 	};
+
 	const handleDelete = async (id: number) => {
-		console.log('test');
-		Alert('관리자 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
+		Alert('관리자 정보를 삭제하시겠어요?', '삭제하시면 되돌릴 수 없어요.').then((result) => {
 			if (result.isConfirmed) {
-				updateAdmin(true);
+				deleteAdmin(admins[id].state as string);
 			}
 		});
 	};
@@ -258,7 +264,7 @@ export const useManagerTable = () => {
 							{
 								key: 'deleteManagerInfo',
 								label: (
-									<button type="button" onClick={() => handleDelete(1)}>
+									<button type="button" onClick={() => handleDelete(idx)}>
 										<DeleteOutlineOutlinedIcon className="mr-2" />
 										삭제
 									</button>

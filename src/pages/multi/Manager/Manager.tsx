@@ -47,7 +47,6 @@ function Manager() {
 		admins,
 		columns,
 		handleChangeAuthority,
-		data,
 		isUpdateProfileModalOpen,
 		isLoadingProfileModal,
 		isDisabledProfileModal,

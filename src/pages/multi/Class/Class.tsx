@@ -22,17 +22,6 @@ const graduateOptions = [
 ];
 const Class = () => {
 	const {
-		columns,
-		isModalOpen: isClassUpdateModalOpen,
-		isDisabled: isClassUpdateDisabled,
-		isLoading: isClassUpdateLoading,
-		handleOk: handleClassUpdateOk,
-		handleCancel: handleClassUpdateCancel,
-		isGraduate,
-		setIsGradudate,
-		classesData,
-	} = useClassTable();
-	const {
 		isModalOpen,
 		isDisabled,
 		isLoading,
@@ -44,6 +33,18 @@ const Class = () => {
 		handleOk,
 		handleCancel,
 	} = useClassModal();
+
+	const {
+		columns,
+		isModalOpen: isClassUpdateModalOpen,
+		isDisabled: isClassUpdateDisabled,
+		isLoading: isClassUpdateLoading,
+		handleOk: handleClassUpdateOk,
+		handleCancel: handleClassUpdateCancel,
+		isGraduate,
+		setIsGradudate,
+		classesData,
+	} = useClassTable();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">

@@ -9,13 +9,19 @@ import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
 import { classApi } from '../../../apis/class/classAPIService';
+import { useCreateClassMutation } from '../../../mutations/useCreateClassMutation';
+import { useGetAllClassQuery } from '../../../queries/useGetAllClassQuery';
+import { usePatchClassMutation } from '../../../mutations/usePatchClassMutation';
 
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [classCode, setClassCode] = useState<number>(-1);
+	const [classCode, setClassCode] = useState<number>();
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+	const { mutateAsync } = useCreateClassMutation();
+	const { refetch } = useGetAllClassQuery();
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -29,13 +35,13 @@ export const useClassModal = () => {
 
 	const handleOk = async () => {
 		setIsLoading(true);
-		await classApi
-			.createClass({ className: name, classCode })
+		await mutateAsync({ className: name, classCode: classCode as number })
 			.then((res) => {
 				console.log(res);
 				Toast(true, '반이 추가되었어요');
 				clearValues();
 				setIsModalOpen(false);
+				refetch();
 			})
 			.catch((err: AxiosError) => {
 				Toast(false, err.message);
@@ -137,42 +143,41 @@ export const useClassTable = () => {
 		handleOk,
 		handleCancel,
 	} = useClassUpdateModal();
+	const { mutateAsync } = usePatchClassMutation();
+	const { data, refetch } = useGetAllClassQuery();
 
-	const getAllClass = async () => {
-		await classApi
-			.getClasses({ classId: 0 })
-			.then((res) => {
-				console.log(res);
-				const temp: DataType[] = [];
-				res.forEach((it) => {
-					temp.push({
-						key: it.classId,
-						classCode: it.classCode,
-						name: it.className,
-						class: it.className,
-						isFinished: it.graduated,
-					});
-				});
-				setClassesData([...temp]);
-			})
-			.catch((err: AxiosError) => {
-				Toast(false, err.message);
+	useEffect(() => {
+		const temp: DataType[] = [];
+		if (!data) {
+			Toast(false, '클래스 리스트를 불러오지 못했어요.');
+			return;
+		}
+		data.forEach((it) => {
+			temp.push({
+				key: it.classId,
+				classCode: it.classCode,
+				name: it.className,
+				class: it.className,
+				isFinished: it.graduated,
 			});
+		});
+		setClassesData([...temp]);
+	}, [data]);
+
+	const deleteClass = async (idx: number) => {
+		await mutateAsync({ classId: idx, params: { isDeleted: true } })
+			.then(() => {
+				Toast(true, '클래스 정보가 삭제됐어요.');
+				refetch();
+			})
+			.catch((err: AxiosError) => Toast(false, '클래스 정보 삭제에 실패했어요.'));
 	};
 
 	const handleDelete = (id: number) => {
 		Alert('클래스 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then(async (result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
-				await classApi
-					.updateClasses(classesData[id].key, { isDeleted: true })
-					.then((res) => {
-						console.log(res);
-						Toast(true, '클래스 정보가 삭제되었습니다.');
-					})
-					.catch((err: AxiosError) => {
-						Toast(false, err.message);
-					});
+				deleteClass(classesData[id].key);
 			}
 		});
 	};
@@ -216,7 +221,7 @@ export const useClassTable = () => {
 					menu={{
 						items: [
 							{
-								key: 'd1',
+								key: 'updateClassInfo',
 								label: (
 									<button type="button" onClick={() => showModal(idx)}>
 										<SettingsOutlinedIcon className="mr-2" />
@@ -225,7 +230,7 @@ export const useClassTable = () => {
 								),
 							},
 							{
-								key: 'd2',
+								key: 'deleteClassInfo',
 								label: (
 									<button type="button" onClick={() => handleDelete(idx)}>
 										<DeleteOutlineOutlinedIcon className="mr-2" />
@@ -241,16 +246,6 @@ export const useClassTable = () => {
 			),
 		},
 	];
-
-	const getData = async () => {
-		await classApi.getClasses({ classId: 1 }).then((res) => {
-			console.log(res);
-		});
-	};
-	useEffect(() => {
-		getData();
-		getAllClass();
-	}, []);
 
 	return {
 		isDisabled,

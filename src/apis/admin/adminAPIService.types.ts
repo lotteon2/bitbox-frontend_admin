@@ -13,7 +13,7 @@ export interface CreateAdminResponseData {
 }
 
 export interface GetAdminInfoResponseData {
-	adminId: number;
+	adminId: string;
 	adminEmail: string;
 	adminName: string;
 	adminProfileImg: string;

@@ -2,7 +2,6 @@ import APIService from '../../libs/core/api/APIService';
 import {
 	CreateClassParams,
 	CreateClassResponseData,
-	GetClassParams,
 	GetClassResponseData,
 	UpdateClassParams,
 } from './classAPIService.types';
@@ -21,14 +20,14 @@ class ClassAPIService extends APIService {
 		return data;
 	}
 
-	async getClasses(params: GetClassParams) {
-		const { data } = await this.get<GetClassResponseData[]>(`?classId=${params.classId}`);
+	async getClasses(classId: number) {
+		const { data } = await this.get<GetClassResponseData[]>(`?classId=${classId}`);
 		return data;
 	}
 
 	// class 삭제, 수정
 	async updateClasses(classId: number, params: UpdateClassParams) {
-		const { data } = await this.patch<boolean>(`${classId}`, params);
+		const { data } = await this.patch<boolean>(`/${classId}`, params);
 		return data;
 	}
 }
