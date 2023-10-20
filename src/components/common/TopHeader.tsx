@@ -9,8 +9,8 @@ import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
 
 export default function TopHeader() {
 	const [logged, setLogged] = useState<boolean>(true);
-	const { name, setName, isModalOpen, isLoading, isDisabled, showModal, handleOk, handleCancel } =
-		useUpdateProfileModal();
+	// const { name, setName, isModalOpen, isLoading, isDisabled, showModal, handleOk, handleCancel } =
+	// 	useUpdateProfileModal();
 	return (
 		<div className="h-16 relative">
 			<div className="right-10 top-5 flex flex-row gap-5 justify-between">
@@ -29,7 +29,7 @@ export default function TopHeader() {
 									{
 										key: '1',
 										label: (
-											<button type="button" onClick={showModal}>
+											<button type="button" onClick={() => console.log('수정')}>
 												<SettingsOutlinedIcon className="mr-2" />
 												설정
 											</button>
@@ -38,7 +38,7 @@ export default function TopHeader() {
 									{
 										key: '2',
 										label: (
-											<button type="button" onClick={showModal}>
+											<button type="button" onClick={() => console.log('logout')}>
 												<LogoutOutlinedIcon className="mr-2" />
 												로그아웃
 											</button>
@@ -57,16 +57,14 @@ export default function TopHeader() {
 							login
 						</a>
 					)}
-					<ProfileUpdater
+					{/* <ProfileUpdater
 						isModalOpen={isModalOpen}
 						isLoading={isLoading}
 						isDisabled={isDisabled}
-						name={name}
-						setName={setName}
 						handleOk={handleOk}
 						handleCancel={handleCancel}
 						changePassword
-					/>
+					/> */}
 				</div>
 			</div>
 		</div>

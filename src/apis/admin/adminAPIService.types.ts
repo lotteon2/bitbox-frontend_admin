@@ -1,3 +1,5 @@
+import { AUTHORITY } from '../../constants/AuthorityType';
+
 export interface CreateAdminParams {
 	adminEmail: string;
 	adminProfile?: string;
@@ -15,7 +17,7 @@ export interface GetAdminInfoResponseData {
 	adminEmail: string;
 	adminName: string;
 	adminProfileImg: string;
-	adminAuthority: string;
+	adminAuthority: keyof typeof AUTHORITY;
 	classInfoResponses: { classId: number; className: string; classCdoe: string }[];
 }
 

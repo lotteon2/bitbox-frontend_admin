@@ -120,7 +120,7 @@ table.htCore tr.odd td {
   border-radius: 8px;
   height: 40px;
   padding: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .swal2-div, .swal2-textarea  {

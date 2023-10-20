@@ -44,17 +44,18 @@ function Manager() {
 	} = useManagerModal();
 
 	const {
-		name: updateName,
-		setName: setUpdateName,
-		isModalOpen: isUpdateProfileModalOpen,
-		isLoading: isLoadingProfileModal,
-		isDisabled: isDisabledProfileModal,
-		showModal: showUpdateModal,
-		handleOk: handleUpdateOk,
-		handleCancel: handleUpdateCancel,
-	} = useUpdateProfileModal();
-
-	const { admins, columns, handleChangeAuthority, data } = useManagerTable(showUpdateModal);
+		admins,
+		columns,
+		handleChangeAuthority,
+		data,
+		isUpdateProfileModalOpen,
+		isLoadingProfileModal,
+		isDisabledProfileModal,
+		handleUpdateCancel,
+		handleUpdateOk,
+		selectedName,
+		setSelectedName,
+	} = useManagerTable();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
@@ -109,10 +110,10 @@ function Manager() {
 				isModalOpen={isUpdateProfileModalOpen}
 				isLoading={isLoadingProfileModal}
 				isDisabled={isDisabledProfileModal}
-				name={updateName}
-				setName={setUpdateName}
 				handleOk={handleUpdateOk}
 				handleCancel={handleUpdateCancel}
+				selectedName={selectedName}
+				setSelectedName={setSelectedName}
 				changePassword
 				handleChangeAuthority={handleChangeAuthority}
 				options={getAuthorityValueTypeForSelect()}
