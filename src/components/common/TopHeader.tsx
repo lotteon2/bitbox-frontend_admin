@@ -7,8 +7,9 @@ import Badge from './Badge';
 import ProfileUpdater from './ProfileUpdater';
 import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
 import { useUserStore } from '../../stores/user/user.store';
+import { useLogout } from '../../hooks/useLogout';
 
-export default function TopHeader() {
+const TopHeader = () => {
 	const [logged, setLogged] = useState<boolean>(true);
 	const [name, authority, profileImg] = useUserStore((state) => [state.name, state.authority, state.profileImg]);
 
@@ -41,7 +42,7 @@ export default function TopHeader() {
 									{
 										key: '2',
 										label: (
-											<button type="button" onClick={() => console.log('logout')}>
+											<button type="button" onClick={useLogout}>
 												<LogoutOutlinedIcon className="mr-2" />
 												로그아웃
 											</button>
@@ -69,4 +70,5 @@ export default function TopHeader() {
 			</div>
 		</div>
 	);
-}
+};
+export default React.memo(TopHeader);
