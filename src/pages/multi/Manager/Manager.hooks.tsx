@@ -91,8 +91,9 @@ export const useManagerModal = () => {
 
 export const useManagerTable = () => {
 	const [admins, setAdmins] = useState<DataType[]>([]);
-	const [selectedIdx, setSelectedIdx] = useState<number>();
+	const [selectedAdminId, setSelectedAdminId] = useState<string>();
 	const [authority, setAuthority] = useState<string>();
+	const [selectedIdx, setSelectedIdx] = useState<number>();
 	const [selectedName, setSelectedName] = useState<string>('');
 	const [selectedProfileImgSrc, setSelectedProfileImgSrc] = useState<string>('');
 
@@ -114,7 +115,7 @@ export const useManagerTable = () => {
 	const handleUpdateOk = async () => {
 		setIsLoadingProfileModal(true);
 		await mutateAsync({
-			adminId: admins[selectedIdx as number].key.toString(),
+			adminId: selectedAdminId as string,
 			params: {
 				adminProfileImg: selectedProfileImgSrc,
 				adminName: selectedName,
@@ -128,9 +129,6 @@ export const useManagerTable = () => {
 			})
 			.catch((err: AxiosError) => {
 				Toast(false, '정보 수정에 실패했어요.');
-			})
-			.finally(() => {
-				setIsLoadingProfileModal(false);
 			});
 	};
 
@@ -145,7 +143,7 @@ export const useManagerTable = () => {
 				setIsDisabledProfileModal(false);
 			}
 		}
-	}, [admins, data, selectedIdx, selectedName, selectedProfileImgSrc, setIsDisabledProfileModal]);
+	}, [admins, data, selectedAdminId, selectedIdx, selectedName, selectedProfileImgSrc, setIsDisabledProfileModal]);
 
 	useEffect(() => {
 		const temp: DataType[] = [];
@@ -250,9 +248,10 @@ export const useManagerTable = () => {
 									<button
 										type="button"
 										onClick={() => {
+											setSelectedIdx(idx);
 											setSelectedName(data ? data[idx].adminName : '');
 											setSelectedProfileImgSrc(data ? data[idx].adminProfileImg : '');
-											setSelectedIdx(idx);
+											setSelectedAdminId(data ? data[idx].adminId : '');
 											showUpdateModal();
 										}}
 									>

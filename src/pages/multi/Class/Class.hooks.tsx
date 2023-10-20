@@ -8,7 +8,6 @@ import { AxiosError } from 'axios';
 import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
-import { classApi } from '../../../apis/class/classAPIService';
 import { useCreateClassMutation } from '../../../mutations/useCreateClassMutation';
 import { useGetAllClassQuery } from '../../../queries/useGetAllClassQuery';
 import { usePatchClassMutation } from '../../../mutations/usePatchClassMutation';
@@ -16,7 +15,7 @@ import { usePatchClassMutation } from '../../../mutations/usePatchClassMutation'
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [classCode, setClassCode] = useState<number>();
+	const [classCode, setClassCode] = useState<number | null>();
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
@@ -25,7 +24,7 @@ export const useClassModal = () => {
 
 	const clearValues = () => {
 		setIsDisabled(true);
-		setClassCode(-1);
+		setClassCode(null);
 		setName('');
 	};
 
@@ -80,26 +79,16 @@ export const useClassModal = () => {
 export const useClassUpdateModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [classCode, setClassCode] = useState<string>('');
-	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const { data } = useGetAllClassQuery();
 
 	const clearValues = () => {
 		setIsDisabled(true);
-		setClassCode('');
-		setName('');
 	};
 
-	const showModal = (id: number) => {
+	const showModal = () => {
 		setIsModalOpen(true);
-	};
-
-	const handleOk = () => {
-		setIsLoading(true);
-		Toast(true, '클래스 정보가 수정되었어요');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
+		// console.log(data?.[id]);
 	};
 
 	const handleCancel = () => {
@@ -107,24 +96,16 @@ export const useClassUpdateModal = () => {
 		clearValues();
 	};
 
-	useEffect(() => {
-		if (classCode && name) {
-			setIsDisabled(false);
-		}
-	}, [classCode, name]);
-
 	return {
 		isDisabled,
-		classCode,
-		setClassCode,
-		name,
-		setName,
+		setIsDisabled,
 		isModalOpen,
 		setIsModalOpen,
 		isLoading,
+		setIsLoading,
 		showModal,
-		handleOk,
 		handleCancel,
+		clearValues,
 	};
 };
 
@@ -132,19 +113,63 @@ export const useClassTable = () => {
 	const [classesData, setClassesData] = useState<DataType[]>([]);
 	const [isGraduate, setIsGradudate] = useState<string>('isNotGraduate');
 	const {
-		isModalOpen,
-		isDisabled,
-		isLoading,
-		// classCode: ,
-		// name,
-		// setName,
-		// setClassCode,
+		isModalOpen: isUpdateModalOpen,
+		isDisabled: isUpdateClassDisabled,
+		setIsDisabled: setIsUpdateClassDisabled,
+		clearValues,
+		isLoading: isUpdateClassLoading,
+		setIsModalOpen: setIsUpdateClassModalOpen,
+		setIsLoading: setIsLoadingUpdateClass,
 		showModal,
-		handleOk,
-		handleCancel,
+		handleCancel: handleClassUpdateCancel,
 	} = useClassUpdateModal();
 	const { mutateAsync } = usePatchClassMutation();
 	const { data, refetch } = useGetAllClassQuery();
+	const [selectedIdx, setSelectedIdx] = useState<number>();
+	const [selectedClassId, setSelectedClassId] = useState<number>();
+	const [selectedClassCode, setSelectedClassCode] = useState<string>();
+	const [selectedClassName, setSelectedClassName] = useState<string>();
+	const [selectedIsGraduate, setSelectedIsGraduate] = useState<boolean>();
+	const [selectedIsDeleted, setSelectedIsDeleted] = useState<boolean>();
+
+	const handleUpdateOk = async () => {
+		setIsUpdateClassModalOpen(true);
+		console.log(selectedClassId);
+		setIsLoadingUpdateClass(true);
+		await mutateAsync({
+			classId: selectedClassId as number,
+			params: {
+				className: selectedClassName,
+				isGraduate: selectedIsGraduate,
+				isDeleted: selectedIsDeleted,
+			},
+		})
+			.then((res) => {
+				Toast(true, '클래스 정보가 수정되었어요');
+				clearValues();
+				setIsUpdateClassModalOpen(false);
+				refetch();
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, '클래스 정보 수정에 실패했어요.');
+			})
+			.finally(() => {
+				setIsLoadingUpdateClass(false);
+			});
+	};
+
+	useEffect(() => {
+		if (classesData.length > 0) {
+			if (selectedClassId) {
+				console.log(selectedIdx);
+				if (classesData[selectedIdx as number].name !== selectedClassName) {
+					setIsUpdateClassDisabled(false);
+				} else {
+					setIsUpdateClassDisabled(true);
+				}
+			}
+		}
+	}, [selectedClassName, selectedIdx, selectedClassId, classesData, selectedClassCode, setIsUpdateClassDisabled]);
 
 	useEffect(() => {
 		const temp: DataType[] = [];
@@ -223,7 +248,16 @@ export const useClassTable = () => {
 							{
 								key: 'updateClassInfo',
 								label: (
-									<button type="button" onClick={() => showModal(idx)}>
+									<button
+										type="button"
+										onClick={() => {
+											setSelectedClassId(data ? data[idx].classId : 0);
+											setSelectedClassName(data ? data[idx].className : '');
+											setSelectedClassCode(data ? data[idx].classCode.toString() : '');
+											setSelectedIdx(idx);
+											showModal();
+										}}
+									>
 										<SettingsOutlinedIcon className="mr-2" />
 										수정
 									</button>
@@ -248,19 +282,21 @@ export const useClassTable = () => {
 	];
 
 	return {
-		isDisabled,
+		isUpdateClassDisabled,
 		isGraduate,
 		setIsGradudate,
-		// name,
-		// setName,
-		isModalOpen,
-		// setIsModalOpen,
-		isLoading,
+		isUpdateModalOpen,
+		isUpdateClassLoading,
+		setIsLoadingUpdateClass,
 		showModal,
-		handleOk,
-		handleCancel,
+		handleUpdateOk,
+		handleClassUpdateCancel,
 		handleDelete,
 		columns,
 		classesData,
+		selectedClassCode,
+		setSelectedClassCode,
+		selectedClassName,
+		setSelectedClassName,
 	};
 };

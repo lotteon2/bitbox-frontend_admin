@@ -2,7 +2,7 @@ import { Modal } from 'antd';
 import SelectClass from '../../../components/common/SelectClass';
 import Button from '../../../components/common/Button';
 import Table from '../../../components/common/Table';
-import { useClassModal, useClassTable, useClassUpdateModal } from './Class.hooks';
+import { useClassModal, useClassTable } from './Class.hooks';
 
 export const handleChange = (value: string) => {
 	console.log(`selected ${value}`);
@@ -36,14 +36,18 @@ const Class = () => {
 
 	const {
 		columns,
-		isModalOpen: isClassUpdateModalOpen,
-		isDisabled: isClassUpdateDisabled,
-		isLoading: isClassUpdateLoading,
-		handleOk: handleClassUpdateOk,
-		handleCancel: handleClassUpdateCancel,
+		isUpdateModalOpen,
+		isUpdateClassDisabled,
+		isUpdateClassLoading,
+		handleUpdateOk,
+		handleClassUpdateCancel,
 		isGraduate,
 		setIsGradudate,
 		classesData,
+		selectedClassCode,
+		setSelectedClassCode,
+		selectedClassName,
+		setSelectedClassName,
 	} = useClassTable();
 
 	return (
@@ -79,7 +83,7 @@ const Class = () => {
 					<br />
 					<div className="swal2-label">반 코드</div>
 					<input
-						value={classCode}
+						value={classCode as number}
 						onChange={(e) => setClassCode(e.target.value as unknown as number)}
 						id="swal2-input"
 						className="swal2-input"
@@ -88,18 +92,18 @@ const Class = () => {
 			</Modal>
 			<Modal
 				title="클래스 수정"
-				open={isClassUpdateModalOpen}
+				open={isUpdateModalOpen}
 				destroyOnClose
-				onOk={handleClassUpdateOk}
+				onOk={handleUpdateOk}
 				onCancel={handleClassUpdateCancel}
 				maskClosable={false}
 				footer={[
 					<Button handleClick={handleClassUpdateCancel} content="취소" type="cancel" key="cancelUpdateClass" />,
 					<Button
-						handleClick={handleOk}
+						handleClick={handleUpdateOk}
 						content="확인"
-						loading={isClassUpdateLoading}
-						disabled={isClassUpdateDisabled}
+						loading={isUpdateClassLoading}
+						disabled={isUpdateClassDisabled}
 						type="positive"
 						key="updateClass"
 					/>,
@@ -108,15 +112,20 @@ const Class = () => {
 				<div className="my-10 flex flex-col align-center justify-center">
 					<div className="swal2-label">반 코드</div>
 					<input
-						value={classCode}
-						onChange={(e) => setClassCode(e.target.value as unknown as number)}
+						value={selectedClassCode}
+						onChange={(e) => setSelectedClassCode(e.target.value)}
 						id="swal2-input"
 						className="swal2-input"
 						readOnly
 					/>
 					<div className="swal2-label">반 이름</div>
-					<input value={name} onChange={(e) => setName(e.target.value)} id="swal2-input" className="swal2-input" />
-					<SelectClass options={graduateOptions} handleChange={setIsGradudate} />
+					<input
+						value={selectedClassName}
+						onChange={(e) => setSelectedClassName(e.target.value)}
+						id="swal2-input"
+						className="swal2-input"
+					/>
+					<SelectClass options={graduateOptions} handleChange={setIsGradudate} isFull />
 					<br />
 					<br />
 				</div>

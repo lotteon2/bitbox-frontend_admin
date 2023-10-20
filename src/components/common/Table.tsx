@@ -15,7 +15,7 @@ export interface DataType {
 	imageSrc?: string;
 	class?: string;
 	isFinished?: boolean;
-	classCode?: number;
+	classCode?: string;
 	entranceTime?: string;
 	quitTime?: string;
 	attendanceState?: string;

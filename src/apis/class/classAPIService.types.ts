@@ -12,7 +12,7 @@ export interface CreateClassResponseData {
 export interface GetClassResponseData {
 	classId: number;
 	className: string;
-	classCode: number;
+	classCode: string;
 	createdAt: string;
 	deleted: false;
 	graduated: false;
