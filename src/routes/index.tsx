@@ -12,6 +12,7 @@ import Score from '../pages/etc/Score/Score';
 import LoginLayout from '../layouts/LoginLayout';
 import Login from '../pages/Login/Login';
 import Exam from '../pages/etc/Exam/Exam';
+import FirstLogin from '../pages/FirstLogin/FirstLogin';
 
 const router = createBrowserRouter([
 	{
@@ -46,6 +47,12 @@ const router = createBrowserRouter([
 		element: <LoginLayout />,
 		errorElement: <NotFound />,
 		children: [{ index: true, path: '', element: <Login /> }],
+	},
+	{
+		path: '/first',
+		element: <LoginLayout />,
+		errorElement: <NotFound />,
+		children: [{ index: true, path: '', element: <FirstLogin /> }],
 	},
 ]);
 

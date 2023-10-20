@@ -5,9 +5,9 @@ import { UserState, UserStateDispatcher } from './user.types';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
 const initialState: UserState = {
-	isLogin: true,
+	isFirstLogin: false,
+	isLogin: false,
 	name: '',
-	id: '',
 	authority: AUTHORITY.GENERAL,
 	initialized: false,
 };
@@ -15,14 +15,14 @@ const initialState: UserState = {
 export const useUserStore = create(
 	immer<UserStateDispatcher>((set) => ({
 		...initialState,
+		dispatchIsFirstLogin: (value: boolean) => {
+			set({ isFirstLogin: value });
+		},
 		dispatchIsLogin: (value: boolean) => {
 			set({ isLogin: value });
 		},
 		dispatchName: (value: string) => {
 			set({ name: value });
-		},
-		dispatchId: (value: string) => {
-			set({ id: value });
 		},
 		dispatchAuthority: (value: keyof typeof AUTHORITY) => {
 			set({ authority: value });

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
 import BarChart from '../../components/DashBoard/BarChart';
@@ -63,8 +64,10 @@ export const data: DataType[] = [
 ];
 
 export default function DashBoard() {
+	const navigate = useNavigate();
 	const { gradeData } = useDashBoard();
 	useDashBoardMount();
+
 	const handleChange = (value: string) => {
 		console.log(`selected ${value}`);
 	};

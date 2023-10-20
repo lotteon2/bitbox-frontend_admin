@@ -2,16 +2,16 @@ import { AUTHORITY } from '../../constants/AuthorityType';
 
 export interface UserState {
 	isLogin: boolean;
+	isFirstLogin: boolean;
 	name: string;
-	id: string;
 	authority: keyof typeof AUTHORITY;
 	initialized: boolean;
 }
 
 export interface UserStateDispatcher extends UserState {
+	dispatchIsFirstLogin: (value: boolean) => void;
 	dispatchIsLogin: (value: boolean) => void;
 	dispatchName: (value: string) => void;
-	dispatchId: (value: string) => void;
 	dispatchAuthority: (value: keyof typeof AUTHORITY) => void;
 	dispatchInitialized: (value: boolean) => void;
 }

@@ -159,8 +159,6 @@ export const useExamTable = () => {
 		selectedClassName,
 	} = useExamUpdateModal();
 
-	// const { updateName, setUpdateName, updatePerfectScore, setUpdatePerfectScore } = useExamUpdateModal();
-
 	const getAllClass = async () => {
 		await examApi
 			.getExamsByClassId(1)

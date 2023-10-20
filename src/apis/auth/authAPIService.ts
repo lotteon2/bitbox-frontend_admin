@@ -1,5 +1,5 @@
 import APIService from '../../libs/core/api/APIService';
-import { GetLoginParams } from './authAPIService.types';
+import { GetLoginParams, GetLoginResponseData } from './authAPIService.types';
 
 const BASE_URL = 'http://localhost:8000/authentication-service/auth';
 
@@ -10,7 +10,7 @@ class AuthAPIService extends APIService {
 	}
 
 	async localLogin(params: GetLoginParams) {
-		const { data } = await this.post('/admin', params);
+		const { data } = await this.post<GetLoginResponseData>('/admin', params);
 		return data;
 	}
 }

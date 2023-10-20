@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input, Form } from 'antd';
 import Button from '../../components/common/Button';
 import Logo from '../../assets/images/logo.png';
 import { FieldType } from '../../constants/FieldType';
 import { useLogin } from './Login.hooks';
 
-// TODO : 종민 코드 추가
 const Login = () => {
-	const { email, setEmail, password, setPassword, onFinish, onFinishFailed } = useLogin();
+	const navigate = useNavigate();
+	const { isLogin, email, setEmail, password, setPassword, onFinish } = useLogin();
+
+	useEffect(() => {
+		if (isLogin) {
+			navigate('/');
+		}
+	}, [isLogin, navigate]);
 
 	return (
 		<div className="w-full relative flex justify-center items-center ">
@@ -25,7 +33,6 @@ const Login = () => {
 					style={{ maxWidth: 600, width: '100%' }}
 					initialValues={{ remember: true }}
 					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 				>
 					<Form.Item<FieldType>

@@ -1,16 +1,16 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 import { Toast } from '../../components/common/Toast';
 import { gradeApi } from '../../apis/grade/gradeAPIService';
 import { GetGradesResponseData } from '../../apis/grade/gradeAPIService.types';
-import { requestUserPermission } from '../../App.hooks';
+import { useUserStore } from '../../stores/user/user.store';
 
 export const useDashBoard = () => {
+	const navigate = useNavigate();
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
 	const [classId, setClassId] = useState<number>(1);
-	const navigate = useNavigate();
+	const [isLogin] = useUserStore((state) => [state.isLogin]);
 
 	const getGradesByClassId = useCallback(async (id: number) => {
 		await gradeApi
@@ -27,8 +27,11 @@ export const useDashBoard = () => {
 	}, []);
 
 	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
 		getGradesByClassId(classId);
-	}, [classId, getGradesByClassId]);
+	}, [isLogin, classId, getGradesByClassId, navigate]);
 
 	return {
 		getGradesByClassId,
@@ -37,13 +40,8 @@ export const useDashBoard = () => {
 };
 
 export const useDashBoardMount = () => {
-	console.log('hre');
 	const { getGradesByClassId } = useDashBoard();
-	const navigate = useNavigate();
 	useEffect(() => {
 		getGradesByClassId(1);
 	}, [getGradesByClassId]);
-	// useEffect(() => {
-	// 	requestUserPermission(navigate);
-	// }, [navigate]);
 };
