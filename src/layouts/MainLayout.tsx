@@ -4,6 +4,7 @@ import Header from '../components/common/Header';
 import TopHeader from '../components/common/TopHeader';
 import { useUserStore } from '../stores/user/user.store';
 import { adminApi } from '../apis/admin/adminAPIService';
+import { classInfoResponse } from '../apis/admin/adminAPIService.types';
 
 export default function MainLayout() {
 	const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function MainLayout() {
 		dispatchName,
 		dispatchEmail,
 		dispatchMyClassees,
+		dispatchMyClassesOption,
 	] = useUserStore((state) => [
 		state.isLogin,
 		state.dispatchAuthority,
@@ -23,18 +25,23 @@ export default function MainLayout() {
 		state.dispatchName,
 		state.dispatchEmail,
 		state.dispatchMyClassees,
+		state.dispatchMyClassesOption,
 	]);
 
 	const getMyInfo = useCallback(async () => {
-		// TODO : 내 정보 초기화
 		await adminApi.getMyAdminInfo().then((res) => {
 			dispatchName(res.adminName);
 			dispatchProfileImg(res.adminProfileImg);
 			dispatchEmail(res.adminEmail);
 			dispatchAuthority(res.adminAuthority);
 			dispatchMyClassees(res.classInfoResponses);
+			const temp: { value: number; label: string }[] = [];
+			res.classInfoResponses.forEach((it: classInfoResponse) => {
+				temp.push({ value: it.classId, label: it.className });
+			});
+			dispatchMyClassesOption([...temp]);
 		});
-	}, [dispatchAuthority, dispatchEmail, dispatchMyClassees, dispatchName, dispatchProfileImg]);
+	}, [dispatchAuthority, dispatchEmail, dispatchMyClassees, dispatchMyClassesOption, dispatchName, dispatchProfileImg]);
 
 	useEffect(() => {
 		if (!isLogin) {

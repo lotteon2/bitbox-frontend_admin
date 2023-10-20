@@ -11,7 +11,7 @@ class AttendanceAPIService extends APIService {
 	}
 
 	async getAttendanceInfoByClassIdForDashBoard(classId: number) {
-		const { data } = await this.get<BarChartDataType[]>(`/dashboard/${classId.toString()}`);
+		const { data } = await this.get<BarChartDataType[]>(`/dashboard/${classId}`);
 		return data;
 	}
 

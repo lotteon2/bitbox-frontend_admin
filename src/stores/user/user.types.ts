@@ -10,6 +10,7 @@ export interface UserState {
 	profileImg: string;
 	email: string;
 	myClasses: classInfoResponse[];
+	myClassesOption: { value: number; label: string }[];
 }
 
 export interface UserStateDispatcher extends UserState {
@@ -20,5 +21,6 @@ export interface UserStateDispatcher extends UserState {
 	dispatchInitialized: (value: boolean) => void;
 	dispatchProfileImg: (value: string) => void;
 	dispatchEmail: (value: string) => void;
-	dispatchMyClassees: (value: { classId: number; className: string; classCdoe: string }[]) => void;
+	dispatchMyClassees: (value: classInfoResponse[]) => void;
+	dispatchMyClassesOption: (value: { value: number; label: string }[]) => void;
 }

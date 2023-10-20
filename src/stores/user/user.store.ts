@@ -14,6 +14,7 @@ const initialState: UserState = {
 	profileImg: '',
 	email: '',
 	myClasses: [],
+	myClassesOption: [],
 };
 
 export const useUserStore = create(
@@ -42,6 +43,9 @@ export const useUserStore = create(
 		},
 		dispatchMyClassees: (value: classInfoResponse[]) => {
 			set({ myClasses: value });
+		},
+		dispatchMyClassesOption: (value: { value: number; label: string }[]) => {
+			set({ myClassesOption: value });
 		},
 	})),
 );

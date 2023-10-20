@@ -11,18 +11,28 @@ export const useDashBoard = () => {
 	const navigate = useNavigate();
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
 	const [attendanceData, setAttendanceData] = useState<BarChartDataType[]>();
-	const [classId, setClassId] = useState<number>(1);
-	const [isLogin] = useUserStore((state) => [state.isLogin]);
+	const [isLogin, myClassesOption] = useUserStore((state) => [state.isLogin, state.myClassesOption]);
+	const [selectedClassId, setSelectedClassId] = useState<number>();
 
-	const getAttendancesByClassId = useCallback(async (id: number) => {
-		await attendanceApi.getAttendanceInfoByClassIdForDashBoard(id).then((res: BarChartDataType[]) => {
-			console.log(res);
-		});
+	const handleChangeSelectedClassId = useCallback((value: string) => {
+		setSelectedClassId(Number(value));
+		console.log(`selected ${value}`);
 	}, []);
 
-	const getGradesByClassId = useCallback(async (id: number) => {
+	const getAttendancesByClassId = async () => {
+		if (!selectedClassId || myClassesOption.length > 0) return;
+		await attendanceApi
+			.getAttendanceInfoByClassIdForDashBoard(selectedClassId || myClassesOption[0].value)
+			.then((res: BarChartDataType[]) => {
+				setAttendanceData(res);
+			});
+	};
+
+	const getGradesByClassId = useCallback(async () => {
+		console.log(selectedClassId);
+		if (!selectedClassId) return;
 		await gradeApi
-			.getGradesByClassId(id)
+			.getGradesByClassId(selectedClassId)
 			.then((res: GetGradesResponseData[]) => {
 				const newGradeData: BarChartDataType[] = [];
 				res.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
@@ -38,19 +48,21 @@ export const useDashBoard = () => {
 		if (!isLogin) {
 			navigate('/login');
 		}
-		getGradesByClassId(classId);
-		getAttendancesByClassId(classId);
-	}, [isLogin, classId, getGradesByClassId, navigate, getAttendancesByClassId]);
+		if (myClassesOption.length > 0) {
+			// setSelectedClassId(() => myClassesOption[0].value);
+			getGradesByClassId();
+			getAttendancesByClassId();
+		}
+		console.log(myClassesOption);
+		// getGradesByClassId(myClassesOption[0].value);
+		// getAttendancesByClassId(myClassesOption[0].value);
+	}, [isLogin, navigate, selectedClassId, myClassesOption, getGradesByClassId, getAttendancesByClassId]);
 
 	return {
 		getGradesByClassId,
 		gradeData,
+		myClassesOption,
+		attendanceData,
+		handleChangeSelectedClassId,
 	};
-};
-
-export const useDashBoardMount = () => {
-	const { getGradesByClassId } = useDashBoard();
-	useEffect(() => {
-		getGradesByClassId(1);
-	}, [getGradesByClassId]);
 };

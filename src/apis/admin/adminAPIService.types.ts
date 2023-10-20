@@ -15,7 +15,7 @@ export interface CreateAdminResponseData {
 export type classInfoResponse = {
 	classId: number;
 	className: string;
-	classCdoe: string;
+	classCode: string;
 };
 
 export interface GetAdminInfoResponseData {

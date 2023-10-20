@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
 import BarChart from '../../components/DashBoard/BarChart';
 import Table, { DataType } from '../../components/common/Table';
-import { useDashBoardMount, useDashBoard } from './DashBoard.hooks';
+import { useDashBoard } from './DashBoard.hooks';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 
 export const columns: ColumnsType<DataType> = [
@@ -66,12 +66,7 @@ export const data: DataType[] = [
 
 const DashBoard = () => {
 	const navigate = useNavigate();
-	const { gradeData } = useDashBoard();
-	useDashBoardMount();
-
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
-	};
+	const { gradeData, myClassesOption, handleChangeSelectedClassId, attendanceData } = useDashBoard();
 
 	// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
 	const options = [
@@ -110,16 +105,22 @@ const DashBoard = () => {
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
-			<div className="h-1/2">
-				<SelectClass handleChange={handleChange} options={options} />
-				<div className="flex justify-between w-full">
-					<BarChart chartName="출석률" data={chartData} />
-					<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
-				</div>
-			</div>
-			<div className="h-1/2">
-				<Table data={data} columns={columns} tableName="사유서를 확인해주세요" />
-			</div>
+			{myClassesOption.length > 0 ? (
+				<>
+					<div className="h-1/2">
+						<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
+						<div className="flex justify-between w-full">
+							<BarChart chartName="출석률" data={attendanceData as BarChartDataType[]} />
+							<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
+						</div>
+					</div>
+					<div className="h-1/2">
+						<Table data={data} columns={columns} tableName="사유서를 확인해주세요" />
+					</div>
+				</>
+			) : (
+				<div>해당 반이 없습니다.</div>
+			)}
 		</div>
 	);
 };

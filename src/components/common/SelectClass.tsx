@@ -1,10 +1,11 @@
+import React from 'react';
 import { Select } from 'antd';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
 interface SelectClassIntferface {
 	handleChange: (value: string) => void;
 	defaultValue?: string;
-	options: { value: string | keyof typeof AUTHORITY; label: string }[];
+	options: { value: string | number | keyof typeof AUTHORITY; label: string }[];
 	placeholder?: string;
 	isFull?: boolean;
 }
@@ -12,12 +13,11 @@ const SelectClass: React.FC<SelectClassIntferface> = ({ handleChange, defaultVal
 	return (
 		<Select
 			className={'mt-auto mb-auto '.concat(isFull ? 'w-full' : 'w-[200px]')}
-			defaultValue={defaultValue || options[0].value}
 			onChange={handleChange}
 			options={options}
-			placeholder={placeholder || options[0].value}
+			placeholder={placeholder || options[0].label}
 		/>
 	);
 };
 
-export default SelectClass;
+export default React.memo(SelectClass);
