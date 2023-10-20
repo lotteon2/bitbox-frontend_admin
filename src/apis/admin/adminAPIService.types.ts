@@ -12,13 +12,19 @@ export interface CreateAdminResponseData {
 	uuid: string;
 }
 
+export type classInfoResponse = {
+	classId: number;
+	className: string;
+	classCdoe: string;
+};
+
 export interface GetAdminInfoResponseData {
 	adminId: string;
 	adminEmail: string;
 	adminName: string;
 	adminProfileImg: string;
 	adminAuthority: keyof typeof AUTHORITY;
-	classInfoResponses: { classId: number; className: string; classCdoe: string }[];
+	classInfoResponses: classInfoResponse[];
 }
 
 export interface UpdateAdminInfoParams {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
@@ -63,7 +64,7 @@ export const data: DataType[] = [
 	},
 ];
 
-export default function DashBoard() {
+const DashBoard = () => {
 	const navigate = useNavigate();
 	const { gradeData } = useDashBoard();
 	useDashBoardMount();
@@ -121,4 +122,5 @@ export default function DashBoard() {
 			</div>
 		</div>
 	);
-}
+};
+export default React.memo(DashBoard);

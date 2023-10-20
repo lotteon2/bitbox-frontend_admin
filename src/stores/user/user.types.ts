@@ -1,3 +1,4 @@
+import { classInfoResponse } from '../../apis/admin/adminAPIService.types';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
 export interface UserState {
@@ -8,6 +9,7 @@ export interface UserState {
 	initialized: boolean;
 	profileImg: string;
 	email: string;
+	myClasses: classInfoResponse[];
 }
 
 export interface UserStateDispatcher extends UserState {
@@ -18,4 +20,5 @@ export interface UserStateDispatcher extends UserState {
 	dispatchInitialized: (value: boolean) => void;
 	dispatchProfileImg: (value: string) => void;
 	dispatchEmail: (value: string) => void;
+	dispatchMyClassees: (value: { classId: number; className: string; classCdoe: string }[]) => void;
 }

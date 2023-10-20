@@ -7,16 +7,23 @@ import { adminApi } from '../apis/admin/adminAPIService';
 
 export default function MainLayout() {
 	const navigate = useNavigate();
-	const [isLogin, dispatchAuthority, isFirstLogin, dispatchProfileImg, dispatchName, dispatchEmail] = useUserStore(
-		(state) => [
-			state.isLogin,
-			state.dispatchAuthority,
-			state.isFirstLogin,
-			state.dispatchProfileImg,
-			state.dispatchName,
-			state.dispatchEmail,
-		],
-	);
+	const [
+		isLogin,
+		dispatchAuthority,
+		isFirstLogin,
+		dispatchProfileImg,
+		dispatchName,
+		dispatchEmail,
+		dispatchMyClassees,
+	] = useUserStore((state) => [
+		state.isLogin,
+		state.dispatchAuthority,
+		state.isFirstLogin,
+		state.dispatchProfileImg,
+		state.dispatchName,
+		state.dispatchEmail,
+		state.dispatchMyClassees,
+	]);
 
 	const getMyInfo = useCallback(async () => {
 		// TODO : 내 정보 초기화
@@ -25,8 +32,9 @@ export default function MainLayout() {
 			dispatchProfileImg(res.adminProfileImg);
 			dispatchEmail(res.adminEmail);
 			dispatchAuthority(res.adminAuthority);
+			dispatchMyClassees(res.classInfoResponses);
 		});
-	}, [dispatchAuthority, dispatchEmail, dispatchName, dispatchProfileImg]);
+	}, [dispatchAuthority, dispatchEmail, dispatchMyClassees, dispatchName, dispatchProfileImg]);
 
 	useEffect(() => {
 		if (!isLogin) {

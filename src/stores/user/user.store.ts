@@ -3,6 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { UserState, UserStateDispatcher } from './user.types';
 import { AUTHORITY } from '../../constants/AuthorityType';
+import { classInfoResponse } from '../../apis/admin/adminAPIService.types';
 
 const initialState: UserState = {
 	isFirstLogin: true,
@@ -12,6 +13,7 @@ const initialState: UserState = {
 	initialized: false,
 	profileImg: '',
 	email: '',
+	myClasses: [],
 };
 
 export const useUserStore = create(
@@ -37,6 +39,9 @@ export const useUserStore = create(
 		},
 		dispatchEmail: (value: string) => {
 			set({ email: value });
+		},
+		dispatchMyClassees: (value: classInfoResponse[]) => {
+			set({ myClasses: value });
 		},
 	})),
 );
