@@ -6,7 +6,7 @@ import {
 	UpdateExamParams,
 } from './examAPIService.typex';
 
-const BASE_URL = 'http://localhost:8000/admin-service/admin/exam';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/admin-service/admin/exam`;
 
 class ExamAPIService extends APIService {
 	constructor() {

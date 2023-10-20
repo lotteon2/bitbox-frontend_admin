@@ -1,7 +1,7 @@
 import APIService from '../../libs/core/api/APIService';
 import { GetLoginParams, GetLoginResponseData } from './authAPIService.types';
 
-const BASE_URL = 'http://localhost:8000/authentication-service/auth';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/authentication-service/auth`;
 
 class AuthAPIService extends APIService {
 	constructor() {
