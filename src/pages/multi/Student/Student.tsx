@@ -8,9 +8,8 @@ import Table, { DataType } from '../../../components/common/Table';
 import Button from '../../../components/common/Button';
 import { Toast } from '../../../components/common/Toast';
 import SelectClass from '../../../components/common/SelectClass';
-import { handleChange, options } from '../Class/Class';
 import { Alert } from '../../../components/common/Alert';
-import { useStudentModal } from './Student.hooks';
+import { useStudentModal, useInvitedStudent } from './Student.hooks';
 
 const handleDelete = (id: number) => {
 	console.log('hi');
@@ -142,13 +141,18 @@ function Student() {
 		handleChangeSelectedClassId,
 	} = useStudentModal();
 
+	const { invitedStudentColumns, invitedStudents } = useInvitedStudent();
+
 	return (
 		<div className="ml-10 w-11/12 h-full">
 			<div className="flex justify-between w-full my-5">
 				<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
 				<Button content="교육생 추가" key="addStudent" handleClick={showModal} />
 			</div>
-			<Table data={data} columns={columns} />
+			<div className="flex justify-between w-full my-5 gap-10">
+				<Table data={data} columns={columns} tableName="반별 학생" />
+				<Table data={invitedStudents} columns={invitedStudentColumns} tableName="초대된 명단" />
+			</div>
 			<Modal
 				title="교육생 추가"
 				open={isModalOpen}
@@ -177,7 +181,7 @@ function Student() {
 					<div className="swal2-label">초대된 명단</div>
 					<div className="swal2-div">
 						<ul>
-							{invitedEmails.map((invitedEmail) => (
+							{invitedEmails.map((invitedEmail: string) => (
 								<li key={invitedEmail}>{invitedEmail}</li>
 							))}
 						</ul>

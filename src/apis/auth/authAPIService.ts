@@ -1,5 +1,10 @@
 import APIService from '../../libs/core/api/APIService';
-import { GetLoginParams, GetLoginResponseData, CreateInviteStudenParams } from './authAPIService.types';
+import {
+	GetLoginParams,
+	GetLoginResponseData,
+	CreateInviteStudentParams,
+	GetAllInvitedStudentsResponseData,
+} from './authAPIService.types';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/authentication-service/auth`;
 
@@ -14,8 +19,13 @@ class AuthAPIService extends APIService {
 		return data;
 	}
 
-	async inviteStudent(params: CreateInviteStudenParams) {
+	async inviteStudent(params: CreateInviteStudentParams) {
 		const { data } = await this.post('/invitation', params);
+		return data;
+	}
+
+	async getAllInvitedStudents() {
+		const { data } = await this.get<GetAllInvitedStudentsResponseData[]>('/invitation');
 		return data;
 	}
 }

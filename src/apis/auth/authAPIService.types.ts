@@ -11,9 +11,15 @@ export interface GetLoginResponseData {
 	firstLogin: boolean;
 }
 
-export interface CreateInviteStudenParams {
+export interface CreateInviteStudentParams {
 	email: string;
 	classId: number;
 	classCode: string;
 	className: string;
+}
+
+export interface GetAllInvitedStudentsResponseData {
+	classCode: string;
+	className: string;
+	email: string;
 }
