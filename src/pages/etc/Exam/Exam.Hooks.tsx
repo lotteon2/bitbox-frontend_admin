@@ -143,7 +143,7 @@ export const useExamUpdateModal = () => {
 
 export const useExamTable = () => {
 	const [examsData, setExamsData] = useState<DataType[]>([]);
-	const [isGraduate, setIsGradudate] = useState<string>('isNotGraduate');
+	const [isGraduate, setIsGraduate] = useState<string>('isNotGraduate');
 
 	const {
 		isModalOpen,
@@ -280,6 +280,7 @@ export const useExamTable = () => {
 			console.log(res);
 		});
 	};
+
 	useEffect(() => {
 		getData();
 		getAllClass();
@@ -288,7 +289,7 @@ export const useExamTable = () => {
 	return {
 		isDisabled,
 		isGraduate,
-		setIsGradudate,
+		setIsGraduate,
 		// name,
 		// setName,
 		isModalOpen,

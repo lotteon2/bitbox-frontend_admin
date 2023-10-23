@@ -27,7 +27,6 @@ export const useManagerModal = () => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 
-	// TODO : classId 추가
 	const { mutateAsync } = useCreateAdminMutation();
 	const { refetch } = useGetAllAdminQuery();
 

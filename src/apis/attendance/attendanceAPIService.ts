@@ -1,6 +1,6 @@
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 import APIService from '../../libs/core/api/APIService';
-import { UpdateAttendanceInfoParams } from './attendanceAPIService.types';
+import { GetAllAttendanceInfoResponse, UpdateAttendanceInfoParams } from './attendanceAPIService.types';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/user-service/member/admin/attendance`;
 
@@ -17,7 +17,7 @@ class AttendanceAPIService extends APIService {
 	}
 
 	async getAllAttendanceInfo(classId: number) {
-		const { data } = await this.get<BarChartDataType[]>(`/${classId.toString()}`);
+		const { data } = await this.get<GetAllAttendanceInfoResponse[]>(`/${classId}`);
 		return data;
 	}
 

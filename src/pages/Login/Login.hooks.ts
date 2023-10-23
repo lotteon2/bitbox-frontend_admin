@@ -29,7 +29,7 @@ export const useLogin = () => {
 				dispatchAuthority(res.authority);
 				dispatchIsFirstLogin(res.firstLogin);
 				localStorage.setItem('accessToken', res.accessToken);
-				if (!isFirstLogin) {
+				if (res.firstLogin) {
 					navigate('/first');
 				}
 			})

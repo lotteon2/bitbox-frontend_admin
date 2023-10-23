@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import { useExamModal, useExamTable, useExamUpdateModal } from './Exam.Hooks';
+import { useExamModal, useExamTable } from './Exam.Hooks';
 import Table from '../../../components/common/Table';
 import Button from '../../../components/common/Button';
 
@@ -12,7 +12,7 @@ const Exam = () => {
 		handleOk: handleExamUpdateOk,
 		handleCancel: handleExamUpdateCancel,
 		isGraduate,
-		setIsGradudate,
+		setIsGraduate,
 		examsData,
 		updateName,
 		setUpdateName,

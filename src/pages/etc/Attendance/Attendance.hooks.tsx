@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import { Avatar } from 'antd';
 import { Toast } from '../../../components/common/Toast';
@@ -6,13 +7,32 @@ import TableStateChip from '../../../components/common/TableStateChip';
 import { DataType } from '../../../components/common/Table';
 import AttendanceState from '../../../components/common/AttendanceState';
 import { attendanceApi } from '../../../apis/attendance/attendanceAPIService';
+import { useGetAllAttendanceQuery } from '../../../queries/useGetAllAttendanceQuery';
+import { useUserStore } from '../../../stores/user/user.store';
+import { useClassStore } from '../../../stores/class/class.store';
 
 export const useAttendanceModal = () => {
+	const navigate = useNavigate();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [comment, setComment] = useState<string>(''); // comment
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
+		state.isLogin,
+		state.myClassesOption,
+		state.myClasses,
+	]);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
+
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -61,40 +81,41 @@ export const useAttendanceModal = () => {
 	};
 };
 
-const data: DataType[] = [
-	{
-		key: 1,
-		name: '김명준',
-		attendanceState: '결석',
-		entranceTime: '',
-		quitTime: '',
-		attendanceModifyReason: '개인 사정으로 인한 결석',
-		state: '변경',
-		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: 2,
-		name: '김정윤',
-		attendanceState: '출석',
-		entranceTime: '2023/09/08 8:30',
-		quitTime: '2023/09/08 22:00',
-		attendanceModifyReason: '',
-		state: '변경',
-		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-	},
-	{
-		key: 3,
-		name: '마혜경',
-		attendanceState: '외출',
-		entranceTime: '2023/09/08 8:30',
-		quitTime: '2023/09/08 22:00',
-		attendanceModifyReason: '병원으로 인한 외출',
-		state: '변경',
-	},
-];
+// const data: DataType[] = [
+// 	{
+// 		key: 1,
+// 		name: '김명준',
+// 		attendanceState: '결석',
+// 		entranceTime: '',
+// 		quitTime: '',
+// 		attendanceModifyReason: '개인 사정으로 인한 결석',
+// 		state: '변경',
+// 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
+// 	},
+// 	{
+// 		key: 2,
+// 		name: '김정윤',
+// 		attendanceState: '출석',
+// 		entranceTime: '2023/09/08 8:30',
+// 		quitTime: '2023/09/08 22:00',
+// 		attendanceModifyReason: '',
+// 		state: '변경',
+// 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
+// 	},
+// 	{
+// 		key: 3,
+// 		name: '마혜경',
+// 		attendanceState: '외출',
+// 		entranceTime: '2023/09/08 8:30',
+// 		quitTime: '2023/09/08 22:00',
+// 		attendanceModifyReason: '병원으로 인한 외출',
+// 		state: '변경',
+// 	},
+// ];
 
 export const useAttendanceTable = () => {
 	const [userData, setUserData] = useState<DataType[]>([]);
+	const { data } = useGetAllAttendanceQuery();
 	const { showModal } = useAttendanceModal();
 
 	const columns: ColumnsType<DataType> = [
@@ -151,7 +172,7 @@ export const useAttendanceTable = () => {
 	];
 
 	const getData = async () => {
-		await attendanceApi.getAttendanceInfoByClassIdForDashBoard(1).then((res) => {
+		await attendanceApi.getAllAttendanceInfo(1).then((res) => {
 			console.log(res);
 		});
 	};

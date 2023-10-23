@@ -129,7 +129,6 @@ export const useClassTable = () => {
 	const [selectedClassCode, setSelectedClassCode] = useState<string>();
 	const [selectedClassName, setSelectedClassName] = useState<string>();
 	const [selectedIsGraduate, setSelectedIsGraduate] = useState<boolean>();
-	const [selectedIsDeleted, setSelectedIsDeleted] = useState<boolean>();
 
 	const graduateOptions = [
 		{ value: '교육', label: '교육' },
@@ -145,7 +144,6 @@ export const useClassTable = () => {
 			params: {
 				className: selectedClassName,
 				isGraduate: selectedIsGraduate,
-				isDeleted: selectedIsDeleted,
 			},
 		})
 			.then((res) => {

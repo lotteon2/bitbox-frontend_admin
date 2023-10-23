@@ -19,8 +19,8 @@ class ClassAPIService extends APIService {
 		return data;
 	}
 
-	async getClasses(classId: number) {
-		const { data } = await this.get<GetClassResponseData[]>(`?classId=${classId}`);
+	async getClasses() {
+		const { data } = await this.get<GetClassResponseData[]>('');
 		return data;
 	}
 

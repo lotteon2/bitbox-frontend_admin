@@ -4,11 +4,11 @@ import { useUserStore } from '../stores/user/user.store';
 
 export default function LoginLayout() {
 	const navigate = useNavigate();
-	const [isLogin] = useUserStore((state) => [state.isLogin]);
+	const [isLogin, isFirstLogin] = useUserStore((state) => [state.isLogin, state.isFirstLogin]);
 
 	useEffect(() => {
 		console.log(isLogin);
-		if (isLogin) {
+		if (isLogin && !isFirstLogin) {
 			navigate('/');
 		}
 	}, [isLogin, navigate]);
