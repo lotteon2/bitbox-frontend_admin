@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import { Toast } from '../../../components/common/Toast';
 import { useUserStore } from '../../../stores/user/user.store';
 import { authApi } from '../../../apis/auth/authAPIService';
@@ -13,6 +14,8 @@ import { DataType } from '../../../components/common/Table';
 import { useGetAllInvitedStudentQuery } from '../../../queries/useGetAllInvitedStudents';
 import { useGetAllStudentQuery } from '../../../queries/useGetAllStudentQuery';
 import { Alert } from '../../../components/common/Alert';
+import { usePatchStudentMutation } from '../../../mutations/usePatchStudentMutation';
+import { AUTHORITY } from '../../../constants/AuthorityType';
 
 export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
@@ -100,17 +103,24 @@ export const useStudentModal = () => {
 	const [studentsData, setStudentsData] = useState<DataType[]>([]);
 
 	const { mutateAsync } = useCreateStudentMutation();
-	const { data } = useGetAllStudentQuery({ classId: selectedClassId, size: 10, page: 1 });
+	const { mutateAsync: mutateUpdateStudentAsync } = usePatchStudentMutation();
+	const { data, refetch: refetchAllStudent } = useGetAllStudentQuery({ classId: selectedClassId, size: 10, page: 0 });
 
-	const handleDeleteStudent = (id: string) => {
+	const handleDeleteStudent = async (id: string) => {
+		await mutateUpdateStudentAsync({ memberId: id, memberAuthority: AUTHORITY.GENERAL })
+			.then((res) => {
+				Toast(true, '교육생 정보가 삭제되었습니다.');
+				refetchAllStudent();
+			})
+			.catch((err: AxiosError) => Toast(false, '교육생 정보 삭제에 실패했어요.'));
+	};
+
+	const handleDeleteStudentAlert = (id: string) => {
 		console.log(id);
 		Alert('교육생 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
-				// 모달창에서 confirm 버튼을 눌렀다면
-				Toast(true, '교육생 정보가 삭제되었습니다.');
-			} else {
-				// 모달창에서 cancel 버튼을 눌렀다면
+				handleDeleteStudent(id);
 			}
 		});
 	};
@@ -120,7 +130,7 @@ export const useStudentModal = () => {
 			title: '',
 			dataIndex: 'imageSrc',
 			key: 'imageSrc',
-			render: (text) => <Avatar src={text} size="large" />,
+			render: (text) => <Avatar src={text || null} size="large" />,
 			width: '100px',
 		},
 		{
@@ -150,34 +160,40 @@ export const useStudentModal = () => {
 			width: '30px',
 			align: 'right',
 			render: (text) => (
-				<Dropdown
-					className="cursor-pointer"
-					menu={{
-						items: [
-							{
-								key: 'editStudent',
-								label: (
-									<a href="/dashboard">
-										<SettingsOutlinedIcon className="mr-2" />
-										수정
-									</a>
-								),
-							},
-							{
-								key: 'deleteStudent',
-								label: (
-									<button type="button" onClick={() => handleDeleteStudent('1')}>
-										<DeleteOutlineOutlinedIcon className="mr-2" />
-										삭제
-									</button>
-								),
-							},
-						],
-					}}
-				>
-					<MoreVertOutlinedIcon />
-				</Dropdown>
+				<button type="button" onClick={() => handleDeleteStudentAlert(text)}>
+					<DeleteOutlineOutlinedIcon className="mr-2" />
+					삭제
+				</button>
 			),
+			// render: (text) => (
+			// 	<Dropdown
+			// 		className="cursor-pointer"
+			// 		menu={{
+			// 			items: [
+			// 				{
+			// 					key: 'editStudent',
+			// 					label: (
+			// 						<a href="/dashboard">
+			// 							<SettingsOutlinedIcon className="mr-2" />
+			// 							수정
+			// 						</a>
+			// 					),
+			// 				},
+			// 				{
+			// 					key: 'deleteStudent',
+			// 					label: (
+			// 						<button type="button" onClick={() => handleDeleteStudent('1')}>
+			// 							<DeleteOutlineOutlinedIcon className="mr-2" />
+			// 							삭제
+			// 						</button>
+			// 					),
+			// 				},
+			// 			],
+			// 		}}
+			// 	>
+			// 		<MoreVertOutlinedIcon />
+			// 	</Dropdown>
+			// ),
 		},
 	];
 
