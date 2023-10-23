@@ -1,8 +1,7 @@
 export interface ClassState {
-	value: string;
-	label: string;
+	classId: number;
 }
 
-// export interface ClassStateDispatcher extends ClassState{
-//     dispatchValuer
-// }///
+export interface ClassStateDispatcher extends ClassState {
+	dispatchSelectedClassId: (value: number) => void;
+}

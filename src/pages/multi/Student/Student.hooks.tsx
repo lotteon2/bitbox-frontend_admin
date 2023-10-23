@@ -16,6 +16,8 @@ import { useGetAllStudentQuery } from '../../../queries/useGetAllStudentQuery';
 import { Alert } from '../../../components/common/Alert';
 import { usePatchStudentMutation } from '../../../mutations/usePatchStudentMutation';
 import { AUTHORITY } from '../../../constants/AuthorityType';
+import { useClassStore } from '../../../stores/class/class.store';
+import { memberApi } from '../../../apis/member/memberAPIService';
 
 export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
@@ -100,12 +102,12 @@ export const useStudentModal = () => {
 		state.myClassesOption,
 		state.myClasses,
 	]);
-	const [selectedClassId, setSelectedClassId] = useState<number>(myClassesOption[0]?.value);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 	const [studentsData, setStudentsData] = useState<DataType[]>([]);
 
 	const { mutateAsync } = useCreateStudentMutation();
 	const { mutateAsync: mutateUpdateStudentAsync } = usePatchStudentMutation();
-	const { data, refetch: refetchAllStudent } = useGetAllStudentQuery({ classId: selectedClassId, size: 10, page: 0 });
+	const { data, fetchQuery, refetch: refetchAllStudent } = useGetAllStudentQuery();
 
 	const handleDeleteStudent = async (id: string) => {
 		await mutateUpdateStudentAsync({ memberId: id, memberAuthority: AUTHORITY.GENERAL })
@@ -174,10 +176,10 @@ export const useStudentModal = () => {
 		if (!email) {
 			Toast(false, '이메일을 입력해주세요.');
 		} else {
-			const { classCode } = myClasses[myClasses.findIndex((it) => it.classId === selectedClassId)];
-			const { className } = myClasses[myClasses.findIndex((it) => it.classId === selectedClassId)];
-			console.log(classCode, className, selectedClassId, email);
-			await mutateAsync({ email, classId: selectedClassId, classCode, className })
+			const { classCode } = myClasses[myClasses.findIndex((it) => it.classId === classId)];
+			const { className } = myClasses[myClasses.findIndex((it) => it.classId === classId)];
+			console.log(classCode, className, classId, email);
+			await mutateAsync({ email, classId, classCode, className })
 				.then((res) => {
 					console.log(res);
 					setInvitedEmails((prev) => [...prev, email]);
@@ -188,7 +190,7 @@ export const useStudentModal = () => {
 				.catch((err) => {
 					Toast(false, '교육생 초대에 실패하였습니다.');
 				});
-			console.log(classCode, className, selectedClassId, email);
+			console.log(classCode, className, classId, email);
 			await authApi.getAllInvitedStudents().then((res) => console.log('res', res));
 		}
 	};
@@ -208,32 +210,32 @@ export const useStudentModal = () => {
 	};
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
-		setSelectedClassId(Number(value));
+		dispatchClassId(Number(value));
 		console.log(`selected ${value}`);
 	}, []);
 
-	const getStudentsData = useCallback(
-		(classId: number) => {
-			const temp: DataType[] = [];
-			if (!data) {
-				return;
-			}
-			console.log(data);
-			data.memberInfoList?.forEach((it, idx) => {
-				const className = myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === classId)].label;
-				temp.push({
-					key: idx,
-					state: it.memberId,
-					name: it.memberName,
-					email: it.memberEmail,
-					class: className,
-					imageSrc: it.memberProfileImg,
-				});
+	useEffect(() => {
+		const temp: DataType[] = [];
+		if (!data) {
+			return;
+		}
+		data.memberInfoList?.forEach((it, idx) => {
+			const className = myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === classId)].label;
+			temp.push({
+				key: idx,
+				state: it.memberId,
+				name: it.memberName,
+				email: it.memberEmail,
+				class: className,
+				imageSrc: it.memberProfileImg,
 			});
-			setStudentsData([...temp]);
-		},
-		[data, myClassesOption],
-	);
+		});
+		setStudentsData([...temp]);
+	}, [data]);
+
+	useEffect(() => {
+		fetchQuery();
+	}, [classId]);
 
 	useEffect(() => {
 		// const temp: DataType[] = [];
@@ -241,25 +243,13 @@ export const useStudentModal = () => {
 			navigate('/login');
 		}
 		setEmail('');
-		getStudentsData(selectedClassId);
-		// if (!data) {
-		// 	return;
-		// }
-		// console.log(data);
-		// data.memberInfoList?.forEach((it, idx) => {
-		// 	const className =
-		// 		myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === selectedClassId)].label;
-		// 	temp.push({
-		// 		key: idx,
-		// 		state: it.memberId,
-		// 		name: it.memberName,
-		// 		email: it.memberEmail,
-		// 		class: className,
-		// 		imageSrc: it.memberProfileImg,
-		// 	});
-		// });
-		// setStudentsData([...temp]);
-	}, [data, getStudentsData, invitedEmails, isLogin, myClassesOption, navigate, selectedClassId]);
+		if (myClassesOption.length > 0) {
+			if (classId === -1) {
+				dispatchClassId(myClassesOption[0].value);
+			}
+			console.log('selectedClassId', classId);
+		}
+	}, [invitedEmails, isLogin, myClassesOption, navigate, classId]);
 
 	return {
 		email,
