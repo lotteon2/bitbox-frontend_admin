@@ -29,18 +29,20 @@ export default function MainLayout() {
 	]);
 
 	const getMyInfo = useCallback(async () => {
-		await adminApi.getMyAdminInfo().then((res) => {
-			dispatchName(res.adminName);
-			dispatchProfileImg(res.adminProfileImg);
-			dispatchEmail(res.adminEmail);
-			dispatchAuthority(res.adminAuthority);
-			dispatchMyClassees(res.classInfoResponses);
-			const temp: { value: number; label: string }[] = [];
-			res.classInfoResponses.forEach((it: classInfoResponse) => {
-				temp.push({ value: it.classId, label: it.className });
+		if (localStorage.getItem('accessToken')) {
+			await adminApi.getMyAdminInfo().then((res) => {
+				dispatchName(res.adminName);
+				dispatchProfileImg(res.adminProfileImg);
+				dispatchEmail(res.adminEmail);
+				dispatchAuthority(res.adminAuthority);
+				dispatchMyClassees(res.classInfoResponses);
+				const temp: { value: number; label: string }[] = [];
+				res.classInfoResponses.forEach((it: classInfoResponse) => {
+					temp.push({ value: it.classId, label: it.className });
+				});
+				dispatchMyClassesOption([...temp]);
 			});
-			dispatchMyClassesOption([...temp]);
-		});
+		}
 	}, [dispatchAuthority, dispatchEmail, dispatchMyClassees, dispatchMyClassesOption, dispatchName, dispatchProfileImg]);
 
 	useEffect(() => {

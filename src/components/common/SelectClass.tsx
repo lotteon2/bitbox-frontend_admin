@@ -23,7 +23,7 @@ const SelectClass: React.FC<SelectClassIntferface> = ({
 			className={'mt-auto mb-auto '.concat(isFull ? 'w-full' : 'w-[200px]')}
 			onChange={handleChange}
 			options={options}
-			placeholder={placeholder || options[0].label}
+			placeholder={placeholder || options[0].label || ''}
 			disabled={!!isReadOnly}
 		/>
 	);

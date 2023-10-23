@@ -21,6 +21,7 @@ export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
 	const [invitedStudents, setInvitedStudents] = useState<DataType[]>([]);
 	const handleDeleteInvitedStudent = (studentId: number) => {
+		// TODO : 종민이에게 뭘로 삭제할 지 확인 후 수정
 		console.log(studentId);
 	};
 
@@ -52,7 +53,7 @@ export const useInvitedStudent = () => {
 							{
 								key: 'deleteInvitedStudent',
 								label: (
-									<button type="button" onClick={() => handleDeleteInvitedStudent(1)}>
+									<button type="button" onClick={() => handleDeleteInvitedStudent(text)}>
 										<DeleteOutlineOutlinedIcon className="mr-2" />
 										삭제
 									</button>
@@ -165,35 +166,6 @@ export const useStudentModal = () => {
 					삭제
 				</button>
 			),
-			// render: (text) => (
-			// 	<Dropdown
-			// 		className="cursor-pointer"
-			// 		menu={{
-			// 			items: [
-			// 				{
-			// 					key: 'editStudent',
-			// 					label: (
-			// 						<a href="/dashboard">
-			// 							<SettingsOutlinedIcon className="mr-2" />
-			// 							수정
-			// 						</a>
-			// 					),
-			// 				},
-			// 				{
-			// 					key: 'deleteStudent',
-			// 					label: (
-			// 						<button type="button" onClick={() => handleDeleteStudent('1')}>
-			// 							<DeleteOutlineOutlinedIcon className="mr-2" />
-			// 							삭제
-			// 						</button>
-			// 					),
-			// 				},
-			// 			],
-			// 		}}
-			// 	>
-			// 		<MoreVertOutlinedIcon />
-			// 	</Dropdown>
-			// ),
 		},
 	];
 
@@ -240,30 +212,54 @@ export const useStudentModal = () => {
 		console.log(`selected ${value}`);
 	}, []);
 
+	const getStudentsData = useCallback(
+		(classId: number) => {
+			const temp: DataType[] = [];
+			if (!data) {
+				return;
+			}
+			console.log(data);
+			data.memberInfoList?.forEach((it, idx) => {
+				const className = myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === classId)].label;
+				temp.push({
+					key: idx,
+					state: it.memberId,
+					name: it.memberName,
+					email: it.memberEmail,
+					class: className,
+					imageSrc: it.memberProfileImg,
+				});
+			});
+			setStudentsData([...temp]);
+		},
+		[data, myClassesOption],
+	);
+
 	useEffect(() => {
-		const temp: DataType[] = [];
+		// const temp: DataType[] = [];
 		if (!isLogin) {
 			navigate('/login');
 		}
 		setEmail('');
-		if (!data) {
-			return;
-		}
-		console.log(data);
-		data.memberInfoList?.forEach((it, idx) => {
-			const className =
-				myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === selectedClassId)].label;
-			temp.push({
-				key: idx,
-				state: it.memberId,
-				name: it.memberName,
-				email: it.memberEmail,
-				class: className,
-				imageSrc: it.memberProfileImg,
-			});
-		});
-		setStudentsData([...temp]);
-	}, [data, invitedEmails, isLogin, myClassesOption, navigate, selectedClassId]);
+		getStudentsData(selectedClassId);
+		// if (!data) {
+		// 	return;
+		// }
+		// console.log(data);
+		// data.memberInfoList?.forEach((it, idx) => {
+		// 	const className =
+		// 		myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === selectedClassId)].label;
+		// 	temp.push({
+		// 		key: idx,
+		// 		state: it.memberId,
+		// 		name: it.memberName,
+		// 		email: it.memberEmail,
+		// 		class: className,
+		// 		imageSrc: it.memberProfileImg,
+		// 	});
+		// });
+		// setStudentsData([...temp]);
+	}, [data, getStudentsData, invitedEmails, isLogin, myClassesOption, navigate, selectedClassId]);
 
 	return {
 		email,

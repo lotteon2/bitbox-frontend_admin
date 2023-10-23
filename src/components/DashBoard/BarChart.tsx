@@ -19,4 +19,4 @@ const BarChart: React.FC<BarChartInterface> = ({ chartName, data }) => {
 	);
 };
 
-export default BarChart;
+export default React.memo(BarChart);

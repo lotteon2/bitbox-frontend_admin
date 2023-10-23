@@ -12,52 +12,61 @@ export const useDashBoard = () => {
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
 	const [attendanceData, setAttendanceData] = useState<BarChartDataType[]>();
 	const [isLogin, myClassesOption] = useUserStore((state) => [state.isLogin, state.myClassesOption]);
-	const [selectedClassId, setSelectedClassId] = useState<number>(myClassesOption[0]?.value);
+	const [selectedClassId, setSelectedClassId] = useState<number>(-1);
 
-	const handleChangeSelectedClassId = useCallback((value: string) => {
-		setSelectedClassId(Number(value));
+	const handleChangeSelectedClassId = (value: string) => {
+		setSelectedClassId(() => Number(value));
+		getAttendancesByClassId(Number(value));
+		getGradesByClassId(Number(value));
 		console.log(`selected ${value}`);
-	}, []);
+	};
 
-	const getAttendancesByClassId = useCallback(async () => {
-		console.log('getAttendancesByClassId', selectedClassId);
-		if (!selectedClassId || myClassesOption.length > 0) return;
-		await attendanceApi
-			.getAttendanceInfoByClassIdForDashBoard(selectedClassId || myClassesOption[0].value)
-			.then((res: BarChartDataType[]) => {
-				setAttendanceData(res);
-				console.log(attendanceData);
-			});
-	}, [attendanceData, myClassesOption, selectedClassId]);
+	const getAttendancesByClassId = useCallback(
+		async (classId: number) => {
+			console.log('getAttendancesByClassId', selectedClassId);
+			if (!selectedClassId) return;
+			await attendanceApi
+				.getAttendanceInfoByClassIdForDashBoard(classId || myClassesOption[0].value)
+				.then((res: BarChartDataType[]) => {
+					setAttendanceData(res);
+					console.log(attendanceData);
+				});
+		},
+		[selectedClassId],
+	);
 
-	const getGradesByClassId = useCallback(async () => {
-		console.log('getGradesByClassId', selectedClassId);
-		if (!selectedClassId) return;
-		await gradeApi
-			.getGradesByClassId(selectedClassId)
-			.then((res: GetGradesResponseData[]) => {
-				const newGradeData: BarChartDataType[] = [];
-				res.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
-				setGradeData((prev) => newGradeData);
-			})
-			.catch((err) => {
-				Toast(false, '반별 성적 데이터를 불러오는데 실패했습니다');
-				return [];
-			});
-	}, [selectedClassId]);
+	const getGradesByClassId = useCallback(
+		async (classId: number) => {
+			console.log('getGradesByClassId', selectedClassId);
+			if (!selectedClassId) return;
+			await gradeApi
+				.getGradesByClassId(classId)
+				.then((res: GetGradesResponseData[]) => {
+					const newGradeData: BarChartDataType[] = [];
+					res.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
+					setGradeData((prev) => newGradeData);
+				})
+				.catch((err) => {
+					Toast(false, '반별 성적 데이터를 불러오는데 실패했습니다');
+					return [];
+				});
+		},
+		[selectedClassId],
+	);
 
 	useEffect(() => {
 		if (!isLogin) {
 			navigate('/login');
 		}
 		if (myClassesOption.length > 0) {
-			setSelectedClassId(() => myClassesOption[0].value);
-			getGradesByClassId();
-			getAttendancesByClassId();
+			if (selectedClassId === -1) {
+				setSelectedClassId(() => myClassesOption[0].value);
+			}
+			console.log('selectedClassId', selectedClassId);
+			getGradesByClassId(selectedClassId);
+			getAttendancesByClassId(selectedClassId);
 		}
 		console.log(myClassesOption);
-		// getGradesByClassId(myClassesOption[0].value);
-		// getAttendancesByClassId(myClassesOption[0].value);
 	}, [isLogin, navigate, selectedClassId, myClassesOption, getGradesByClassId, getAttendancesByClassId]);
 
 	return {

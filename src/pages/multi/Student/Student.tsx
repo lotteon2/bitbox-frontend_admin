@@ -1,11 +1,8 @@
-import { ColumnsType } from 'antd/es/table';
 import { Modal } from 'antd';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import Table, { DataType } from '../../../components/common/Table';
+import Table from '../../../components/common/Table';
 import Button from '../../../components/common/Button';
-import { Toast } from '../../../components/common/Toast';
 import SelectClass from '../../../components/common/SelectClass';
-import { Alert } from '../../../components/common/Alert';
 import { useStudentModal, useInvitedStudent } from './Student.hooks';
 
 function Student() {
