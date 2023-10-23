@@ -12,24 +12,26 @@ export const useDashBoard = () => {
 	const [gradeData, setGradeData] = useState<BarChartDataType[]>();
 	const [attendanceData, setAttendanceData] = useState<BarChartDataType[]>();
 	const [isLogin, myClassesOption] = useUserStore((state) => [state.isLogin, state.myClassesOption]);
-	const [selectedClassId, setSelectedClassId] = useState<number>();
+	const [selectedClassId, setSelectedClassId] = useState<number>(myClassesOption[0]?.value);
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		setSelectedClassId(Number(value));
 		console.log(`selected ${value}`);
 	}, []);
 
-	const getAttendancesByClassId = async () => {
+	const getAttendancesByClassId = useCallback(async () => {
+		console.log('getAttendancesByClassId', selectedClassId);
 		if (!selectedClassId || myClassesOption.length > 0) return;
 		await attendanceApi
 			.getAttendanceInfoByClassIdForDashBoard(selectedClassId || myClassesOption[0].value)
 			.then((res: BarChartDataType[]) => {
 				setAttendanceData(res);
+				console.log(attendanceData);
 			});
-	};
+	}, [attendanceData, myClassesOption, selectedClassId]);
 
 	const getGradesByClassId = useCallback(async () => {
-		console.log(selectedClassId);
+		console.log('getGradesByClassId', selectedClassId);
 		if (!selectedClassId) return;
 		await gradeApi
 			.getGradesByClassId(selectedClassId)
@@ -42,14 +44,14 @@ export const useDashBoard = () => {
 				Toast(false, '반별 성적 데이터를 불러오는데 실패했습니다');
 				return [];
 			});
-	}, []);
+	}, [selectedClassId]);
 
 	useEffect(() => {
 		if (!isLogin) {
 			navigate('/login');
 		}
 		if (myClassesOption.length > 0) {
-			// setSelectedClassId(() => myClassesOption[0].value);
+			setSelectedClassId(() => myClassesOption[0].value);
 			getGradesByClassId();
 			getAttendancesByClassId();
 		}

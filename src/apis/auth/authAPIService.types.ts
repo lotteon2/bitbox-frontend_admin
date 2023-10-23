@@ -10,3 +10,10 @@ export interface GetLoginResponseData {
 	authority: keyof typeof AUTHORITY;
 	firstLogin: boolean;
 }
+
+export interface CreateInviteStudenParams {
+	email: string;
+	classId: number;
+	classCode: string;
+	className: string;
+}

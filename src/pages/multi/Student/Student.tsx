@@ -138,12 +138,14 @@ function Student() {
 		showModal,
 		handleOk,
 		handleCancel,
+		myClassesOption,
+		handleChangeSelectedClassId,
 	} = useStudentModal();
 
 	return (
 		<div className="ml-10 w-11/12 h-full">
 			<div className="flex justify-between w-full my-5">
-				<SelectClass handleChange={handleChange} options={options} />
+				<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
 				<Button content="교육생 추가" key="addStudent" handleClick={showModal} />
 			</div>
 			<Table data={data} columns={columns} />
@@ -158,7 +160,7 @@ function Student() {
 			>
 				<div className="my-10 flex flex-col justify-center">
 					<div className="text-grayscale5 mb-5">*반드시 카카오 로그인이 가능한 계정으로 초대해주세요.</div>
-					<SelectClass options={options} handleChange={handleChange} />
+					<SelectClass options={myClassesOption} handleChange={handleChangeSelectedClassId} isReadOnly isFull />
 					<div className="w-full flex justify-between items-center">
 						<input
 							id="swal2-input"
