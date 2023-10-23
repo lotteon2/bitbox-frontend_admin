@@ -1,17 +1,24 @@
+import { AUTHORITY } from '../../constants/AuthorityType';
+
 export interface GetAllStudentsResponseData {
-	data: {
+	memberInfoList: {
 		className: string;
 		memberName: string;
 		memberNickname: string;
 		memberEmail: string;
-		memebrProfileImg: string;
+		memberProfileImg: string;
 		memberCredit: string;
-	};
+		memberId: string;
+		memberAuthority: keyof typeof AUTHORITY;
+		createAt: string;
+		updatedAt: string;
+		deleted: boolean;
+	}[];
 	totalCount: number;
 }
 
 export interface GetAllStudentByClassIdAndPageAndSizeParams {
 	classId: number;
-	page: number;
-	size: number;
+	page?: number;
+	size?: number;
 }
