@@ -91,7 +91,7 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 					</>
 				)}
 				{options && handleChangeAuthority && (
-					<SelectClass options={options} handleChange={handleChangeAuthority} isFull />
+					<SelectClass options={options} handleChange={handleChangeAuthority} isFull isReadOnly />
 				)}
 			</div>
 		</Modal>

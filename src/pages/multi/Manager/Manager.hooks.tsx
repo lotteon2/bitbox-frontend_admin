@@ -1,4 +1,5 @@
 import { ColumnsType } from 'antd/es/table';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -10,12 +11,12 @@ import { DataType } from '../../../components/common/Table';
 import { Alert } from '../../../components/common/Alert';
 import { Toast } from '../../../components/common/Toast';
 import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
-import { adminApi } from '../../../apis/admin/adminAPIService';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
-import { GetAdminInfoResponseData, UpdateAdminInfoParams } from '../../../apis/admin/adminAPIService.types';
 import { useCreateAdminMutation } from '../../../mutations/useCreateAdminMutation';
 import { useGetAllAdminQuery } from '../../../queries/useGetAllAdminQuery';
 import { usePatchAdminMutation } from '../../../mutations/usePatchAdminMutation';
+import { useUserStore } from '../../../stores/user/user.store';
+import { useClassStore } from '../../../stores/class/class.store';
 
 export const useManagerModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -24,14 +25,20 @@ export const useManagerModal = () => {
 	const [name, setName] = useState<string>('');
 	const [authority, setAuthority] = useState<string>(getAuthority(AUTHORITY.ADMIN));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 
 	// TODO : classId 추가
-	const { mutateAsync } = useCreateAdminMutation(1);
+	const { mutateAsync } = useCreateAdminMutation();
 	const { refetch } = useGetAllAdminQuery();
 
 	const handleChangeAuthority = (value: string) => {
 		setAuthority(() => value);
 	};
+
+	const handleChangeSelectedClassIdForAdd = useCallback((value: string) => {
+		dispatchClassId(Number(value));
+		console.log(`selected ${value}`);
+	}, []);
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -86,18 +93,25 @@ export const useManagerModal = () => {
 		handleOk,
 		handleCancel,
 		handleChangeAuthority,
+		handleChangeSelectedClassIdForAdd,
 	};
 };
 
 export const useManagerTable = () => {
+	const navigate = useNavigate();
 	const [admins, setAdmins] = useState<DataType[]>([]);
 	const [selectedAdminId, setSelectedAdminId] = useState<string>();
-	const [authority, setAuthority] = useState<string>();
 	const [selectedIdx, setSelectedIdx] = useState<number>();
 	const [selectedName, setSelectedName] = useState<string>('');
 	const [selectedProfileImgSrc, setSelectedProfileImgSrc] = useState<string>('');
+	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
+		state.isLogin,
+		state.myClassesOption,
+		state.myClasses,
+	]);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 
-	const { data, refetch } = useGetAllAdminQuery();
+	const { data, fetchQuery, refetch } = useGetAllAdminQuery();
 	const { mutateAsync } = usePatchAdminMutation();
 
 	const {
@@ -111,6 +125,11 @@ export const useManagerTable = () => {
 		handleCancel: handleUpdateCancel,
 		clearValues,
 	} = useUpdateProfileModal();
+
+	const handleChangeSelectedClassId = useCallback((value: string) => {
+		dispatchClassId(Number(value));
+		console.log(`selected ${value}`);
+	}, []);
 
 	const handleUpdateOk = async () => {
 		setIsLoadingProfileModal(true);
@@ -146,12 +165,39 @@ export const useManagerTable = () => {
 	}, [admins, data, selectedAdminId, selectedIdx, selectedName, selectedProfileImgSrc, setIsDisabledProfileModal]);
 
 	useEffect(() => {
-		const temp: DataType[] = [];
+		fetchQuery();
+	}, [classId]);
+
+	useEffect(() => {
 		if (!data) {
 			Toast(false, '관리자 리스트를 불러오지 못했어요.');
 			return;
 		}
-		console.log(data);
+		if (myClassesOption.length > 0) {
+			if (classId === -1) {
+				dispatchClassId(myClassesOption[0].value);
+			}
+			console.log('selectedClassId', classId);
+		}
+
+		// console.log(data);
+		// data.forEach((it, idx) => {
+		// 	temp.push({
+		// 		key: idx,
+		// 		state: it.adminId,
+		// 		name: it.adminName,
+		// 		email: it.adminEmail,
+		// 		rate: it.adminAuthority,
+		// 		imageSrc: it.adminProfileImg,
+		// 		class: it.classInfoResponses[0].className,
+		// 	});
+		// });
+		// setAdmins([...temp]);
+	}, [classId, myClassesOption]);
+
+	useEffect(() => {
+		if (!data) return;
+		const temp: DataType[] = [];
 		data.forEach((it, idx) => {
 			temp.push({
 				key: idx,
@@ -162,13 +208,18 @@ export const useManagerTable = () => {
 				imageSrc: it.adminProfileImg,
 				class: it.classInfoResponses[0].className,
 			});
+			setAdmins([...temp]);
 		});
-		setAdmins([...temp]);
 	}, [data]);
 
-	const handleChangeAuthority = (value: string) => {
-		setAuthority(() => value);
-	};
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
 
 	const deleteAdmin = async (id: string) => {
 		await mutateAsync({ adminId: id, params: { isDeleted: true } })
@@ -282,7 +333,6 @@ export const useManagerTable = () => {
 		columns,
 		admins,
 		data,
-		handleChangeAuthority,
 		isUpdateProfileModalOpen,
 		isLoadingProfileModal,
 		isDisabledProfileModal,
@@ -290,5 +340,7 @@ export const useManagerTable = () => {
 		handleUpdateCancel,
 		selectedName,
 		setSelectedName,
+		myClassesOption,
+		handleChangeSelectedClassId,
 	};
 };

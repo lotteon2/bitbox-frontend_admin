@@ -16,10 +16,7 @@ export const options = [
 ];
 
 // TODO : 백 구현후 value change
-const graduateOptions = [
-	{ value: 'isNotGraduate', label: '교육' },
-	{ value: 'isGraduate', label: '수료' },
-];
+
 const Class = () => {
 	const {
 		isModalOpen,
@@ -41,19 +38,18 @@ const Class = () => {
 		isUpdateClassLoading,
 		handleUpdateOk,
 		handleClassUpdateCancel,
-		isGraduate,
-		setIsGradudate,
+		handleChangeIsGraduated,
 		classesData,
 		selectedClassCode,
 		setSelectedClassCode,
 		selectedClassName,
 		setSelectedClassName,
+		graduateOptions,
 	} = useClassTable();
 
 	return (
 		<div className="ml-10 w-11/12 h-full mt-10">
-			<div className="flex justify-between w-full my-5">
-				<SelectClass handleChange={handleChange} options={options} />
+			<div className="flex justify-end w-full my-5">
 				<Button content="클래스 추가" handleClick={showModal} key="addClass" />
 			</div>
 			<Table data={classesData} columns={columns} />
@@ -110,7 +106,7 @@ const Class = () => {
 				]}
 			>
 				<div className="my-10 flex flex-col align-center justify-center">
-					<div className="swal2-label">반 코드</div>
+					<div className="swal2-label">반 코드(수정 불가)</div>
 					<input
 						value={selectedClassCode}
 						onChange={(e) => setSelectedClassCode(e.target.value)}
@@ -125,7 +121,7 @@ const Class = () => {
 						id="swal2-input"
 						className="swal2-input"
 					/>
-					<SelectClass options={graduateOptions} handleChange={setIsGradudate} isFull />
+					<SelectClass options={graduateOptions} handleChange={handleChangeIsGraduated} isFull />
 					<br />
 					<br />
 				</div>

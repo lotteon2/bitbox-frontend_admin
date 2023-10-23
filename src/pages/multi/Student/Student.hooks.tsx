@@ -3,7 +3,6 @@ import { ColumnsType } from 'antd/es/table';
 import { Avatar, Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { Toast } from '../../../components/common/Toast';
@@ -17,7 +16,6 @@ import { Alert } from '../../../components/common/Alert';
 import { usePatchStudentMutation } from '../../../mutations/usePatchStudentMutation';
 import { AUTHORITY } from '../../../constants/AuthorityType';
 import { useClassStore } from '../../../stores/class/class.store';
-import { memberApi } from '../../../apis/member/memberAPIService';
 
 export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
@@ -238,10 +236,6 @@ export const useStudentModal = () => {
 	}, [classId]);
 
 	useEffect(() => {
-		// const temp: DataType[] = [];
-		if (!isLogin) {
-			navigate('/login');
-		}
 		setEmail('');
 		if (myClassesOption.length > 0) {
 			if (classId === -1) {
@@ -250,6 +244,15 @@ export const useStudentModal = () => {
 			console.log('selectedClassId', classId);
 		}
 	}, [invitedEmails, isLogin, myClassesOption, navigate, classId]);
+
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
 
 	return {
 		email,

@@ -111,7 +111,6 @@ export const useClassUpdateModal = () => {
 
 export const useClassTable = () => {
 	const [classesData, setClassesData] = useState<DataType[]>([]);
-	const [isGraduate, setIsGradudate] = useState<string>('isNotGraduate');
 	const {
 		isModalOpen: isUpdateModalOpen,
 		isDisabled: isUpdateClassDisabled,
@@ -131,6 +130,11 @@ export const useClassTable = () => {
 	const [selectedClassName, setSelectedClassName] = useState<string>();
 	const [selectedIsGraduate, setSelectedIsGraduate] = useState<boolean>();
 	const [selectedIsDeleted, setSelectedIsDeleted] = useState<boolean>();
+
+	const graduateOptions = [
+		{ value: '교육', label: '교육' },
+		{ value: '수료', label: '수료' },
+	];
 
 	const handleUpdateOk = async () => {
 		setIsUpdateClassModalOpen(true);
@@ -160,16 +164,16 @@ export const useClassTable = () => {
 
 	useEffect(() => {
 		if (classesData.length > 0) {
-			if (selectedClassId) {
-				console.log(selectedIdx);
-				if (classesData[selectedIdx as number].name !== selectedClassName) {
-					setIsUpdateClassDisabled(false);
-				} else {
-					setIsUpdateClassDisabled(true);
-				}
+			if (
+				classesData[selectedIdx as number].name === selectedClassName &&
+				classesData[selectedIdx as number].isFinished === selectedIsGraduate
+			) {
+				setIsUpdateClassDisabled(true);
+			} else {
+				setIsUpdateClassDisabled(false);
 			}
 		}
-	}, [selectedClassName, selectedIdx, selectedClassId, classesData, selectedClassCode, setIsUpdateClassDisabled]);
+	}, [selectedIdx, selectedClassName, selectedIsGraduate]);
 
 	useEffect(() => {
 		const temp: DataType[] = [];
@@ -188,6 +192,10 @@ export const useClassTable = () => {
 		});
 		setClassesData([...temp]);
 	}, [data]);
+
+	const handleChangeIsGraduated = (value: string) => {
+		setSelectedIsGraduate(() => value === '수료');
+	};
 
 	const deleteClass = async (idx: number) => {
 		await mutateAsync({ classId: idx, params: { isDeleted: true } })
@@ -283,8 +291,8 @@ export const useClassTable = () => {
 
 	return {
 		isUpdateClassDisabled,
-		isGraduate,
-		setIsGradudate,
+		selectedIsGraduate,
+		setSelectedIsGraduate,
 		isUpdateModalOpen,
 		isUpdateClassLoading,
 		setIsLoadingUpdateClass,
@@ -298,5 +306,7 @@ export const useClassTable = () => {
 		setSelectedClassCode,
 		selectedClassName,
 		setSelectedClassName,
+		graduateOptions,
+		handleChangeIsGraduated,
 	};
 };

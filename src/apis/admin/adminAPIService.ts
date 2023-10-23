@@ -6,8 +6,6 @@ import {
 	UpdateAdminInfoParams,
 } from './adminAPIService.types';
 
-// TODO : 추후 BASE_URL 변경
-
 const BASE_URL = `${process.env.REACT_APP_API_URL}/admin-service/admin`;
 
 class AdminAPIService extends APIService {
@@ -21,8 +19,8 @@ class AdminAPIService extends APIService {
 		return data;
 	}
 
-	async getAllAdmin() {
-		const { data } = await this.get<GetAdminInfoResponseData[]>('');
+	async getAllAdmin(classId: number) {
+		const { data } = await this.get<GetAdminInfoResponseData[]>(`/${classId}`);
 		return data;
 	}
 
