@@ -30,7 +30,7 @@ function Student() {
 	const { invitedStudentColumns, invitedStudents } = useInvitedStudent();
 
 	return (
-		<div className="ml-10 w-11/12 h-full">
+		<div className="ml-10 w-11/12 h-full mt-10">
 			<div className="flex justify-between w-full my-5">
 				<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
 				<Button content="교육생 추가" key="addStudent" handleClick={showModal} />

@@ -51,7 +51,7 @@ const Class = () => {
 	} = useClassTable();
 
 	return (
-		<div className="ml-10 w-11/12 h-full">
+		<div className="ml-10 w-11/12 h-full mt-10">
 			<div className="flex justify-between w-full my-5">
 				<SelectClass handleChange={handleChange} options={options} />
 				<Button content="클래스 추가" handleClick={showModal} key="addClass" />
