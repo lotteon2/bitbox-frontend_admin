@@ -238,7 +238,7 @@ export const useExamTable = () => {
 			.catch((err) => Toast(false, '시험 정보 삭제에 실패했어요.'));
 	};
 	const handleDelete = (id: number) => {
-		Alert('시험 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then(async (result) => {
+		Alert('시험 정보를 삭제하시겠어요?', '삭제하면 되돌릴 수 없어요').then(async (result) => {
 			if (result.isConfirmed) {
 				deleteExam(id);
 			}

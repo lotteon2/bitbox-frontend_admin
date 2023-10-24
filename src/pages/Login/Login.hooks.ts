@@ -4,18 +4,16 @@ import { authApi } from '../../apis/auth/authAPIService';
 import { useUserStore } from '../../stores/user/user.store';
 import { GetLoginResponseData } from '../../apis/auth/authAPIService.types';
 import { Toast } from '../../components/common/Toast';
-import APIService from '../../libs/core/api/APIService';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	const [isLogin, dispatchIsLogin, dispatchAuthority, isFirstLogin, dispatchIsFirstLogin] = useUserStore((state) => [
+	const [isLogin, dispatchIsLogin, dispatchAuthority, dispatchIsFirstLogin] = useUserStore((state) => [
 		state.isLogin,
 		state.dispatchIsLogin,
 		state.dispatchAuthority,
-		state.isFirstLogin,
 		state.dispatchIsFirstLogin,
 	]);
 
@@ -29,6 +27,7 @@ export const useLogin = () => {
 				dispatchAuthority(res.authority);
 				dispatchIsFirstLogin(res.firstLogin);
 				localStorage.setItem('accessToken', res.accessToken);
+				Toast(true, '로그인에 성공하였어요!');
 				if (res.firstLogin) {
 					navigate('/first');
 				}
