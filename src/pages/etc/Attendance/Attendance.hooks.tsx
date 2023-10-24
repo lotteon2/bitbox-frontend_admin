@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
-import { Avatar } from 'antd';
+import { Avatar, DatePickerProps } from 'antd';
 import { AxiosError } from 'axios';
+import dayjs from 'dayjs';
 import { Toast } from '../../../components/common/Toast';
 import TableStateChip from '../../../components/common/TableStateChip';
 import { DataType } from '../../../components/common/Table';
@@ -12,6 +13,7 @@ import { useUserStore } from '../../../stores/user/user.store';
 import { useClassStore } from '../../../stores/class/class.store';
 import { usePatchAttendanceMutation } from '../../../mutations/usePatchAttendanceMutation';
 import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
+import { useAttendanceSearchStore } from '../../../stores/attendanceSearch/attendanceSearch.store';
 
 export const useAttendanceModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -106,6 +108,11 @@ export const useAttendanceTable = () => {
 		handleChangeAttendance,
 	} = useAttendanceModal();
 	const [inputName, setInputName] = useState<string>('');
+	const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(dayjs());
+	const [selectedDateString, dispatchSelectedDateString] = useAttendanceSearchStore((state) => [
+		state.selectedDateString,
+		state.dispatchSelectedDateString,
+	]);
 
 	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
 		state.isLogin,
@@ -116,6 +123,12 @@ export const useAttendanceTable = () => {
 
 	/* react-query */
 	const { data, fetchQuery, refetch } = useGetAllAttendanceQuery();
+
+	const onChangeDate: DatePickerProps['onChange'] = (date, dateString) => {
+		console.log(date, dateString);
+		setSelectedDate(date);
+		dispatchSelectedDateString(dateString);
+	};
 
 	const handleChangeSelectedClassId = (value: string) => {
 		console.log(`selected ${value}`);
@@ -131,6 +144,7 @@ export const useAttendanceTable = () => {
 		if (!isLogin) {
 			navigate('/login');
 		}
+
 		return () => {
 			dispatchClassId(-1);
 		};
@@ -165,7 +179,7 @@ export const useAttendanceTable = () => {
 				key: it.attendanceId,
 				attendanceState: it.attendanceState,
 				attendanceModifyReason: it.attendanceModifyReason,
-				entranceTime: it.entrance,
+				entranceTime: it.entrace,
 				quitTime: it.quit,
 				imageSrc: it.memberProfileImg,
 				name: it.memberName,
@@ -257,5 +271,7 @@ export const useAttendanceTable = () => {
 		isUpdateModalDisabled,
 		isUpdateModalLoading,
 		handleChangeAttendance,
+		onChangeDate,
+		selectedDate,
 	};
 };

@@ -8,9 +8,9 @@ export function useQuery<TQueryFnData = unknown, TError = ErrorModel, TData = TQ
 	options?: UseQueryOptions<TQueryFnData, TError, TData>,
 ): UseQueryResult<TData, TError> {
 	return useOriginalQuery(queryKey, queryFn, {
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
+		refetchOnMount: true,
+		refetchOnReconnect: true,
+		refetchOnWindowFocus: true,
 		retry: false,
 		...options,
 	});

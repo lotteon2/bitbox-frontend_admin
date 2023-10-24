@@ -193,7 +193,7 @@ export const useManagerTable = () => {
 				email: it.adminEmail,
 				rate: it.adminAuthority,
 				imageSrc: it.adminProfileImg,
-				class: it.classInfoResponses[0].className,
+				class: it.classInfoResponses.length > 0 ? it.classInfoResponses[0].className : '',
 			});
 			setAdmins([...temp]);
 		});

@@ -174,6 +174,7 @@ export const useClassTable = () => {
 	}, [selectedIdx, selectedClassName, selectedIsGraduate]);
 
 	useEffect(() => {
+		console.log('data', data);
 		const temp: DataType[] = [];
 		if (!data?.length) {
 			setClassesData([]);

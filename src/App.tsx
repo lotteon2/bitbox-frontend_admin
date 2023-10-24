@@ -1,9 +1,9 @@
 import { QueryClientProvider } from 'react-query';
 import { RouterProvider } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { useAppMount } from './App.hooks';
 import router from './routes';
 import Loading from './components/common/Loading';
+import { useAppMount } from './App.hooks';
 
 const App = () => {
 	const { queryClientRef } = useAppMount();

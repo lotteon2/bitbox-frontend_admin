@@ -1,9 +1,11 @@
 import { DatePicker, DatePickerProps, Modal } from 'antd';
 import Search from 'antd/es/input/Search';
+import locale from 'antd/es/date-picker/locale/ko_KR';
 import Table, { DataType } from '../../../components/common/Table';
 import SelectClass from '../../../components/common/SelectClass';
 import { useAttendanceModal, useAttendanceTable } from './Attendance.hooks';
 import Button from '../../../components/common/Button';
+import 'dayjs/locale/ko';
 import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
 
 export const getAttendanceValueTypeForSelect = () => {
@@ -18,6 +20,7 @@ export const getAttendanceValueTypeForSelect = () => {
 const Attendance = () => {
 	const {
 		handleSearch,
+		onChangeDate,
 		inputName,
 		setInputName,
 		attendanceData,
@@ -33,11 +36,8 @@ const Attendance = () => {
 		comment,
 		setComment,
 		handleChangeAttendance,
+		selectedDate,
 	} = useAttendanceTable();
-
-	const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-		console.log(date, dateString);
-	};
 
 	return (
 		<div className="ml-10 w-11/12 h-full mt-10">
@@ -46,7 +46,7 @@ const Attendance = () => {
 					<div className="flex justify-between w-full my-5">
 						<div>
 							<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
-							<DatePicker onChange={onChange} className="ml-5" />
+							<DatePicker onChange={onChangeDate} className="ml-5" locale={locale} value={selectedDate} />
 						</div>
 						<div className="w-1/3">
 							<Search

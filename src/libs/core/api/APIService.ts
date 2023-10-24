@@ -29,6 +29,7 @@ class APIService {
 		}
 
 		this.$instance = new this();
+
 		return this.$instance as T;
 	}
 
@@ -98,3 +99,10 @@ class APIService {
 }
 
 export default APIService;
+
+/* eslint no-param-reassign: "off" */
+axios.interceptors.request.use((config) => {
+	config.headers['Content-Type'] = 'application/json';
+	config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+	return config;
+});

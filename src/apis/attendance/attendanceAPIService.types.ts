@@ -12,7 +12,7 @@ export interface GetAllAttendanceInfoResponse {
 	memberName: string;
 	attendanceId: number;
 	attendanceDate: string;
-	entrance: string;
+	entrace: string;
 	quit: string;
 	attendanceState: keyof typeof ATTENDANCE;
 	attendanceModifyReason?: string;
