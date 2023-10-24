@@ -1,5 +1,3 @@
-import { GetClassResponseData } from '../class/classAPIService.types';
-
 export interface CreateExamParams {
 	classId: number;
 	examName: string;
@@ -17,11 +15,9 @@ export interface UpdateExamParams {
 }
 
 export interface GetExamResponseData {
-	examName: string;
-	perfectScroe: number;
-	classes: GetClassResponseData;
 	examId: number;
+	examName: string;
+	avg: number;
+	className: string;
 	perfectScore: number;
-	deleted: boolean;
-	grades: [];
 }

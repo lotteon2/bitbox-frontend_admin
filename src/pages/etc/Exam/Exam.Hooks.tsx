@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -8,8 +9,11 @@ import { AxiosError } from 'axios';
 import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
-import { classApi } from '../../../apis/class/classAPIService';
-import { examApi } from '../../../apis/exam/examAPIService';
+import { useUserStore } from '../../../stores/user/user.store';
+import { useGetAllExamQuery } from '../../../queries/useGetAllExamQuery';
+import { useClassStore } from '../../../stores/class/class.store';
+import { useCreateExamMutation } from '../../../mutations/useCreateExamMutation';
+import { usePatchExamMutation } from '../../../mutations/usePatchExamMutation';
 
 export const useExamModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -17,6 +21,9 @@ export const useExamModal = () => {
 	const [perfectScore, setPerfectScore] = useState<number | null>(null);
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const classId = useClassStore((state) => state.classId);
+
+	const { mutateAsync } = useCreateExamMutation();
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -28,11 +35,9 @@ export const useExamModal = () => {
 		setIsModalOpen(true);
 	};
 
-	// TODO: 반선택하는 로직 추가
 	const handleOk = async () => {
 		setIsLoading(true);
-		await examApi
-			.createExam({ classId: 1, examName: name, perfectScore: perfectScore as number })
+		await mutateAsync({ classId, examName: name, perfectScore: perfectScore as number })
 			.then((res) => {
 				console.log(res);
 				Toast(true, '시험이 추가되었어요');
@@ -85,34 +90,38 @@ export const useExamUpdateModal = () => {
 	const [selectedClassName, setSelectedClassName] = useState<string>('');
 	const [selectedExamId, setSelectedExamId] = useState<number>(0);
 
+	/* react-query */
+	const { mutateAsync } = usePatchExamMutation();
+	const { refetch } = useGetAllExamQuery();
 	const showModal = (examId: number, className: string, examName: string, perfectScore: number) => {
 		setUpdatePerfectScore(perfectScore);
 		setUpdateName(examName);
 		setSelectedClassName(className);
 		setIsModalOpen(true);
 		setSelectedExamId(examId);
+		console.log('EXAM ID', examId);
 	};
 
 	const handleOk = async () => {
 		setIsLoading(true);
-		// console.log(examName, perfectScore, className);
-		await examApi
-			.updateExam(selectedExamId, {
+		console.log(selectedExamId, updateName, updatePerfectScore);
+		await mutateAsync({
+			examId: selectedExamId as number,
+			params: {
 				examName: updateName,
 				perfectScore: updatePerfectScore,
-			})
-			.then((res) => {
-				console.log(res);
-				Toast(true, '시험 정보가 수정되었어요');
-			});
-		// clearValues();
+			},
+		}).then((res) => {
+			console.log(res);
+			Toast(true, '시험 정보가 수정되었어요');
+			refetch();
+		});
 		setIsLoading(false);
 		setIsModalOpen(false);
 	};
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
-		// clearValues();
 	};
 
 	useEffect(() => {
@@ -142,9 +151,18 @@ export const useExamUpdateModal = () => {
 };
 
 export const useExamTable = () => {
+	const navigate = useNavigate();
 	const [examsData, setExamsData] = useState<DataType[]>([]);
-	const [isGraduate, setIsGraduate] = useState<string>('isNotGraduate');
+	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
+		state.isLogin,
+		state.myClassesOption,
+		state.myClasses,
+	]);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 
+	/* react-query */
+	const { data, fetchQuery, refetch } = useGetAllExamQuery();
+	const { mutateAsync } = usePatchExamMutation();
 	const {
 		isModalOpen,
 		isDisabled,
@@ -159,38 +177,70 @@ export const useExamTable = () => {
 		selectedClassName,
 	} = useExamUpdateModal();
 
-	const getAllClass = async () => {
-		await examApi
-			.getExamsByClassId(1)
-			.then((res) => {
-				console.log(res);
-				const temp: DataType[] = [];
-				res.forEach((it) => {
-					temp.push({
-						key: it.examId,
-						exam: it.examName,
-						class: it.classes.className,
-						score: it.perfectScore,
-					});
-				});
-				setExamsData([...temp]);
-			})
-			.catch((err: AxiosError) => {
-				Toast(false, err.message);
-			});
-	};
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
 
+	useEffect(() => {
+		if (!data) {
+			Toast(false, '시험 리스트를 불러오지 못했어요.');
+			return;
+		}
+		if (myClassesOption.length > 0) {
+			if (classId === -1) {
+				dispatchClassId(myClassesOption[0].value);
+			}
+			console.log('selectedClassId', classId);
+		}
+	}, [classId, myClassesOption]);
+
+	useEffect(() => {
+		fetchQuery();
+	}, [classId]);
+
+	const handleChangeSelectedClassId = useCallback((value: string) => {
+		dispatchClassId(Number(value));
+		console.log(`selected ${value}`);
+	}, []);
+
+	// const getAllClass = async () => {
+	// 	await examApi
+	// 		.getExamsByClassId(1)
+	// 		.then((res) => {
+	// 			console.log(res);
+	// 			const temp: DataType[] = [];
+	// 			res.forEach((it) => {
+	// 				temp.push({
+	// 					key: it.examId,
+	// 					exam: it.examName,
+	// 					class: it.classes.className,
+	// 					score: it.perfectScore,
+	// 				});
+	// 			});
+	// 			setExamsData([...temp]);
+	// 		})
+	// 		.catch((err: AxiosError) => {
+	// 			Toast(false, err.message);
+	// 		});
+	// };
+
+	const deleteExam = async (idx: number) => {
+		await mutateAsync({ examId: idx, params: { isDeleted: true } })
+			.then(() => {
+				Toast(true, '시험 정보가 삭제되었어요.');
+				refetch();
+			})
+			.catch((err) => Toast(false, '시험 정보 삭제에 실패했어요.'));
+	};
 	const handleDelete = (id: number) => {
 		Alert('시험 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then(async (result) => {
 			if (result.isConfirmed) {
-				await examApi
-					.updateExam(id, { isDeleted: true })
-					.then((res) => {
-						Toast(true, '시험 정보가 삭제되었습니다.');
-					})
-					.catch((err: AxiosError) => {
-						Toast(false, err.message);
-					});
+				deleteExam(id);
 			}
 		});
 	};
@@ -245,7 +295,7 @@ export const useExamTable = () => {
 										type="button"
 										onClick={() =>
 											showModal(
-												examsData[idx].key,
+												examsData[idx].key as number,
 												examsData[idx].class as string,
 												examsData[idx].exam as string,
 												examsData[idx].score as number,
@@ -275,25 +325,28 @@ export const useExamTable = () => {
 		},
 	];
 
-	const getData = async () => {
-		await examApi.getExamsByClassId(1).then((res) => {
-			console.log(res);
-		});
-	};
-
 	useEffect(() => {
-		getData();
-		getAllClass();
-	}, []);
+		console.log('data', data);
+		if (!data?.length) {
+			setExamsData([]);
+			return;
+		}
+		const temp: DataType[] = [];
+		data.forEach((it) => {
+			temp.push({
+				key: it.examId,
+				exam: it.examName,
+				class: it.className,
+				score: it.perfectScore,
+				avgScore: it.avg,
+			});
+			setExamsData([...temp]);
+		});
+	}, [data]);
 
 	return {
 		isDisabled,
-		isGraduate,
-		setIsGraduate,
-		// name,
-		// setName,
 		isModalOpen,
-		// setIsModalOpen,
 		isLoading,
 		showModal,
 		handleOk,
@@ -306,5 +359,7 @@ export const useExamTable = () => {
 		examsData,
 		updatePerfectScore,
 		setUpdatePerfectScore,
+		handleChangeSelectedClassId,
+		myClassesOption,
 	};
 };

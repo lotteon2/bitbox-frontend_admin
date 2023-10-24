@@ -27,6 +27,7 @@ export const useFirstLogin = () => {
 				.then((res) => {
 					dispatchIsFirstLogin(false);
 					navigate('/');
+					Toast(true, '비밀번호가 수정되었어요.');
 				});
 		}
 	};

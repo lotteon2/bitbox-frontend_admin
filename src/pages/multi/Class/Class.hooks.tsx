@@ -175,15 +175,15 @@ export const useClassTable = () => {
 
 	useEffect(() => {
 		const temp: DataType[] = [];
-		if (!data) {
-			Toast(false, '클래스 리스트를 불러오지 못했어요.');
+		if (!data?.length) {
+			setClassesData([]);
 			return;
 		}
 		data.forEach((it) => {
 			temp.push({
 				key: it.classId,
 				classCode: it.classCode,
-				name: it.className,
+				name: it.adminInfos[0].adminName || '',
 				class: it.className,
 				isFinished: it.graduated,
 			});
