@@ -16,15 +16,23 @@ import { Alert } from '../../../components/common/Alert';
 import { usePatchStudentMutation } from '../../../mutations/usePatchStudentMutation';
 import { AUTHORITY } from '../../../constants/AuthorityType';
 import { useClassStore } from '../../../stores/class/class.store';
+import { useDeleteInvitedMutation } from '../../../mutations/useDeleteInvitedMutation';
 
 export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
+	const { mutateAsync } = useDeleteInvitedMutation();
 	const [invitedStudents, setInvitedStudents] = useState<DataType[]>([]);
 	const handleDeleteInvitedStudent = async (email: string) => {
 		// TODO : 종민이에게 뭘로 삭제할 지 확인 후 수정
-		await authApi.deleteInvitedStudent(email).then((res) => {
-			console.log(res);
-		});
+		await mutateAsync(email)
+			.then((res) => {
+				console.log(res);
+				Toast(true, '교육생 초대가 취소되었어요.');
+				refetch();
+			})
+			.catch((err) => {
+				Toast(false, '교육생 초대 취소에 실패했어요.');
+			});
 		console.log(email);
 	};
 
@@ -72,7 +80,11 @@ export const useInvitedStudent = () => {
 	];
 
 	useEffect(() => {
-		if (!data) return;
+		console.log('data', data);
+		if (!data?.length) {
+			setInvitedStudents([]);
+			return;
+		}
 		const temp: DataType[] = [];
 		data.forEach((it, idx) => {
 			temp.push({
@@ -83,7 +95,7 @@ export const useInvitedStudent = () => {
 			});
 			setInvitedStudents([...temp]);
 		});
-	}, [data, refetch]);
+	}, [data]);
 
 	return {
 		invitedStudents,
@@ -166,7 +178,6 @@ export const useStudentModal = () => {
 			render: (text) => (
 				<button type="button" onClick={() => handleDeleteStudentAlert(text)}>
 					<DeleteOutlineOutlinedIcon className="mr-2" />
-					삭제
 				</button>
 			),
 		},
