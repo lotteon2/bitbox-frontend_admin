@@ -178,20 +178,6 @@ export const useManagerTable = () => {
 			}
 			console.log('selectedClassId', classId);
 		}
-
-		// console.log(data);
-		// data.forEach((it, idx) => {
-		// 	temp.push({
-		// 		key: idx,
-		// 		state: it.adminId,
-		// 		name: it.adminName,
-		// 		email: it.adminEmail,
-		// 		rate: it.adminAuthority,
-		// 		imageSrc: it.adminProfileImg,
-		// 		class: it.classInfoResponses[0].className,
-		// 	});
-		// });
-		// setAdmins([...temp]);
 	}, [classId, myClassesOption]);
 
 	useEffect(() => {
@@ -242,7 +228,7 @@ export const useManagerTable = () => {
 			title: '',
 			dataIndex: 'imageSrc',
 			key: 'imageSrc',
-			render: (text) => <Avatar src={text} size="large" />,
+			render: (text) => <Avatar src={text || null} size="large" />,
 			width: '100px',
 		},
 		{

@@ -102,7 +102,7 @@ const Score = () => {
 			title: '',
 			dataIndex: 'imageSrc',
 			key: 'imageSrc',
-			render: (text) => <Avatar src={text} size="large" />,
+			render: (text) => <Avatar src={text || null} size="large" />,
 			align: 'center',
 		},
 		{

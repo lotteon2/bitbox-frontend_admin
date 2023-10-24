@@ -203,6 +203,25 @@ export const useExamTable = () => {
 		fetchQuery();
 	}, [classId]);
 
+	useEffect(() => {
+		console.log('data', data);
+		if (!data?.length) {
+			setExamsData([]);
+			return;
+		}
+		const temp: DataType[] = [];
+		data.forEach((it) => {
+			temp.push({
+				key: it.examId,
+				exam: it.examName,
+				class: it.className,
+				score: it.perfectScore,
+				avgScore: it.avg,
+			});
+			setExamsData([...temp]);
+		});
+	}, [data]);
+
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		dispatchClassId(Number(value));
 		console.log(`selected ${value}`);
@@ -324,25 +343,6 @@ export const useExamTable = () => {
 			),
 		},
 	];
-
-	useEffect(() => {
-		console.log('data', data);
-		if (!data?.length) {
-			setExamsData([]);
-			return;
-		}
-		const temp: DataType[] = [];
-		data.forEach((it) => {
-			temp.push({
-				key: it.examId,
-				exam: it.examName,
-				class: it.className,
-				score: it.perfectScore,
-				avgScore: it.avg,
-			});
-			setExamsData([...temp]);
-		});
-	}, [data]);
 
 	return {
 		isDisabled,

@@ -10,29 +10,14 @@ import { attendanceApi } from '../../../apis/attendance/attendanceAPIService';
 import { useGetAllAttendanceQuery } from '../../../queries/useGetAllAttendanceQuery';
 import { useUserStore } from '../../../stores/user/user.store';
 import { useClassStore } from '../../../stores/class/class.store';
+import { usePatchAttendanceMutation } from '../../../mutations/usePatchAttendanceMutation';
 
 export const useAttendanceModal = () => {
-	const navigate = useNavigate();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [comment, setComment] = useState<string>(''); // comment
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
-		state.isLogin,
-		state.myClassesOption,
-		state.myClasses,
-	]);
-	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
-
-	useEffect(() => {
-		if (!isLogin) {
-			navigate('/login');
-		}
-		return () => {
-			dispatchClassId(-1);
-		};
-	}, []);
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -114,16 +99,74 @@ export const useAttendanceModal = () => {
 // ];
 
 export const useAttendanceTable = () => {
-	const [userData, setUserData] = useState<DataType[]>([]);
-	const { data } = useGetAllAttendanceQuery();
+	const navigate = useNavigate();
+	const [attendanceData, setAttendanceData] = useState<DataType[]>([]);
 	const { showModal } = useAttendanceModal();
+
+	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
+		state.isLogin,
+		state.myClassesOption,
+		state.myClasses,
+	]);
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
+
+	/* react-query */
+	const { data, fetchQuery, refetch } = useGetAllAttendanceQuery();
+	const { mutateAsync } = usePatchAttendanceMutation();
+
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
+
+	useEffect(() => {
+		fetchQuery();
+	}, [classId]);
+
+	useEffect(() => {
+		if (!data) {
+			Toast(false, '출석 리스트를 불러오지 못했어요.');
+			return;
+		}
+		if (myClassesOption.length > 0) {
+			if (classId === -1) {
+				dispatchClassId(myClassesOption[0].value);
+			}
+			console.log('selectedClassId', classId);
+		}
+	}, [classId, myClassesOption]);
+
+	useEffect(() => {
+		console.log('data', data);
+		if (!data?.length) {
+			setAttendanceData([]);
+			return;
+		}
+		const temp: DataType[] = [];
+		data.forEach((it, idx) => {
+			temp.push({
+				key: it.attendanceId,
+				attendanceState: it.attendanceState,
+				attendanceModifyReason: it.attendanceModifyReason,
+				entranceTime: it.entrance,
+				quitTime: it.quit,
+				imageSrc: it.memberProfileImg,
+				name: it.memberName,
+			});
+			setAttendanceData([...temp]);
+		});
+	}, [data]);
 
 	const columns: ColumnsType<DataType> = [
 		{
 			title: '',
 			dataIndex: 'imageSrc',
 			key: 'imageSrc',
-			render: (text) => <Avatar src={text} size="large" />,
+			render: (text) => <Avatar src={text || null} size="large" />,
 			width: '100px',
 		},
 		{
@@ -167,22 +210,15 @@ export const useAttendanceTable = () => {
 			title: '',
 			dataIndex: 'state',
 			key: 'state',
-			render: (text, a, id) => <TableStateChip title={text} handleClick={() => showModal(userData[id].name || '')} />,
+			render: (text, a, id) => (
+				<TableStateChip title={text} handleClick={() => showModal(attendanceData[id].name || '')} />
+			),
 		},
 	];
 
-	const getData = async () => {
-		await attendanceApi.getAllAttendanceInfo(1).then((res) => {
-			console.log(res);
-		});
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
 	return {
-		userData,
+		attendanceData,
 		columns,
+		myClassesOption,
 	};
 };
