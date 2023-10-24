@@ -1,7 +1,9 @@
+import { ATTENDANCE } from '../../constants/AttendanceType';
+
 export interface UpdateAttendanceInfoParams {
 	attendanceId: number;
 	attendanceState: string;
-	attendanceModifyReason: string;
+	attendanceModifyReason?: string;
 }
 
 export interface GetAllAttendanceInfoResponse {
@@ -12,7 +14,7 @@ export interface GetAllAttendanceInfoResponse {
 	attendanceDate: string;
 	entrance: string;
 	quit: string;
-	attendanceState: string;
+	attendanceState: keyof typeof ATTENDANCE;
 	attendanceModifyReason?: string;
 	reasonTitle?: string;
 }

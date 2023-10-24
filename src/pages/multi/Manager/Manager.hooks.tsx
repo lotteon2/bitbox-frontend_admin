@@ -54,7 +54,7 @@ export const useManagerModal = () => {
 		setIsLoading(true);
 		await mutateAsync({ adminEmail: email, adminName: name, adminAuthority: authority })
 			.then((res) => {
-				Toast(true, '관리자가 초대되었어요');
+				Toast(true, '관리자가 초대되었어요.');
 				clearValues();
 				setIsModalOpen(false);
 				refetch();
@@ -169,7 +169,6 @@ export const useManagerTable = () => {
 
 	useEffect(() => {
 		if (!data) {
-			Toast(false, '관리자 리스트를 불러오지 못했어요.');
 			return;
 		}
 		if (myClassesOption.length > 0) {
@@ -181,7 +180,10 @@ export const useManagerTable = () => {
 	}, [classId, myClassesOption]);
 
 	useEffect(() => {
-		if (!data) return;
+		if (!data?.length) {
+			setAdmins([]);
+			return;
+		}
 		const temp: DataType[] = [];
 		data.forEach((it, idx) => {
 			temp.push({

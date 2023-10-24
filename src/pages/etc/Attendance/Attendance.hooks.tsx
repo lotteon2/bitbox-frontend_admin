@@ -2,41 +2,63 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import { Avatar } from 'antd';
+import { AxiosError } from 'axios';
 import { Toast } from '../../../components/common/Toast';
 import TableStateChip from '../../../components/common/TableStateChip';
 import { DataType } from '../../../components/common/Table';
 import AttendanceState from '../../../components/common/AttendanceState';
-import { attendanceApi } from '../../../apis/attendance/attendanceAPIService';
 import { useGetAllAttendanceQuery } from '../../../queries/useGetAllAttendanceQuery';
 import { useUserStore } from '../../../stores/user/user.store';
 import { useClassStore } from '../../../stores/class/class.store';
 import { usePatchAttendanceMutation } from '../../../mutations/usePatchAttendanceMutation';
+import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
 
 export const useAttendanceModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [comment, setComment] = useState<string>(''); // comment
 	const [name, setName] = useState<string>('');
+	const [attendanceState, setAttendanceState] = useState<string>(getAttendacne(ATTENDANCE.ATTENDANCE));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [selectedExamId, setSelectedExamId] = useState<number>(-1);
+
+	const { mutateAsync } = usePatchAttendanceMutation();
+	const { refetch } = useGetAllAttendanceQuery();
 
 	const clearValues = () => {
 		setIsDisabled(true);
 		setComment('');
-		setName('');
 	};
 
-	const showModal = (value: string) => {
+	const handleChangeAttendance = (value: string) => {
+		setAttendanceState(() => value);
+	};
+
+	const showModal = (value: number, initAttendanceState: keyof typeof ATTENDANCE, initName: string) => {
 		console.log(value);
-		setName(() => value);
+		console.log('initAttendanceState', initAttendanceState);
+		console.log('initName', initName);
+		setSelectedExamId(value);
 		setIsModalOpen(true);
+		setAttendanceState(initAttendanceState);
+		setName(initName);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
 		setIsLoading(true);
-		Toast(true, '출석 상태가 변경되었어요.');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
+		await mutateAsync({ attendanceId: selectedExamId, attendanceState, attendanceModifyReason: comment })
+			.then((res) => {
+				Toast(true, '출석 상태가 변경되었어요.');
+				clearValues();
+				setIsModalOpen(false);
+				refetch();
+			})
+			.catch((err: AxiosError) => {
+				Toast(false, '출석 상태 변경에 실패했어요.');
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	const handleCancel = () => {
@@ -45,63 +67,45 @@ export const useAttendanceModal = () => {
 	};
 
 	useEffect(() => {
-		if (name) {
+		if (attendanceState) {
 			setIsDisabled(false);
 			console.log(isModalOpen);
 		}
-	}, [name, isModalOpen]);
+	}, [attendanceState, isModalOpen]);
 
 	return {
 		isDisabled,
 		setComment,
 		comment,
-		name,
-		setName,
 		isModalOpen,
 		setIsModalOpen,
 		isLoading,
 		showModal,
 		handleOk,
 		handleCancel,
+		name,
+		attendanceState,
+		handleChangeAttendance,
 	};
 };
-
-// const data: DataType[] = [
-// 	{
-// 		key: 1,
-// 		name: '김명준',
-// 		attendanceState: '결석',
-// 		entranceTime: '',
-// 		quitTime: '',
-// 		attendanceModifyReason: '개인 사정으로 인한 결석',
-// 		state: '변경',
-// 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-// 	},
-// 	{
-// 		key: 2,
-// 		name: '김정윤',
-// 		attendanceState: '출석',
-// 		entranceTime: '2023/09/08 8:30',
-// 		quitTime: '2023/09/08 22:00',
-// 		attendanceModifyReason: '',
-// 		state: '변경',
-// 		imageSrc: 'https://github.com/Hyevvy/lotbook/assets/72402747/21bea927-f307-4b82-879e-83668bb9f340',
-// 	},
-// 	{
-// 		key: 3,
-// 		name: '마혜경',
-// 		attendanceState: '외출',
-// 		entranceTime: '2023/09/08 8:30',
-// 		quitTime: '2023/09/08 22:00',
-// 		attendanceModifyReason: '병원으로 인한 외출',
-// 		state: '변경',
-// 	},
-// ];
 
 export const useAttendanceTable = () => {
 	const navigate = useNavigate();
 	const [attendanceData, setAttendanceData] = useState<DataType[]>([]);
-	const { showModal } = useAttendanceModal();
+	const {
+		showModal,
+		isModalOpen: isUpdateModalOpen,
+		isDisabled: isUpdateModalDisabled,
+		isLoading: isUpdateModalLoading,
+		handleCancel: handleUpdateModalCancel,
+		handleOk: handleUpdateModalOk,
+		name,
+		attendanceState,
+		comment,
+		setComment,
+		handleChangeAttendance,
+	} = useAttendanceModal();
+	const [inputName, setInputName] = useState<string>('');
 
 	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
 		state.isLogin,
@@ -112,7 +116,16 @@ export const useAttendanceTable = () => {
 
 	/* react-query */
 	const { data, fetchQuery, refetch } = useGetAllAttendanceQuery();
-	const { mutateAsync } = usePatchAttendanceMutation();
+
+	const handleChangeSelectedClassId = (value: string) => {
+		console.log(`selected ${value}`);
+		dispatchClassId(Number(value));
+	};
+
+	/* search bar */
+	const handleSearch = () => {
+		console.log(inputName);
+	};
 
 	useEffect(() => {
 		if (!isLogin) {
@@ -128,8 +141,8 @@ export const useAttendanceTable = () => {
 	}, [classId]);
 
 	useEffect(() => {
-		if (!data) {
-			Toast(false, '출석 리스트를 불러오지 못했어요.');
+		if (!data?.length) {
+			setAttendanceData([]);
 			return;
 		}
 		if (myClassesOption.length > 0) {
@@ -210,8 +223,18 @@ export const useAttendanceTable = () => {
 			title: '',
 			dataIndex: 'state',
 			key: 'state',
+			align: 'right',
 			render: (text, a, id) => (
-				<TableStateChip title={text} handleClick={() => showModal(attendanceData[id].name || '')} />
+				<TableStateChip
+					title="수정"
+					handleClick={() =>
+						showModal(
+							attendanceData[id].key,
+							attendanceData[id].attendanceState as keyof typeof ATTENDANCE,
+							attendanceData[id].name || '',
+						)
+					}
+				/>
 			),
 		},
 	];
@@ -220,5 +243,19 @@ export const useAttendanceTable = () => {
 		attendanceData,
 		columns,
 		myClassesOption,
+		handleChangeSelectedClassId,
+		inputName,
+		setInputName,
+		handleSearch,
+		isUpdateModalOpen,
+		handleUpdateModalCancel,
+		handleUpdateModalOk,
+		name,
+		attendanceState,
+		comment,
+		setComment,
+		isUpdateModalDisabled,
+		isUpdateModalLoading,
+		handleChangeAttendance,
 	};
 };

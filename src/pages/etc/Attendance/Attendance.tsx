@@ -1,22 +1,39 @@
-import { ColumnsType } from 'antd/es/table';
-import { Avatar, DatePicker, DatePickerProps, Modal } from 'antd';
+import { DatePicker, DatePickerProps, Modal } from 'antd';
 import Search from 'antd/es/input/Search';
 import Table, { DataType } from '../../../components/common/Table';
-import TableStateChip from '../../../components/common/TableStateChip';
-import AttendanceState from '../../../components/common/AttendanceState';
 import SelectClass from '../../../components/common/SelectClass';
 import { useAttendanceModal, useAttendanceTable } from './Attendance.hooks';
 import Button from '../../../components/common/Button';
+import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
+
+export const getAttendanceValueTypeForSelect = () => {
+	const result = [];
+	const attendanceArray = Object.values(ATTENDANCE);
+	for (let i = 0; i < 3; i += 1) {
+		result.push({ value: getAttendacne(attendanceArray[i]), label: getAttendacne(attendanceArray[i]) });
+	}
+	return result;
+};
 
 const Attendance = () => {
-	const { isModalOpen, isDisabled, isLoading, comment, name, setName, setComment, handleOk, handleCancel } =
-		useAttendanceModal();
-
-	const { attendanceData, columns, myClassesOption } = useAttendanceTable();
-
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
-	};
+	const {
+		handleSearch,
+		inputName,
+		setInputName,
+		attendanceData,
+		columns,
+		myClassesOption,
+		handleChangeSelectedClassId,
+		isUpdateModalOpen,
+		handleUpdateModalCancel,
+		handleUpdateModalOk,
+		isUpdateModalDisabled,
+		isUpdateModalLoading,
+		name,
+		comment,
+		setComment,
+		handleChangeAttendance,
+	} = useAttendanceTable();
 
 	const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 		console.log(date, dateString);
@@ -28,37 +45,49 @@ const Attendance = () => {
 				<>
 					<div className="flex justify-between w-full my-5">
 						<div>
-							<SelectClass handleChange={handleChange} options={myClassesOption} />
+							<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
 							<DatePicker onChange={onChange} className="ml-5" />
 						</div>
 						<div className="w-1/3">
-							<Search placeholder="이름을 검색해주세요" allowClear />
+							<Search
+								placeholder="이름을 검색해주세요"
+								allowClear
+								value={inputName}
+								onChange={(e) => setInputName(e.target.value)}
+								maxLength={10}
+								onSearch={handleSearch}
+							/>
 						</div>
 					</div>
 					<Table data={attendanceData} columns={columns} />
 					<Modal
 						title="출석 상태 변경"
-						open={isModalOpen}
+						open={isUpdateModalOpen}
 						destroyOnClose
-						onOk={handleOk}
-						onCancel={handleCancel}
+						onOk={handleUpdateModalOk}
+						onCancel={handleUpdateModalCancel}
 						maskClosable={false}
 						footer={[
-							<Button handleClick={handleCancel} content="취소" type="cancel" key="a" />,
 							<Button
-								handleClick={handleOk}
+								handleClick={handleUpdateModalCancel}
+								content="취소"
+								type="cancel"
+								key="cancelUpdateAttendance"
+							/>,
+							<Button
+								handleClick={handleUpdateModalOk}
 								content="변경"
-								loading={isLoading}
-								disabled={isDisabled}
+								loading={isUpdateModalLoading}
+								disabled={isUpdateModalDisabled}
 								type="positive"
-								key="c"
+								key="updateAttendance"
 							/>,
 						]}
 					>
 						<div className="my-10 flex flex-col align-center justify-center">
-							<div>
-								<input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
-								<SelectClass options={myClassesOption} handleChange={handleChange} isReadOnly />
+							<div className="flex justify-between w-full">
+								<input value={name} id="swal2-input" className="swal2-input" readOnly disabled />
+								<SelectClass options={getAttendanceValueTypeForSelect()} handleChange={handleChangeAttendance} />
 							</div>
 							<br />
 							<br />

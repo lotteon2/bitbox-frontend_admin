@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table as AntdTable } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { ATTENDANCE } from '../../constants/AttendanceType';
 
 export interface DataType {
 	key: number;
@@ -18,7 +19,7 @@ export interface DataType {
 	classCode?: string;
 	entranceTime?: string;
 	quitTime?: string;
-	attendanceState?: string;
+	attendanceState?: keyof typeof ATTENDANCE;
 	attendanceModifyReason?: string;
 	exam?: string;
 	score?: number;

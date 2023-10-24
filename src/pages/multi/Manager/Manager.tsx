@@ -7,8 +7,6 @@ import { useManagerModal, useManagerTable } from './Manager.hooks';
 import ProfileUpdater from '../../../components/common/ProfileUpdater';
 import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
-import { GetAdminInfoResponseData } from '../../../apis/admin/adminAPIService.types';
-import { useUserStore } from '../../../stores/user/user.store';
 
 export const getAuthorityValueTypeForSelect = () => {
 	const result = [];
