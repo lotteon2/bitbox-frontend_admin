@@ -28,6 +28,15 @@ class AuthAPIService extends APIService {
 		const { data } = await this.get<GetAllInvitedStudentsResponseData[]>('/invitation');
 		return data;
 	}
+
+	async deleteInvitedStudent(e: string) {
+		const { data } = await this.delete('/invitation', undefined, { headers: { email: e } });
+		this.headers = {
+			email: e,
+		};
+		console.log(this.headers);
+		return data;
+	}
 }
 
 export const authApi: AuthAPIService = AuthAPIService.shared();

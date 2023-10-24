@@ -20,9 +20,12 @@ import { useClassStore } from '../../../stores/class/class.store';
 export const useInvitedStudent = () => {
 	const { refetch, data } = useGetAllInvitedStudentQuery();
 	const [invitedStudents, setInvitedStudents] = useState<DataType[]>([]);
-	const handleDeleteInvitedStudent = (studentId: number) => {
+	const handleDeleteInvitedStudent = async (email: string) => {
 		// TODO : 종민이에게 뭘로 삭제할 지 확인 후 수정
-		console.log(studentId);
+		await authApi.deleteInvitedStudent(email).then((res) => {
+			console.log(res);
+		});
+		console.log(email);
 	};
 
 	const invitedStudentColumns: ColumnsType<DataType> = [
@@ -76,7 +79,7 @@ export const useInvitedStudent = () => {
 				key: idx,
 				class: it.className,
 				email: it.email,
-				state: it.classCode,
+				state: it.email,
 			});
 			setInvitedStudents([...temp]);
 		});
