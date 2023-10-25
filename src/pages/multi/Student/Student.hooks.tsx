@@ -133,7 +133,7 @@ export const useStudentModal = () => {
 
 	const handleDeleteStudentAlert = (id: string) => {
 		console.log(id);
-		Alert('교육생 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then((result) => {
+		Alert({ title: '교육생 정보를 삭제하시겠습니까?', text: '삭제하시면 되돌릴 수 없습니다' }).then((result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				handleDeleteStudent(id);

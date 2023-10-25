@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import { Avatar, DatePickerProps } from 'antd';
 import { AxiosError } from 'axios';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import dayjs from 'dayjs';
 import { Toast } from '../../../components/common/Toast';
 import TableStateChip from '../../../components/common/TableStateChip';
@@ -239,16 +240,19 @@ export const useAttendanceTable = () => {
 			key: 'state',
 			align: 'right',
 			render: (text, a, id) => (
-				<TableStateChip
-					title="수정"
-					handleClick={() =>
+				<button
+					type="button"
+					onClick={() =>
 						showModal(
 							attendanceData[id].key,
 							attendanceData[id].attendanceState as keyof typeof ATTENDANCE,
 							attendanceData[id].name || '',
 						)
 					}
-				/>
+				>
+					<SettingsOutlinedIcon className="mr-2" />
+					수정
+				</button>
 			),
 		},
 	];

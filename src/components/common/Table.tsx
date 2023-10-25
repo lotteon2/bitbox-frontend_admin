@@ -3,6 +3,7 @@ import Column from 'antd/es/table/Column';
 import { Table as AntdTable, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ATTENDANCE } from '../../constants/AttendanceType';
+import { REASON_STATEMENT } from '../../constants/ReasonStatementType';
 
 export interface DataType {
 	key: number;
@@ -11,6 +12,7 @@ export interface DataType {
 	date?: string;
 	writer?: string;
 	state?: string;
+	reasonState?: keyof typeof REASON_STATEMENT;
 	rate?: string;
 	name?: string;
 	email?: string;
@@ -48,7 +50,11 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName, s
 				rowClassName={(record, index) => (record.isRead && record.isRead ? 'grayScale5' : 'grayScale1')}
 				onRow={(record, rowIndex) => {
 					return {
-						onClick: (event) => showModal && showModal(record, rowIndex as number),
+						onClick: (event) => {
+							console.log(event);
+							console.log(record);
+							return showModal ? showModal(record, rowIndex as number) : console.log('hi');
+						},
 					};
 				}}
 			/>

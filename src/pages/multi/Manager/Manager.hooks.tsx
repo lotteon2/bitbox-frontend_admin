@@ -218,7 +218,7 @@ export const useManagerTable = () => {
 	};
 
 	const handleDelete = async (id: number) => {
-		Alert('관리자 정보를 삭제하시겠어요?', '삭제하시면 되돌릴 수 없어요.').then((result) => {
+		Alert({ title: '관리자 정보를 삭제하시겠어요?', text: '삭제하시면 되돌릴 수 없어요.' }).then((result) => {
 			if (result.isConfirmed) {
 				deleteAdmin(admins[id].state as string);
 			}

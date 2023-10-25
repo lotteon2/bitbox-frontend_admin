@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
+import { Dropdown } from 'antd';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { useClassStore } from '../../../stores/class/class.store';
 import { useUserStore } from '../../../stores/user/user.store';
 import { DataType } from '../../../components/common/Table';
@@ -8,14 +12,19 @@ import TableStateChip from '../../../components/common/TableStateChip';
 import { useGetAllRequestQuery } from '../../../queries/useGetAllRequestQuery';
 import { usePatchRequestIsReadMutation } from '../../../mutations/usePatchRequestIsReadMutation';
 import { Toast } from '../../../components/common/Toast';
+import { REASON_STATEMENT } from '../../../constants/ReasonStatementType';
+import { usePatchRequestStateMutation } from '../../../mutations/usePatchRequestStateMutation';
+import { Alert } from '../../../components/common/Alert';
 
 export const useRequestModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [disabled, setIsDisabled] = useState<boolean>(false);
 	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
+	const [comment, setComment] = useState<string>('');
 	const { data, refetch } = useGetAllRequestQuery();
 	const { mutateAsync } = usePatchRequestIsReadMutation();
+	const { mutateAsync: mutateRequestStateAsync } = usePatchRequestStateMutation();
 
 	const showModal = async (record: DataType, rowIndex: number) => {
 		const selectedColumnKey = data?.reasonStatements.findIndex((it) => it.reasonStatementId === record.key);
@@ -33,6 +42,7 @@ export const useRequestModal = () => {
 					Toast(false, '사유서 읽음 처리에 실패했어요.');
 				});
 		}
+		console.log(rowIndex);
 		console.log(record);
 	};
 
@@ -44,12 +54,36 @@ export const useRequestModal = () => {
 		setIsModalOpen(false);
 	};
 
-	const handleRejectRequest = () => {
-		console.log('반려');
+	const updateRequestState = async (idx: number, state: keyof typeof REASON_STATEMENT) => {
+		await mutateRequestStateAsync({
+			reasonStatementId: idx,
+			params: {
+				reasonState: state,
+				rejectReason: '',
+			},
+		})
+			.then((res) => {
+				console.log(res);
+				Toast(true, `사유서가 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}되었어요.`);
+				setIsModalOpen(false);
+				setComment('');
+			})
+			.catch((err) => {
+				Toast(false, `사유서 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}에 실패했어요.`);
+			});
 	};
-
-	const handleApproveRequest = () => {
-		console.log('승인');
+    
+	const handleChangeRequestState = async (idx: number, state: keyof typeof REASON_STATEMENT) => {
+		console.log(state);
+		if (state === REASON_STATEMENT.APPROVE) {
+			updateRequestState(idx, state);
+		} else {
+			Alert({ title: '정말로 반려하시겠어요?', text: '반려시 수정할 수 없습니다', submitBtnText: '반려하기' }).then(
+				(res) => {
+					updateRequestState(idx, state);
+				},
+			);
+		}
 	};
 
 	return {
@@ -63,6 +97,9 @@ export const useRequestModal = () => {
 		disabled,
 		setIsDisabled,
 		selectedColumnIdx,
+		handleChangeRequestState,
+		comment,
+		setComment,
 	};
 };
 
@@ -83,6 +120,9 @@ export const useRequestTable = () => {
 		handleOk,
 		handleCancel,
 		selectedColumnIdx,
+		handleChangeRequestState,
+		comment,
+		setComment,
 	} = useRequestModal();
 
 	/* react-query */
@@ -130,34 +170,17 @@ export const useRequestTable = () => {
 				date: it.attendanceDate,
 				name: it.memberName,
 				isRead: it.read,
+				reasonState: it.reasonState,
 			});
 			setRequestData([...temp]);
 		});
 	}, [data]);
 
-	const requestData2 = [
-		{
-			key: 1,
-			title: '사유서제출해요',
-			content: '입원',
-			date: '2023.09.08',
-			name: '최성훈',
-			isRead: true,
-		},
-		{
-			key: 2,
-			title: '사유서제출해요',
-			content: '입원',
-			date: '2023.09.08',
-			name: '최성훈',
-			isRead: false,
-		},
-	];
-
 	const columns: ColumnsType<DataType> = [
 		{
 			dataIndex: 'key',
 			key: 'key',
+			width: '0px',
 		},
 		{
 			title: '제목',
@@ -186,13 +209,13 @@ export const useRequestTable = () => {
 		},
 		{
 			title: '',
-			dataIndex: 'state',
-			key: 'state',
+			dataIndex: 'reasonState',
+			key: 'reasonState',
 			align: 'center',
 			width: '100px',
 			render: (text) => (
 				<div className="w-full">
-					<TableStateChip title="반려" />
+					<TableStateChip title={text} />
 				</div>
 			),
 		},
@@ -214,5 +237,8 @@ export const useRequestTable = () => {
 		handleCancel,
 		showModal,
 		selectedColumnIdx,
+		handleChangeRequestState,
+		comment,
+		setComment,
 	};
 };

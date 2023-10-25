@@ -1,3 +1,5 @@
+import { REASON_STATEMENT } from '../../constants/ReasonStatementType';
+
 export interface GetAllRequestByClassIdResponseData {
 	reasonStatements: {
 		reasonStatementId: number;
@@ -6,7 +8,7 @@ export interface GetAllRequestByClassIdResponseData {
 		reasonTitle: string;
 		reasonContent: string;
 		reasonAttachedFile: string;
-		reasonState: string;
+		reasonState: keyof typeof REASON_STATEMENT;
 		read: boolean;
 	}[];
 	totalCount: number;

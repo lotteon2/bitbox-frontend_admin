@@ -206,7 +206,7 @@ export const useClassTable = () => {
 	};
 
 	const handleDelete = (id: number) => {
-		Alert('클래스 정보를 삭제하시겠습니까?', '삭제하시면 되돌릴 수 없습니다').then(async (result) => {
+		Alert({ title: '클래스 정보를 삭제하시겠습니까?', text: '삭제하시면 되돌릴 수 없습니다' }).then(async (result) => {
 			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				deleteClass(classesData[id].key);

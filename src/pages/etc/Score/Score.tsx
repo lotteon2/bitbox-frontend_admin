@@ -126,12 +126,12 @@ const Score = () => {
 			title: '',
 			dataIndex: 'state',
 			key: 'state',
-			render: (text: string, a, id) => (
-				<TableStateChip
-					title={text}
-					handleClick={() => showModal(data[id].name || '', data[id].score || 0, data[id].exam || '')}
-				/>
-			),
+			// render: (text: string, a, id) => (
+			// 	<TableStateChip
+			// 		title={text}
+			// 		handleClick={() => showModal(data[id].name || '', data[id].score || 0, data[id].exam || '')}
+			// 	/>
+			// ),
 		},
 	];
 

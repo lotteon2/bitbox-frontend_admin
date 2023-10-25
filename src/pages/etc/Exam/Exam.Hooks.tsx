@@ -237,7 +237,7 @@ export const useExamTable = () => {
 	};
 
 	const handleDelete = (id: number) => {
-		Alert('시험 정보를 삭제하시겠어요?', '삭제하면 되돌릴 수 없어요').then(async (result) => {
+		Alert({ title: '시험 정보를 삭제하시겠어요?', text: '삭제하면 되돌릴 수 없어요' }).then(async (result) => {
 			if (result.isConfirmed) {
 				deleteExam(id);
 			}

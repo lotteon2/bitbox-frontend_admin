@@ -20,7 +20,7 @@ export const translateReasonStatement = (status: REASON_STATEMENT) => {
 			translatatedStatus = '승인';
 			break;
 		case 'REJECT':
-			translatatedStatus = '거절';
+			translatatedStatus = '반려';
 			break;
 		default:
 			translatatedStatus = '';
