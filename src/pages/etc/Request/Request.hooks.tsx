@@ -113,7 +113,6 @@ export const useRequestTable = () => {
 		isModalOpen,
 		setIsModalOpen,
 		disabled,
-		setIsDisabled,
 		loading,
 		setLoading,
 		showModal,
