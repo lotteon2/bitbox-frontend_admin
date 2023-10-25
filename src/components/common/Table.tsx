@@ -35,11 +35,12 @@ interface TableInterface<T> {
 	columns: ColumnsType<T>;
 	data: T[];
 	showModal?: (record: DataType, rowIndex: number) => void;
+	handleClick?: () => void;
 }
 
-const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName, showModal }) => {
+const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName, showModal, handleClick }) => {
 	return (
-		<div className="flex flex-col items-center rounded-xl w-full">
+		<div className="flex flex-col items-center rounded-xl w-full" onClick={handleClick && handleClick} role="none">
 			{tableName && <div className="font-bold text-xl m-5">{tableName}</div>}
 			<AntdTable
 				key={tableName}
