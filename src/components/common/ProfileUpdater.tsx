@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import Button from './Button';
 import ImageUploader from './ImageUploader';
 import SelectClass from './SelectClass';
-import { handleChange } from '../../pages/multi/Class/Class';
+// import { handleChange } from '../../pages/multi/Class/Class';
 import { AUTHORITY } from '../../constants/AuthorityType';
 import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
 

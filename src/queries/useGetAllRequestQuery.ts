@@ -1,8 +1,8 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { useQuery } from '../libs/core/react-query';
-import { requestApi } from "../apis/request/requestAPIService";
-import { GetAllRequestByClassIdResponseData } from "../apis/request/requestAPIService.types";
-import { useClassStore } from "../stores/class/class.store";
+import { requestApi } from '../apis/request/requestAPIService';
+import { GetAllRequestByClassIdResponseData } from '../apis/request/requestAPIService.types';
+import { useClassStore } from '../stores/class/class.store';
 
 const GET_ALL_REQUEST_QUERY_KEY = '@request/get';
 
@@ -17,17 +17,13 @@ export const useGetAllStudentQuery = (
 		setEnabled(true);
 	};
 
-	const data = useQuery(
-		[GET_ALL_REQUEST_QUERY_KEY, classId],
-		() => requestApi.getAllRequestByClassId(classId),
-		{
-			enabled: enabled && Boolean(classId),
-			onSettled: (result) => {
-				setEnabled(initialEnabled);
-				onSettled?.(result);
-			},
+	const data = useQuery([GET_ALL_REQUEST_QUERY_KEY, classId], () => requestApi.getAllRequestByClassId(classId), {
+		enabled: enabled && Boolean(classId),
+		onSettled: (result) => {
+			setEnabled(initialEnabled);
+			onSettled?.(result);
 		},
-	);
+	});
 	return {
 		fetchQuery,
 		...data,

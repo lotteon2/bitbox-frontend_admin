@@ -7,12 +7,12 @@ import Student from '../pages/multi/Student/Student';
 import Manager from '../pages/multi/Manager/Manager';
 import Class from '../pages/multi/Class/Class';
 import Attendance from '../pages/etc/Attendance/Attendance';
-import Request from '../pages/etc/Request';
 import Score from '../pages/etc/Score/Score';
 import LoginLayout from '../layouts/LoginLayout';
 import Login from '../pages/Login/Login';
 import Exam from '../pages/etc/Exam/Exam';
 import FirstLogin from '../pages/FirstLogin/FirstLogin';
+import Request from '../pages/etc/Request/Request';
 
 const router = createBrowserRouter([
 	{
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
 		errorElement: <NotFound />,
 		children: [
 			{ path: 'attendance', element: <Attendance /> },
-			// { path: 'request', element: <Request /> },
+			{ path: 'request', element: <Request /> },
 			{ path: 'score', element: <Score /> },
 			{ path: 'exam', element: <Exam /> },
 		],
