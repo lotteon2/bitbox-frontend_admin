@@ -69,22 +69,16 @@ const DashBoard = () => {
 
 	return (
 		<div>
-			{myClassesOption.length > 0 ? (
-				<>
-					<div className="h-1/2">
-						<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
-						<div className="flex justify-between w-full">
-							<BarChart chartName="출석률" data={attendanceData as BarChartDataType[]} />
-							<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
-						</div>
-					</div>
-					<div className="h-1/2">
-						<Table data={data} columns={columns} tableName="사유서를 확인해주세요" />
-					</div>
-				</>
-			) : (
-				<div>해당 반이 없습니다.</div>
-			)}
+			<div className="h-1/2">
+				<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
+				<div className="flex justify-between w-full">
+					<BarChart chartName="출석률" data={attendanceData as BarChartDataType[]} />
+					<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
+				</div>
+			</div>
+			<div className="h-1/2">
+				<Table data={data} columns={columns} tableName="사유서를 확인해주세요" />
+			</div>
 		</div>
 	);
 };

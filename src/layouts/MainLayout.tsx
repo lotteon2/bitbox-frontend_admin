@@ -5,6 +5,7 @@ import TopHeader from '../components/common/TopHeader';
 import { useUserStore } from '../stores/user/user.store';
 import { adminApi } from '../apis/admin/adminAPIService';
 import { classInfoResponse } from '../apis/admin/adminAPIService.types';
+import { useClassStore } from '../stores/class/class.store';
 
 export default function MainLayout() {
 	const navigate = useNavigate();
@@ -27,6 +28,8 @@ export default function MainLayout() {
 		state.dispatchMyClassees,
 		state.dispatchMyClassesOption,
 	]);
+
+	const myClassesOption = useUserStore((state) => state.myClassesOption);
 
 	const getMyInfo = useCallback(async () => {
 		if (localStorage.getItem('accessToken')) {
@@ -57,12 +60,14 @@ export default function MainLayout() {
 
 	return (
 		<div className="w-full h-screen flex flex-row scrollbar-hide">
-			<div className="w-[300px] sm:w-[200px] lg:w-[300px] h-full font-regular lg:text-3xl sm:text-sm">
+			<div className="sm:w-[200px] lg:w-[300px] h-full font-regular lg:text-3xl sm:text-sm">
 				<Header />
 			</div>
 			<div className="w-full h-full">
 				<TopHeader />
-				<Outlet />
+				<div className="ml-10 w-11/12 h-full mt-10">
+					{myClassesOption.length > 0 ? <Outlet /> : <div>해당 반이 없습니다.</div>}
+				</div>
 			</div>
 		</div>
 	);

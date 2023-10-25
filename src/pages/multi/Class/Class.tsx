@@ -35,7 +35,7 @@ const Class = () => {
 	} = useClassTable();
 
 	return (
-		<div className="ml-10 w-11/12 h-full mt-10">
+		<div>
 			<div className="flex justify-end w-full my-5">
 				<Button content="클래스 추가" handleClick={showModal} key="addClass" />
 			</div>
