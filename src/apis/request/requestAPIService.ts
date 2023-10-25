@@ -1,7 +1,7 @@
 import APIService from "../../libs/core/api/APIService";
 import { GetAllRequestByClassIdResponseData, UpdateRequestStateParams } from "./requestAPIService.types";
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}/admin-service/admin/reason`;
+const BASE_URL = `${process.env.REACT_APP_API_URL}/user-service/member/admin/reason`;
 
 class RequestAPIService extends APIService {
 	constructor() {
