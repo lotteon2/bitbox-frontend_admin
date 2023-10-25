@@ -1,15 +1,15 @@
 export interface GetAllRequestByClassIdResponseData {
-	data: {
+	reasonStatements: {
 		reasonStatementId: number;
 		attendanceDate: string;
 		memberName: string;
 		reasonTitle: string;
-		reasonContents: string;
+		reasonContent: string;
 		reasonAttachedFile: string;
 		reasonState: string;
-		isRead: boolean;
+		read: boolean;
 	}[];
-	total_count: number;
+	totalCount: number;
 }
 
 export interface UpdateRequestStateParams {

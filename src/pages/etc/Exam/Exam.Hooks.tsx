@@ -187,8 +187,8 @@ export const useExamTable = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!data) {
-			Toast(false, '시험 리스트를 불러오지 못했어요.');
+		if (!data?.length) {
+			setExamsData([]);
 			return;
 		}
 		if (myClassesOption.length > 0) {
@@ -227,27 +227,6 @@ export const useExamTable = () => {
 		console.log(`selected ${value}`);
 	}, []);
 
-	// const getAllClass = async () => {
-	// 	await examApi
-	// 		.getExamsByClassId(1)
-	// 		.then((res) => {
-	// 			console.log(res);
-	// 			const temp: DataType[] = [];
-	// 			res.forEach((it) => {
-	// 				temp.push({
-	// 					key: it.examId,
-	// 					exam: it.examName,
-	// 					class: it.classes.className,
-	// 					score: it.perfectScore,
-	// 				});
-	// 			});
-	// 			setExamsData([...temp]);
-	// 		})
-	// 		.catch((err: AxiosError) => {
-	// 			Toast(false, err.message);
-	// 		});
-	// };
-
 	const deleteExam = async (idx: number) => {
 		await mutateAsync({ examId: idx, params: { isDeleted: true } })
 			.then(() => {
@@ -256,6 +235,7 @@ export const useExamTable = () => {
 			})
 			.catch((err) => Toast(false, '시험 정보 삭제에 실패했어요.'));
 	};
+
 	const handleDelete = (id: number) => {
 		Alert('시험 정보를 삭제하시겠어요?', '삭제하면 되돌릴 수 없어요').then(async (result) => {
 			if (result.isConfirmed) {

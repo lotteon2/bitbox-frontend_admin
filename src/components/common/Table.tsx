@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table as AntdTable } from 'antd';
+import Column from 'antd/es/table/Column';
+import { Table as AntdTable, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { ATTENDANCE } from '../../constants/AttendanceType';
 
@@ -31,9 +32,10 @@ interface TableInterface<T> {
 	tableName?: string;
 	columns: ColumnsType<T>;
 	data: T[];
+	showModal?: (record: DataType, rowIndex: number) => void;
 }
 
-const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName }) => {
+const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName, showModal }) => {
 	return (
 		<div className="flex flex-col items-center rounded-xl w-full">
 			{tableName && <div className="font-bold text-xl m-5">{tableName}</div>}
@@ -44,6 +46,11 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName })
 				pagination={false}
 				className="w-full shadow-lg grayscale3 font-regular"
 				rowClassName={(record, index) => (record.isRead && record.isRead ? 'grayScale5' : 'grayScale1')}
+				onRow={(record, rowIndex) => {
+					return {
+						onClick: (event) => showModal && showModal(record, rowIndex as number),
+					};
+				}}
 			/>
 		</div>
 	);
