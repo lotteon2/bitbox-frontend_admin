@@ -24,8 +24,9 @@ export const useGetAllAttendanceQuery = (
 		setEnabled(true);
 	};
 
+	console.log('searchName', searchName);
 	const data = useQuery(
-		[GET_ALL_ATTENDANCE_QUERY_KEY, classId, selectedDateString],
+		[GET_ALL_ATTENDANCE_QUERY_KEY, classId, selectedDateString, searchName],
 		() =>
 			attendanceApi.getAllAttendanceInfo(
 				classId === -1 ? myClassesOption[0].value : classId,
