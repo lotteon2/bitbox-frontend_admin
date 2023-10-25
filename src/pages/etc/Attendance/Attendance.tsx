@@ -21,8 +21,6 @@ const Attendance = () => {
 	const {
 		handleSearch,
 		onChangeDate,
-		inputName,
-		setInputName,
 		attendanceData,
 		columns,
 		myClassesOption,
@@ -37,6 +35,8 @@ const Attendance = () => {
 		setComment,
 		handleChangeAttendance,
 		selectedDate,
+		searchName,
+		dispatchSearchName,
 	} = useAttendanceTable();
 
 	return (
@@ -50,8 +50,8 @@ const Attendance = () => {
 					<Search
 						placeholder="이름을 검색해주세요"
 						allowClear
-						value={inputName}
-						onChange={(e) => setInputName(e.target.value)}
+						value={searchName}
+						onChange={(e) => dispatchSearchName(e.target.value)}
 						maxLength={10}
 						onSearch={handleSearch}
 					/>

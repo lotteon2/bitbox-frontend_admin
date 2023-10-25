@@ -108,12 +108,10 @@ export const useAttendanceTable = () => {
 		setComment,
 		handleChangeAttendance,
 	} = useAttendanceModal();
-	const [inputName, setInputName] = useState<string>('');
 	const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(dayjs());
-	const [selectedDateString, dispatchSelectedDateString] = useAttendanceSearchStore((state) => [
-		state.selectedDateString,
-		state.dispatchSelectedDateString,
-	]);
+	const [selectedDateString, dispatchSelectedDateString, searchName, dispatchSearchName] = useAttendanceSearchStore(
+		(state) => [state.selectedDateString, state.dispatchSelectedDateString, state.searchName, state.dispatchSearchName],
+	);
 
 	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
 		state.isLogin,
@@ -138,7 +136,7 @@ export const useAttendanceTable = () => {
 
 	/* search bar */
 	const handleSearch = () => {
-		console.log(inputName);
+		console.log('검색해요');
 	};
 
 	useEffect(() => {
@@ -262,8 +260,6 @@ export const useAttendanceTable = () => {
 		columns,
 		myClassesOption,
 		handleChangeSelectedClassId,
-		inputName,
-		setInputName,
 		handleSearch,
 		isUpdateModalOpen,
 		handleUpdateModalCancel,
@@ -277,5 +273,7 @@ export const useAttendanceTable = () => {
 		handleChangeAttendance,
 		onChangeDate,
 		selectedDate,
+		searchName,
+		dispatchSearchName,
 	};
 };
