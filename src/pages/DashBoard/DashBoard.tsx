@@ -7,65 +7,10 @@ import Table, { DataType } from '../../components/common/Table';
 import { useDashBoard } from './DashBoard.hooks';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 
-export const columns: ColumnsType<DataType> = [
-	{
-		title: '제목',
-		dataIndex: 'title',
-		key: 'title',
-		render: (text) => <a href="/dashboard">{text}</a>,
-	},
-	{
-		title: '내용',
-		dataIndex: 'content',
-		key: 'content',
-	},
-	{
-		title: '사유일',
-		dataIndex: 'date',
-		key: 'date',
-	},
-	{
-		title: '작성자',
-		dataIndex: 'writer',
-		key: 'writer',
-	},
-	{
-		title: '상태',
-		dataIndex: 'state',
-		key: 'state',
-		render: (text) => <a href="/dashboard">{text}</a>,
-	},
-];
-
-export const data: DataType[] = [
-	{
-		key: 1,
-		title: '사유서제출합니다',
-		content: '입원으로 인해 결석합니다',
-		date: '2023/09/21',
-		writer: '가가가가',
-		state: '반려',
-	},
-	{
-		key: 2,
-		title: '사유서제출합니다',
-		content: '입원으로 인해 결석합니다',
-		date: '2023/09/23',
-		writer: '나나나나나',
-		state: '승인',
-	},
-	{
-		key: 3,
-		title: '사유서제출합니다',
-		content: '입원으로 인해 결석합니다',
-		date: '2023/09/22',
-		writer: '다다다다',
-		state: '승인',
-	},
-];
-
 const DashBoard = () => {
-	const { gradeData, myClassesOption, handleChangeSelectedClassId, attendanceData } = useDashBoard();
+	const navigate = useNavigate();
+	const { columns, gradeData, myClassesOption, handleChangeSelectedClassId, attendanceData, requestData } =
+		useDashBoard();
 
 	return (
 		<div>
@@ -77,7 +22,12 @@ const DashBoard = () => {
 				</div>
 			</div>
 			<div className="h-1/2">
-				<Table data={data} columns={columns} tableName="사유서를 확인해주세요" />
+				<Table
+					data={requestData}
+					columns={columns}
+					tableName="사유서를 확인해주세요"
+					handleClick={() => navigate('/etc/request')}
+				/>
 			</div>
 		</div>
 	);
