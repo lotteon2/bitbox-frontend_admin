@@ -53,11 +53,11 @@ export default function Header() {
 					출결 관리
 				</NavLink>
 			</li>
-			{/* <li className="ml-10" onClick={() => setEtcNav('/etc/request')} role="presentation">
+			<li className="ml-10" onClick={() => setEtcNav('/etc/request')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/request">
 					사유서 관리
 				</NavLink>
-			</li> */}
+			</li>
 			<li className="ml-10" onClick={() => setEtcNav('/etc/score')} role="presentation">
 				<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/etc/score">
 					성적 관리
