@@ -165,6 +165,14 @@ table.htCore tr.odd td {
   text-align: left !important;
 }
 
+.grayScale5 {
+  color: #808080;
+}
+
+.grayScale1 {
+  color: #202027;
+}
+
 
 @font-face {
   font-family: "thin";

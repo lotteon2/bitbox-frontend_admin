@@ -24,6 +24,7 @@ export interface DataType {
 	exam?: string;
 	score?: number;
 	avgScore?: number;
+	isRead?: boolean;
 }
 
 interface TableInterface<T> {
@@ -42,6 +43,7 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName })
 				dataSource={data}
 				pagination={false}
 				className="w-full shadow-lg grayscale3 font-regular"
+				rowClassName={(record, index) => (record.isRead && record.isRead ? 'grayScale5' : 'grayScale1')}
 			/>
 		</div>
 	);
