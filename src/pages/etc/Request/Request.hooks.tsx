@@ -72,7 +72,7 @@ export const useRequestModal = () => {
 				Toast(false, `사유서 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}에 실패했어요.`);
 			});
 	};
-    
+
 	const handleChangeRequestState = async (idx: number, state: keyof typeof REASON_STATEMENT) => {
 		console.log(state);
 		if (state === REASON_STATEMENT.APPROVE) {

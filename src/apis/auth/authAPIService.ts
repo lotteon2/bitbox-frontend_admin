@@ -1,7 +1,7 @@
 import APIService from '../../libs/core/api/APIService';
 import {
-	GetLoginParams,
-	GetLoginResponseData,
+	LoginParams,
+	LoginResponseData,
 	CreateInviteStudentParams,
 	GetAllInvitedStudentsResponseData,
 } from './authAPIService.types';
@@ -14,8 +14,8 @@ class AuthAPIService extends APIService {
 		this.setBaseUrl(BASE_URL);
 	}
 
-	async localLogin(params: GetLoginParams) {
-		const { data } = await this.post<GetLoginResponseData>('/admin', params);
+	async localLogin(params: LoginParams) {
+		const { data } = await this.post<LoginResponseData>('/admin', params);
 		return data;
 	}
 

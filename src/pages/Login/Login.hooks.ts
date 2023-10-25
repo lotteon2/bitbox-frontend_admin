@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../apis/auth/authAPIService';
 import { useUserStore } from '../../stores/user/user.store';
-import { GetLoginResponseData } from '../../apis/auth/authAPIService.types';
+import { LoginResponseData } from '../../apis/auth/authAPIService.types';
 import { Toast } from '../../components/common/Toast';
+import { useLoginMutation } from '../../mutations/useLoginMutation';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
-
+	const { mutateAsync } = useLoginMutation();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isLogin, dispatchIsLogin, dispatchAuthority, dispatchIsFirstLogin] = useUserStore((state) => [
@@ -19,9 +20,8 @@ export const useLogin = () => {
 
 	const onFinish = async () => {
 		console.log(email, password);
-		await authApi
-			.localLogin({ email, password })
-			.then((res: GetLoginResponseData) => {
+		await mutateAsync({ email, password })
+			.then((res: LoginResponseData) => {
 				console.log(res);
 				dispatchIsLogin(true);
 				dispatchAuthority(res.authority);

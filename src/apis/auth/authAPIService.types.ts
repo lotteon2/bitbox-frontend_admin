@@ -1,11 +1,11 @@
 import { AUTHORITY } from '../../constants/AuthorityType';
 
-export interface GetLoginParams {
+export interface LoginParams {
 	email: string;
 	password: string;
 }
 
-export interface GetLoginResponseData {
+export interface LoginResponseData {
 	accessToken: string;
 	authority: keyof typeof AUTHORITY;
 	firstLogin: boolean;
