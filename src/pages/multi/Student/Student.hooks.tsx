@@ -183,8 +183,9 @@ export const useStudentModal = () => {
 		},
 	];
 
-	const handleClickAddBtn = async (e: React.MouseEvent<Element, MouseEvent>) => {
+	const handleClickAddBtn = async (e: React.MouseEvent<Element, MouseEvent> | React.FormEvent<HTMLFormElement>) => {
 		console.log(email);
+		e.preventDefault();
 		if (!email) {
 			Toast(false, '이메일을 입력해주세요.');
 		} else {

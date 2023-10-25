@@ -48,7 +48,7 @@ function Student() {
 				<div className="my-10 flex flex-col justify-center">
 					<div className="text-grayscale5 mb-5">*반드시 카카오 로그인이 가능한 계정으로 초대해주세요.</div>
 					<SelectClass options={myClassesOption} handleChange={handleChangeSelectedClassId} isReadOnly isFull />
-					<div className="w-full flex justify-between items-center">
+					<form className="w-full flex justify-between items-center" onSubmit={handleClickAddBtn}>
 						<input
 							id="swal2-input"
 							className="swal2-input w-full"
@@ -58,7 +58,7 @@ function Student() {
 						<button type="button" onClick={handleClickAddBtn}>
 							<AddOutlinedIcon className="ml-5 cursor-pointer grow-0" />
 						</button>
-					</div>
+					</form>
 					<br />
 					<br />
 					<div className="swal2-label">초대된 명단</div>
