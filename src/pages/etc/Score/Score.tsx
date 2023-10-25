@@ -5,7 +5,6 @@ import BarChart from '../../../components/DashBoard/BarChart';
 import Button from '../../../components/common/Button';
 import SelectClass from '../../../components/common/SelectClass';
 import Table, { DataType } from '../../../components/common/Table';
-import { handleChange, options } from '../../multi/Class/Class';
 import TableStateChip from '../../../components/common/TableStateChip';
 import { useAddScoreModal, useChangeScoreModal } from './Score.hooks';
 import { TableData } from '../../../constants/TableConstants';
@@ -140,8 +139,8 @@ const Score = () => {
 		<div className="ml-10 w-11/12 h-full mt-10">
 			<div className="flex justify-between w-full my-5 items-center">
 				<div className="flex gap-x-10 items-center">
-					<SelectClass handleChange={handleChange} options={options} />
-					<SelectClass handleChange={handleChange} options={options} />
+					{/* <SelectClass handleChange={handleChange} options={options} />
+					<SelectClass handleChange={handleChange} options={options} /> */}
 				</div>
 				<div className="flex gap-x-10">
 					<Button content="변경사항 저장" key="addScore" handleClick={showAddScoreModal} />

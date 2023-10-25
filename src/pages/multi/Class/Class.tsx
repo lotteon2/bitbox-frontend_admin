@@ -4,19 +4,6 @@ import Button from '../../../components/common/Button';
 import Table from '../../../components/common/Table';
 import { useClassModal, useClassTable } from './Class.hooks';
 
-export const handleChange = (value: string) => {
-	console.log(`selected ${value}`);
-};
-
-// TODO: 초기 진입시 본인의 반 불러와서 options에 넣어주기
-export const options = [
-	{ value: 'jx411', label: '롯데이커머스2기' },
-	{ value: 'lucy', label: 'Lucy' },
-	{ value: 'Yiminghe', label: 'yiminghe' },
-];
-
-// TODO : 백 구현후 value change
-
 const Class = () => {
 	const {
 		isModalOpen,

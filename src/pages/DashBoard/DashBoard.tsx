@@ -67,36 +67,8 @@ export const data: DataType[] = [
 const DashBoard = () => {
 	const { gradeData, myClassesOption, handleChangeSelectedClassId, attendanceData } = useDashBoard();
 
-	// TODO : 반별 출석률 + 평균 성적 전역 관리
-	const chartData = [
-		{
-			name: '09/26',
-			num: 5,
-		},
-		{
-			name: '09/27',
-			num: 3,
-		},
-		{
-			name: '09/28',
-			num: 1,
-		},
-		{
-			name: '09/29',
-			num: 2,
-		},
-		{
-			name: '09/30',
-			num: 4,
-		},
-		{
-			name: '09/31',
-			num: 2,
-		},
-	];
-
 	return (
-		<div className="ml-10 w-11/12 h-full">
+		<div>
 			{myClassesOption.length > 0 ? (
 				<>
 					<div className="h-1/2">
