@@ -40,6 +40,7 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 	handleChangeAuthority,
 	options,
 }) => {
+	const [imageUrl, setImageUrl] = useState<string>('');
 	return (
 		<Modal
 			title="정보 수정"
@@ -61,7 +62,7 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 			]}
 		>
 			<div className="my-10 flex flex-col justify-center">
-				<ImageUploader />
+				<ImageUploader imageUrl={imageUrl} setImageUrl={setImageUrl} />
 				<div className="swal2-label">이름</div>
 				<input
 					id="swal2-input"
