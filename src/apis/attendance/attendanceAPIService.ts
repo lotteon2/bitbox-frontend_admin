@@ -17,8 +17,9 @@ class AttendanceAPIService extends APIService {
 	}
 
 	async getAllAttendanceInfo(classId: number, localDate: string, memberName: string) {
+		console.log('memberName', memberName);
 		const { data } = await this.get<GetAllAttendanceInfoResponse[]>(
-			`/${classId}?current=${localDate}&memberName=${memberName}`,
+			`/${classId}?current=${localDate}&memberName=${encodeURIComponent(memberName)}`,
 		);
 		return data;
 	}

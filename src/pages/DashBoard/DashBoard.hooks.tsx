@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 import { Toast } from '../../components/common/Toast';
 import { gradeApi } from '../../apis/grade/gradeAPIService';
-import { GetGradesResponseData } from '../../apis/grade/gradeAPIService.types';
+import { GetGradesResponseDataForDashBoard } from '../../apis/grade/gradeAPIService.types';
 import { useUserStore } from '../../stores/user/user.store';
 import { attendanceApi } from '../../apis/attendance/attendanceAPIService';
 import { DataType } from '../../components/common/Table';
@@ -42,7 +42,7 @@ export const useDashBoard = () => {
 		console.log('getGradesByClassId', classId);
 		await gradeApi
 			.getGradesByClassId(classId === -1 ? myClassesOption[0].value : classId)
-			.then((res: GetGradesResponseData[]) => {
+			.then((res: GetGradesResponseDataForDashBoard[]) => {
 				const newGradeData: BarChartDataType[] = [];
 				res.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
 				setGradeData((prev) => newGradeData);

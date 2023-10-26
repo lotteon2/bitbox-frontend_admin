@@ -16,6 +16,11 @@ export type classInfoResponse = {
 	classId: number;
 	className: string;
 	classCode: string;
+	exams: {
+		examId: number;
+		examName: string;
+		perfectScore: string;
+	}[];
 };
 
 export interface GetAdminInfoResponseData {

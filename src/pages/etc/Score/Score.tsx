@@ -1,33 +1,32 @@
 import { ColumnsType } from 'antd/es/table';
 import { Avatar, Modal } from 'antd';
 import { HotTable, HotColumn } from '@handsontable/react';
+import { useNavigate } from 'react-router-dom';
 import BarChart from '../../../components/DashBoard/BarChart';
 import Button from '../../../components/common/Button';
 import SelectClass from '../../../components/common/SelectClass';
 import Table, { DataType } from '../../../components/common/Table';
 import TableStateChip from '../../../components/common/TableStateChip';
-import { useAddScoreModal, useChangeScoreModal } from './Score.hooks';
-import { TableData } from '../../../constants/TableConstants';
-import { addClassesToRows } from '../../../hooks/TableHooks';
+import { useAddScoreModal, useChangeScoreModal, useScoreTable } from './Score.hooks';
 import 'handsontable/dist/handsontable.min.css';
 import 'pikaday/css/pikaday.css';
 
 const Score = () => {
-	const { name, exam, isModalOpen, isDisabled, isLoading, score, setScore, showModal, handleOk, handleCancel } =
-		useChangeScoreModal();
-
-	// const {
-	// 	examName,
-	// 	setExamName,
-	// 	perfectScore,
-	// 	setPerfectScore,
-	// 	isModalOpen: isAddExamModalOpen,
-	// 	isDisabled: isAddExamModalDisabled,
-	// 	isLoading: isAddExamLoading,
-	// 	showModal: showAddExamModal,
-	// 	handleOk: handleAddExamOk,
-	// 	handleCancel: handleAddExamCancel,
-	// } = useAddExamModal();
+	const navigate = useNavigate();
+	const {
+		scoreData,
+		examsOption,
+		columns,
+		myClassesOption,
+		handleChangeSelectedClassId,
+		showUpdateModal,
+		handleUpdateCancel,
+		handleUpdateOk,
+		isUpdateModalOpen,
+		isUpdateDisabled,
+		isUpdateLoading,
+		handleChangeSelectedExamId,
+	} = useScoreTable();
 
 	const {
 		// examName,
@@ -42,173 +41,56 @@ const Score = () => {
 		handleCancel: handleAddScoreCancel,
 	} = useAddScoreModal();
 
-	const chartData = [
-		{
-			name: 'HTML',
-			num: 5,
-		},
-		{
-			name: 'JAVA',
-			num: 3,
-		},
-		{
-			name: 'Spring',
-			num: 1,
-		},
-		{
-			name: 'React',
-			num: 2,
-		},
-		{
-			name: 'Jquery',
-			num: 4,
-		},
-		{
-			name: 'Vue',
-			num: 2,
-		},
-	];
-
-	const data: DataType[] = [
-		{
-			key: 1,
-			name: '김명준',
-			imageSrc: '',
-			exam: 'HTML',
-			score: 90,
-			state: '변경',
-		},
-		{
-			key: 2,
-			name: '김명준',
-			imageSrc: '',
-			exam: 'HTML',
-			score: 80,
-			state: '변경',
-		},
-		{
-			key: 3,
-			name: '김명준',
-			imageSrc: '',
-			exam: 'HTML',
-			score: 30,
-			state: '변경',
-		},
-	];
-
-	const columns: ColumnsType<DataType> = [
-		{
-			title: '',
-			dataIndex: 'imageSrc',
-			key: 'imageSrc',
-			render: (text) => <Avatar src={text || null} size="large" />,
-			align: 'center',
-		},
-		{
-			title: '교육생',
-			dataIndex: 'name',
-			key: 'name',
-			align: 'center',
-		},
-		{
-			title: '시험명',
-			dataIndex: 'exam',
-			key: 'exam',
-			align: 'center',
-		},
-		{
-			title: '성적',
-			dataIndex: 'score',
-			key: 'score',
-			align: 'center',
-		},
-		{
-			title: '',
-			dataIndex: 'state',
-			key: 'state',
-			// render: (text: string, a, id) => (
-			// 	<TableStateChip
-			// 		title={text}
-			// 		handleClick={() => showModal(data[id].name || '', data[id].score || 0, data[id].exam || '')}
-			// 	/>
-			// ),
-		},
-	];
+	console.log('examsOption', examsOption);
 
 	return (
 		<div>
-			<div className="flex justify-between w-full my-5 items-center">
-				<div className="flex gap-x-10 items-center">
-					{/* <SelectClass handleChange={handleChange} options={options} />
-					<SelectClass handleChange={handleChange} options={options} /> */}
+			<div className="flex justify-between w-full my-5">
+				<div className="flex gap-5">
+					<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
+					{examsOption.length > 0 && <SelectClass handleChange={handleChangeSelectedExamId} options={examsOption} />}
 				</div>
-				<div className="flex gap-x-10">
-					<Button content="변경사항 저장" key="addScore" handleClick={showAddScoreModal} />
-				</div>
+				<Button content="성적 추가" key="addScore" handleClick={showAddScoreModal} />
 			</div>
-
-			<div className="my-10 flex flex-col align-center justify-center">
-				<HotTable
-					className="shadow-lg grayscale3 font-regular rounded-xl ml-auto mr-auto"
-					data={TableData}
-					maxRows={30}
-					colWidths={[220, 220, 220, 220, 220, 220]}
-					colHeaders={['교육생', '이메일', '반', '시험명', '점수', '시험 일시']}
-					dropdownMenu={['filter_by_condition', 'filter_by_value']}
-					contextMenu
-					filters
-					rowHeaders
-					beforeRenderer={addClassesToRows}
-					correctFormat
-					licenseKey="non-commercial-and-evaluation"
+			<div>
+				{examsOption.length <= 0 ? (
+					<div className="w-full flex flex-col justify-center h-full text-left gap-5 text-lg">
+						<div>해당 반에 등록된 시험이 없어요. </div>
+						<div> 시험을 먼저 등록해주세요.</div>
+						<Button
+							content="시험 등록하러 가기"
+							key="addExamBtn"
+							handleClick={() => navigate('/etc/exam')}
+							type="negative"
+						/>
+					</div>
+				) : (
+					<Table data={scoreData} columns={columns} showModal={showUpdateModal} />
+				)}
+			</div>
+			{scoreData.length > 0 && (
+				<Modal
+					title="성적 변경"
+					open={isUpdateModalOpen}
+					destroyOnClose
+					onOk={handleUpdateOk}
+					onCancel={handleUpdateCancel}
+					maskClosable={false}
+					footer={[
+						<Button handleClick={handleUpdateCancel} content="취소" type="cancel" key="cancelChangeScore" />,
+						<Button
+							handleClick={handleUpdateOk}
+							content="확인"
+							loading={isUpdateLoading}
+							disabled={isUpdateDisabled}
+							type="positive"
+							key="ChangeScore"
+						/>,
+					]}
 				>
-					<HotColumn data={0} readOnly className="htCenter" />
-					<HotColumn
-						data={6}
-						readOnly
-						className="htCenter"
-						allowEmpty={false}
-						allowRemoveColumn={false}
-						allowRemoveRow={false}
-					/>
-					<HotColumn data={2} readOnly className="htCenter" />
-					<HotColumn data={3} readOnly className="htCenter" />
-					<HotColumn data={4} className="htCenter" type="numeric" />
-					<HotColumn data={5} className="htCenter" type="date" />
-				</HotTable>
-			</div>
-
-			{/* <div className="flex justify-between h-2/3">
-				<div className="flex justify-between flex-col gap-x-10 w-2/3">
-					<BarChart chartName="평균 성적" data={chartData} />
-					<BarChart chartName="명준이의 성적" data={chartData} />
-				</div>
-				<div className="">
-					<Table data={data} columns={columns} />
-				</div>
-			</div> */}
-			<Modal
-				title="성적 변경"
-				open={isModalOpen}
-				destroyOnClose
-				onOk={handleOk}
-				onCancel={handleCancel}
-				maskClosable={false}
-				footer={[
-					<Button handleClick={handleCancel} content="취소" type="cancel" key="cancelChangeScore" />,
-					<Button
-						handleClick={handleOk}
-						content="확인"
-						loading={isLoading}
-						disabled={isDisabled}
-						type="positive"
-						key="ChangeScore"
-					/>,
-				]}
-			>
-				<div className="my-10 flex flex-col align-center justify-center">
-					<div className="swal2-label">교육생</div>
-					<input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
+					<div className="my-10 flex flex-col align-center justify-center">
+						<div className="swal2-label">교육생</div>
+						{/* <input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
 					<div className="swal2-label">시험명</div>
 					<input defaultValue={exam} id="swal2-input" className="swal2-input" readOnly disabled />
 					<input
@@ -216,11 +98,13 @@ const Score = () => {
 						onChange={(e) => setScore(e.target.value as unknown as number)}
 						id="swal2-input"
 						className="swal2-input"
-					/>
-					<br />
-					<br />
-				</div>
-			</Modal>
+					/> */}
+						<br />
+						<br />
+					</div>
+				</Modal>
+			)}
+
 			{/* <Modal
 				title="성적 등록"
 				open={isAddScoreModalOpen}
