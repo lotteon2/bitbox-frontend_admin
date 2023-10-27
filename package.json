@@ -45,7 +45,6 @@
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'"
   },
-  "proxy": "https://www.comepet.com/api",
   "eslintConfig": {
     "extends": [
       "react-app",
