@@ -17,9 +17,7 @@ const axiosAuthApi = (baseURL: string | undefined) => {
 		baseURL,
 		withCredentials: true,
 	});
-
 	// TODO: 로그인 정보 저장 및 API에 인증 토큰 붙이는 코드
-
 	return instance;
 };
 export const defaultInstance = axiosApi(BASE_URL);

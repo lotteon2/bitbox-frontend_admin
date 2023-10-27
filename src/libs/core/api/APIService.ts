@@ -16,6 +16,7 @@ class APIService {
 
 	headers: Headers = {
 		'Content-Type': 'application/json',
+		'Access-Control-Allow-Origin': 'https://bitbox.kro.kr',
 		Authorization: localStorage.getItem('accessToken') || '',
 	};
 
