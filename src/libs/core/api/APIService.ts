@@ -18,6 +18,7 @@ class APIService {
 		'Content-Type': 'application/json',
 		'Access-Control-Allow-Origin': 'https://bitbox.kro.kr',
 		Authorization: localStorage.getItem('accessToken') || '',
+		'Access-Control-Allow-Credentials': 'true',
 	};
 
 	withCredentials = true;

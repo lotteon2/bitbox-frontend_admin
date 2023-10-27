@@ -36,6 +36,27 @@ export const useLogin = () => {
 				console.error(err);
 				Toast(false, '아이디 비밀번호를 다시 확인해주세요');
 			});
+
+		fetch('https://bitbox.kro.kr/authentication-service/auth/admin', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				email,
+				password,
+			}),
+		})
+			.then((res) => {
+				console.log(res.headers.get('set-cookie')); // undefined
+				console.log(document.cookie); // nope
+				return res.json();
+			})
+			.then((json) => {
+				console.log(json);
+			});
 	};
 
 	return {
