@@ -22,6 +22,7 @@
     "dayjs": "^1.11.10",
     "handsontable": "^13.1.0",
     "http-proxy-middleware": "^2.0.6",
+    "https": "^1.0.0",
     "pikaday": "^1.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
