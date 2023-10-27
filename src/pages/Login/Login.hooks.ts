@@ -54,29 +54,6 @@ export const useLogin = () => {
 		// 	}
 		//   );
 
-		fetch('https://bitbox.kro.kr/authentication-service/auth/refresh', {
-			method: 'POST',
-
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-			},
-
-			credentials: 'include',
-			body: JSON.stringify({
-				email,
-				password,
-			}),
-		})
-			.then((res) => {
-				console.log(origin);
-				console.log(res.headers.get('set-cookie')); // undefined
-				console.log(document.cookie); // nope
-				return res.json();
-			})
-			.then((json) => {
-				console.log(json);
-			});
-
 		await mutateAsync({ email, password })
 			.then((res: LoginResponseData) => {
 				console.log(res);
