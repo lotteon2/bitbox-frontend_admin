@@ -2,7 +2,7 @@ import APIService from '../../libs/core/api/APIService';
 import { GetGradesResponseDataForDashBoard, GetGradesResponseDataByExamId } from './gradeAPIService.types';
 
 // TODO : 추후 BASE_URL 변경
-const BASE_URL = 'http://localhost:8000/admin-service/admin/grade';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/admin-service/admin/grade`;
 
 class GradeAPIService extends APIService {
 	constructor() {

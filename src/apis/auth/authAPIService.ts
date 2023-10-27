@@ -15,6 +15,7 @@ class AuthAPIService extends APIService {
 	}
 
 	async localLogin(params: LoginParams) {
+		this.withCredentials = true;
 		const { data } = await this.post<LoginResponseData>('/admin', params);
 		return data;
 	}
