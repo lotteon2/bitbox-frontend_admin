@@ -20,30 +20,13 @@ export const useLogin = () => {
 
 	const onFinish = async () => {
 		console.log(email, password);
-		await mutateAsync({ email, password })
-			.then((res: LoginResponseData) => {
-				console.log(res);
-				dispatchIsLogin(true);
-				dispatchAuthority(res.authority);
-				dispatchIsFirstLogin(res.firstLogin);
-				localStorage.setItem('accessToken', res.accessToken);
-				Toast(true, '로그인에 성공하였어요!');
-				if (res.firstLogin) {
-					navigate('/first');
-				}
-			})
-			.catch((err) => {
-				console.error(err);
-				Toast(false, '아이디 비밀번호를 다시 확인해주세요');
-			});
-
 		fetch('https://bitbox.kro.kr/authentication-service/auth/admin', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			credentials: 'same-origin',
+			credentials: 'include',
 			body: JSON.stringify({
 				email,
 				password,
@@ -56,6 +39,23 @@ export const useLogin = () => {
 			})
 			.then((json) => {
 				console.log(json);
+			});
+
+		await mutateAsync({ email, password })
+			.then((res: LoginResponseData) => {
+				console.log(res);
+				dispatchIsLogin(true);
+				dispatchAuthority(res.authority);
+				dispatchIsFirstLogin(res.firstLogin);
+				localStorage.setItem('accessToken', res.accessToken);
+				Toast(true, '로그인에 성공하였어요!');
+				// if (res.firstLogin) {
+				// 	navigate('/first');
+				// }
+			})
+			.catch((err) => {
+				console.error(err);
+				Toast(false, '아이디 비밀번호를 다시 확인해주세요');
 			});
 	};
 
