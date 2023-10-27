@@ -30,7 +30,6 @@ export const useAttendanceSearchStore = create(
 		{
 			name: StorageKey,
 			storage: createJSONStorage(() => sessionStorage),
-			// partialize: (state) => ({ selectedDateString: state.selectedDateString, searchName: state.searchName }),
 		},
 	),
 );
