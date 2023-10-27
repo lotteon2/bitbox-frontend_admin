@@ -24,7 +24,7 @@ export const useLogin = () => {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
-				'Content-Type': 'application/json',
+				// 'Content-Type': 'application/json',
 				'application/x-www-form-urlencoded': 'charset=UTF-8',
 			},
 			credentials: 'include',
