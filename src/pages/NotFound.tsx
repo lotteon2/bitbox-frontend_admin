@@ -4,7 +4,7 @@ import NotFoundImg from '../assets/images/notfound.mp4';
 
 const NotFound = () => {
 	useEffect(() => {
-		fetch('https://bitbox.kro.kr/authentication-service/auth/refresh', {
+		fetch('http://localhost:8000/auth/refresh', {
 			method: 'POST',
 
 			headers: {

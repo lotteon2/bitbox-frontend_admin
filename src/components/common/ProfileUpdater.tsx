@@ -3,7 +3,6 @@ import { Modal } from 'antd';
 import Button from './Button';
 import ImageUploader from './ImageUploader';
 import SelectClass from './SelectClass';
-// import { handleChange } from '../../pages/multi/Class/Class';
 import { AUTHORITY } from '../../constants/AuthorityType';
 import { useUpdateProfileModal } from '../../hooks/useUpdateProfile';
 
@@ -21,6 +20,8 @@ interface ProfileUpdaterInterface {
 	isDisabled: boolean;
 	changePassword: boolean;
 	handleChangeAuthority?: (value: string) => void;
+	imageUrl?: string;
+	setImageUrl?: React.Dispatch<React.SetStateAction<string>>;
 	options?: { value: string | keyof typeof AUTHORITY; label: string }[];
 }
 
@@ -39,8 +40,9 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 	handleCancel,
 	handleChangeAuthority,
 	options,
+	imageUrl,
+	setImageUrl,
 }) => {
-	const [imageUrl, setImageUrl] = useState<string>('');
 	return (
 		<Modal
 			title="정보 수정"
@@ -62,7 +64,7 @@ const ProfileUpdater: React.FC<ProfileUpdaterInterface> = ({
 			]}
 		>
 			<div className="my-10 flex flex-col justify-center">
-				<ImageUploader imageUrl={imageUrl} setImageUrl={setImageUrl} />
+				{setImageUrl && <ImageUploader imageUrl={imageUrl || ''} setImageUrl={setImageUrl} />}
 				<div className="swal2-label">이름</div>
 				<input
 					id="swal2-input"

@@ -21,9 +21,7 @@ const ImageUploader: React.FC<ImageUploaderInterface> = ({ imageUrl, setImageUrl
 	// 이미지 처리
 	const handleChangeFile = async (event: any) => {
 		event.preventDefault();
-		console.log(event.target);
 		const formData = new FormData();
-		console.log(event.target.files);
 		formData.append('image', event.target.files[0]);
 
 		fetch(`${process.env.REACT_APP_FILE_API_URL}`, {
@@ -37,10 +35,6 @@ const ImageUploader: React.FC<ImageUploaderInterface> = ({ imageUrl, setImageUrl
 				setImageUrl(value);
 			});
 	};
-
-	useEffect(() => {
-		console.log(imageUrl);
-	}, [imageUrl]);
 
 	return (
 		<button className="m-auto w-32 h-32 rounded-full" onClick={uploadImgBtn} type="button">

@@ -102,7 +102,7 @@ export const useManagerTable = () => {
 	const [selectedAdminId, setSelectedAdminId] = useState<string>();
 	const [selectedIdx, setSelectedIdx] = useState<number>();
 	const [selectedName, setSelectedName] = useState<string>('');
-	const [selectedProfileImgSrc, setSelectedProfileImgSrc] = useState<string>('');
+	const [selectedImageSrc, setSelectedImageSrc] = useState<string>('');
 	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
 		state.isLogin,
 		state.myClassesOption,
@@ -135,7 +135,7 @@ export const useManagerTable = () => {
 		await mutateAsync({
 			adminId: selectedAdminId as string,
 			params: {
-				adminProfileImg: selectedProfileImgSrc,
+				adminProfileImg: selectedImageSrc,
 				adminName: selectedName,
 			},
 		})
@@ -151,17 +151,18 @@ export const useManagerTable = () => {
 	};
 
 	useEffect(() => {
+		console.log('imageUrl', selectedImageSrc);
 		if (admins.length > 0) {
 			if (
 				selectedName === admins[selectedIdx as number]?.name &&
-				selectedProfileImgSrc === admins[selectedIdx as number]?.imageSrc
+				selectedImageSrc === admins[selectedIdx as number]?.imageSrc
 			) {
 				setIsDisabledProfileModal(true);
 			} else {
 				setIsDisabledProfileModal(false);
 			}
 		}
-	}, [admins, data, selectedAdminId, selectedIdx, selectedName, selectedProfileImgSrc, setIsDisabledProfileModal]);
+	}, [admins, data, selectedAdminId, selectedIdx, selectedName, selectedImageSrc, setIsDisabledProfileModal]);
 
 	useEffect(() => {
 		fetchQuery();
@@ -288,7 +289,7 @@ export const useManagerTable = () => {
 										onClick={() => {
 											setSelectedIdx(idx);
 											setSelectedName(data ? data[idx].adminName : '');
-											setSelectedProfileImgSrc(data ? data[idx].adminProfileImg : '');
+											setSelectedImageSrc(data ? data[idx].adminProfileImg : '');
 											setSelectedAdminId(data ? data[idx].adminId : '');
 											showUpdateModal();
 										}}
@@ -329,5 +330,7 @@ export const useManagerTable = () => {
 		setSelectedName,
 		myClassesOption,
 		handleChangeSelectedClassId,
+		selectedImageSrc,
+		setSelectedImageSrc,
 	};
 };

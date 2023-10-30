@@ -1,10 +1,9 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
 import dayjs from 'dayjs';
 import { AttendanceSearchState, AttendanceSearchDispatcher } from './attendanceSearch.types';
 
-const StorageKey = 'storage-key';
+const AttendanceStorageKey = 'attendance-storage';
 
 const getToday = () => {
 	const now = dayjs();
@@ -28,7 +27,7 @@ export const useAttendanceSearchStore = create(
 			},
 		}),
 		{
-			name: StorageKey,
+			name: AttendanceStorageKey,
 			storage: createJSONStorage(() => sessionStorage),
 		},
 	),

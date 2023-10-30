@@ -46,6 +46,8 @@ function Manager() {
 		setSelectedName,
 		myClassesOption,
 		handleChangeSelectedClassId,
+		selectedImageSrc,
+		setSelectedImageSrc,
 	} = useManagerTable();
 
 	return (
@@ -107,6 +109,8 @@ function Manager() {
 				setSelectedName={setSelectedName}
 				changePassword
 				options={getAuthorityValueTypeForSelect()}
+				imageUrl={selectedImageSrc}
+				setImageUrl={setSelectedImageSrc}
 			/>
 		</div>
 	);
