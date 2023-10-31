@@ -5,6 +5,7 @@ import { useUserStore } from '../../stores/user/user.store';
 import { LoginResponseData } from '../../apis/auth/authAPIService.types';
 import { Toast } from '../../components/common/Toast';
 import { useLoginMutation } from '../../mutations/useLoginMutation';
+import { useGetMyAdimInfoQuery } from '../../queries/useGetMyAdminInfoQuery';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
@@ -34,42 +35,40 @@ export const useLogin = () => {
 			}),
 		})
 			.then((res) => {
-				console.log(origin);
-				console.log(res.headers.get('set-cookie')); // undefined
-				console.log(document.cookie); // nope
 				return res.json();
 			})
-			.then((json) => {
-				console.log(json);
-			});
-
-		// // refresh 요청
-		// const response = await axios.post(
-		// 	BASE_URL + "/authentication-service/auth/refresh",
-		// 	{},
-		// 	{
-		// 	  headers: {
-		// 		Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-		// 	  },
-		// 	}
-		//   );
-
-		await mutateAsync({ email, password })
-			.then((res: LoginResponseData) => {
+			.then((res) => {
 				console.log(res);
 				dispatchIsLogin(true);
 				dispatchAuthority(res.authority);
 				dispatchIsFirstLogin(res.firstLogin);
 				localStorage.setItem('accessToken', res.accessToken);
 				Toast(true, '로그인에 성공하였어요!');
-				// if (res.firstLogin) {
-				// 	navigate('/first');
-				// }
+				if (res.firstLogin) {
+					navigate('/first');
+				}
 			})
 			.catch((err) => {
-				console.error(err);
+				console.log(err);
 				Toast(false, '아이디 비밀번호를 다시 확인해주세요');
 			});
+
+		// await mutateAsync({ email, password })
+		// 	.then((res: LoginResponseData) => {
+		// 		console.log(res);
+		// 		dispatchIsLogin(true);
+		// 		dispatchAuthority(res.authority);
+		// 		dispatchIsFirstLogin(res.firstLogin);
+		// 		localStorage.setItem('accessToken', res.accessToken);
+		// 		Toast(true, '로그인에 성공하였어요!');
+		// 		// if (res.firstLogin) {
+		// 		// 	navigate('/first');
+		// 		// }
+		// 	})
+		// 	.catch((err) => {
+		// 		console.error(err);
+		// 		Toast(false, '아이디 비밀번호를 다시 확인해주세요');
+		// 	});
 	};
 
 	return {

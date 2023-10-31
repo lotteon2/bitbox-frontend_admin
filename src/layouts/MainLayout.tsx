@@ -6,8 +6,10 @@ import { useUserStore } from '../stores/user/user.store';
 import { adminApi } from '../apis/admin/adminAPIService';
 import { classInfoResponse } from '../apis/admin/adminAPIService.types';
 import { useClassStore } from '../stores/class/class.store';
+import { useGetMyAdimInfoQuery } from '../queries/useGetMyAdminInfoQuery';
 
 export default function MainLayout() {
+	const { data } = useGetMyAdimInfoQuery();
 	const navigate = useNavigate();
 	const [
 		isLogin,
@@ -57,6 +59,17 @@ export default function MainLayout() {
 			getMyInfo();
 		}
 	}, [isLogin, isFirstLogin, navigate, getMyInfo]);
+
+	useEffect(() => {
+		console.log('admininfo change');
+		console.log(data);
+		if (!data) return;
+		dispatchName(data.adminName);
+		dispatchProfileImg(data.adminProfileImg);
+		dispatchEmail(data.adminEmail);
+		dispatchAuthority(data.adminAuthority);
+		dispatchMyClassees(data.classInfoResponses);
+	}, [data]);
 
 	return (
 		<div className="w-full h-screen flex flex-row scrollbar-hide">

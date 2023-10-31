@@ -147,6 +147,9 @@ export const useManagerTable = () => {
 			})
 			.catch((err: AxiosError) => {
 				Toast(false, '정보 수정에 실패했어요.');
+			})
+			.finally(() => {
+				setIsLoadingProfileModal(false);
 			});
 	};
 
