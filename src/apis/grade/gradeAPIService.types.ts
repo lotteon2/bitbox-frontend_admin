@@ -9,8 +9,8 @@ export interface GetGradesResponseDataForDashBoard {
 
 export interface GetGradesResponseDataByExamId {
 	memberId: string;
+	memberName: string;
 	gradeId: number;
 	score: number;
-	perfectScore: number;
 	examName: string;
 }

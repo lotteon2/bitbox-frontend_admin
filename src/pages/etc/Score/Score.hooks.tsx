@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ModeEdtOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import { Avatar } from 'antd';
@@ -66,56 +67,56 @@ export const useChangeScoreModal = () => {
 	};
 };
 
-export const useAddScoreModal = () => {
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [examName, setExamName] = useState<string>('');
-	const [perfectScore, setPerfectScore] = useState<string>('');
+// export const useAddScoreModal = () => {
+// 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+// 	const [isLoading, setIsLoading] = useState<boolean>(false);
+// 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+// 	const [examName, setExamName] = useState<string>('');
+// 	const [perfectScore, setPerfectScore] = useState<string>('');
 
-	const clearValues = () => {
-		setIsDisabled(true);
-	};
+// 	const clearValues = () => {
+// 		setIsDisabled(true);
+// 	};
 
-	const showModal = () => {
-		setIsModalOpen(true);
-		setExamName('');
-		setPerfectScore('');
-	};
+// 	const showModal = () => {
+// 		setIsModalOpen(true);
+// 		setExamName('');
+// 		setPerfectScore('');
+// 	};
 
-	const handleOk = () => {
-		setIsLoading(true);
-		Toast(true, '성적이 등록되었어요.');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
-	};
+// 	const handleOk = () => {
+// 		setIsLoading(true);
+// 		Toast(true, '성적이 등록되었어요.');
+// 		clearValues();
+// 		setIsLoading(false);
+// 		setIsModalOpen(false);
+// 	};
 
-	const handleCancel = () => {
-		setIsModalOpen(false);
-		clearValues();
-	};
+// 	const handleCancel = () => {
+// 		setIsModalOpen(false);
+// 		clearValues();
+// 	};
 
-	useEffect(() => {
-		if (examName && perfectScore) {
-			setIsDisabled(false);
-		}
-	}, [examName, perfectScore]);
+// 	useEffect(() => {
+// 		if (examName && perfectScore) {
+// 			setIsDisabled(false);
+// 		}
+// 	}, [examName, perfectScore]);
 
-	return {
-		examName,
-		setExamName,
-		perfectScore,
-		setPerfectScore,
-		isModalOpen,
-		setIsModalOpen,
-		isLoading,
-		showModal,
-		handleOk,
-		handleCancel,
-		isDisabled,
-	};
-};
+// 	return {
+// 		examName,
+// 		setExamName,
+// 		perfectScore,
+// 		setPerfectScore,
+// 		isModalOpen,
+// 		setIsModalOpen,
+// 		isLoading,
+// 		showModal,
+// 		handleOk,
+// 		handleCancel,
+// 		isDisabled,
+// 	};
+// };
 
 export const useScoreTable = () => {
 	const navigate = useNavigate();
@@ -244,10 +245,11 @@ export const useScoreTable = () => {
 			temp.push({
 				key: it.gradeId,
 				content: it.examName,
+				name: it.memberName,
 				score: it.score,
-				state: it.perfectScore as unknown as string,
 			});
 		});
+		setScoreData([...temp]);
 	}, [data]);
 
 	const columns: ColumnsType<DataType> = [
@@ -289,8 +291,7 @@ export const useScoreTable = () => {
 			align: 'right',
 			render: (text, a, id) => (
 				<button type="button" onClick={() => showUpdateModal()}>
-					<SettingsOutlinedIcon className="mr-2" />
-					수정
+					<ModeEdtOutlineOutlinedIcon className="mr-2" />
 				</button>
 			),
 		},

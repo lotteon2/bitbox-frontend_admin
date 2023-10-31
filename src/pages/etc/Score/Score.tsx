@@ -7,7 +7,7 @@ import Button from '../../../components/common/Button';
 import SelectClass from '../../../components/common/SelectClass';
 import Table, { DataType } from '../../../components/common/Table';
 import TableStateChip from '../../../components/common/TableStateChip';
-import { useAddScoreModal, useChangeScoreModal, useScoreTable } from './Score.hooks';
+import { useChangeScoreModal, useScoreTable } from './Score.hooks';
 import 'handsontable/dist/handsontable.min.css';
 import 'pikaday/css/pikaday.css';
 
@@ -28,19 +28,6 @@ const Score = () => {
 		handleChangeSelectedExamId,
 	} = useScoreTable();
 
-	const {
-		// examName,
-		// setExamName,
-		// perfectScore,
-		// setPerfectScore,
-		isModalOpen: isAddScoreModalOpen,
-		isDisabled: isAddScoreModalDisabled,
-		isLoading: isAddScoreLoading,
-		showModal: showAddScoreModal,
-		handleOk: handleAddScoreOk,
-		handleCancel: handleAddScoreCancel,
-	} = useAddScoreModal();
-
 	console.log('examsOption', examsOption);
 
 	return (
@@ -50,7 +37,6 @@ const Score = () => {
 					<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
 					{examsOption.length > 0 && <SelectClass handleChange={handleChangeSelectedExamId} options={examsOption} />}
 				</div>
-				<Button content="성적 추가" key="addScore" handleClick={showAddScoreModal} />
 			</div>
 			<div>
 				{examsOption.length <= 0 ? (
