@@ -9,7 +9,7 @@ interface UpdatGradeParamsWithGradeId {
 	params: UpdateGradeByGradeIdParams;
 }
 
-export const usePatchRequestIsReadMutation = () => {
+export const usePatchGradeMutation = () => {
 	const { mutateAsync } = useMutation(
 		(params: UpdatGradeParamsWithGradeId) => gradeApi.updateGradeByGradeId(params.gradeId, params.params),
 		{

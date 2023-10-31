@@ -26,6 +26,10 @@ const Score = () => {
 		isUpdateDisabled,
 		isUpdateLoading,
 		handleChangeSelectedExamId,
+		exam,
+		name,
+		score,
+		setScore,
 	} = useScoreTable();
 
 	console.log('examsOption', examsOption);
@@ -76,75 +80,20 @@ const Score = () => {
 				>
 					<div className="my-10 flex flex-col align-center justify-center">
 						<div className="swal2-label">교육생</div>
-						{/* <input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
-					<div className="swal2-label">시험명</div>
-					<input defaultValue={exam} id="swal2-input" className="swal2-input" readOnly disabled />
-					<input
-						value={score}
-						onChange={(e) => setScore(e.target.value as unknown as number)}
-						id="swal2-input"
-						className="swal2-input"
-					/> */}
+						<input defaultValue={name} id="swal2-input" className="swal2-input" readOnly disabled />
+						<div className="swal2-label">시험명</div>
+						<input defaultValue={exam} id="swal2-input" className="swal2-input" readOnly disabled />
+						<input
+							value={score}
+							onChange={(e) => setScore(e.target.value as unknown as number)}
+							id="swal2-input"
+							className="swal2-input"
+						/>
 						<br />
 						<br />
 					</div>
 				</Modal>
 			)}
-
-			{/* <Modal
-				title="성적 등록"
-				open={isAddScoreModalOpen}
-				destroyOnClose
-				onOk={handleAddScoreOk}
-				onCancel={handleAddScoreCancel}
-				maskClosable={false}
-				footer={[
-					<Button handleClick={handleAddScoreCancel} content="취소" type="cancel" key="cancelScore" />,
-					<Button
-						handleClick={handleAddScoreOk}
-						content="확인"
-						loading={isAddScoreLoading}
-						disabled={isAddScoreModalDisabled}
-						type="positive"
-						key="addScore"
-					/>,
-				]}
-			>
-				<div className="my-10 flex flex-col align-center justify-center">
-					<div className="swal2-label">시험명</div>
-					<input
-						value={examName}
-						onChange={(e) => setExamName(e.target.value)}
-						id="swal2-input"
-						className="swal2-input"
-					/>
-					<div className="swal2-label">만점</div>
-					<input
-						value={perfectScore}
-						onChange={(e) => setPerfectScore(e.target.value)}
-						id="swal2-input"
-						className="swal2-input"
-					/>
-					<div className="my-10 flex flex-col align-center justify-center">
-						<HotTable
-							data={TableData}
-							height={450}
-							colWidths={[180, 180]}
-							colHeaders={['교육생', '점수']}
-							dropdownMenu
-							contextMenu
-							filters
-							rowHeaders
-							beforeRenderer={addClassesToRows}
-							correctFormat
-							licenseKey="non-commercial-and-evaluation"
-						>
-							<HotColumn data={0} readOnly className="htCenter" />
-							<HotColumn data={1} type="numeric" className="htCenter" />
-						</HotTable>
-					</div>
-				</div>
-			</Modal> */}
 		</div>
 	);
 };

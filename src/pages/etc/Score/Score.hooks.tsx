@@ -10,6 +10,7 @@ import { useClassStore } from '../../../stores/class/class.store';
 import { useGetAllExamQuery } from '../../../queries/useGetAllExamQuery';
 import { useGetAllScoreByExamIdQuery } from '../../../queries/useGetAllScoreQuery';
 import { useExamStore } from '../../../stores/examSearch/examSearchStore';
+import { usePatchGradeMutation } from '../../../mutations/usePatchGradeMutation';
 
 export const useChangeScoreModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -18,26 +19,44 @@ export const useChangeScoreModal = () => {
 	const [exam, setExam] = useState<string>();
 	const [name, setName] = useState<string>();
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [selectedGradeId, setSelectedGradeId] = useState<number>(0);
+	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
+
+	const { data, refetch } = useGetAllScoreByExamIdQuery();
+	const { mutateAsync } = usePatchGradeMutation();
 
 	const clearValues = () => {
 		setIsDisabled(true);
-		// setScore(0);
 	};
 
-	const showModal = () => {
-		// nameProp: string, scoreProp: number, examProp: string
+	const showModal = async (record: DataType, rowIndex: number) => {
+		console.log(record);
+		console.log(rowIndex);
 		setIsModalOpen(true);
-		// setScore(scoreProp);
-		// setName(nameProp);
-		// setExam(examProp);
+		setSelectedColumnIdx(rowIndex);
+		setSelectedGradeId(record.key);
+		setName(record.name);
+		setExam(record.content);
+		setScore(record.score);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
 		setIsLoading(true);
-		Toast(true, '성적이 변경되었어요.');
-		clearValues();
-		setIsLoading(false);
-		setIsModalOpen(false);
+		await mutateAsync({ gradeId: selectedGradeId, params: { score: score || -1 } })
+			.then((res) => {
+				console.log(res);
+				Toast(true, '성적이 변경되었어요.');
+				clearValues();
+				setIsModalOpen(false);
+				refetch();
+			})
+			.catch((err) => {
+				Toast(false, '성적 변경에 실패했어요.');
+				setIsModalOpen(false);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	const handleCancel = () => {
@@ -46,7 +65,10 @@ export const useChangeScoreModal = () => {
 	};
 
 	useEffect(() => {
-		if (score) {
+		if (!data) return;
+		if (score === data[selectedColumnIdx].score) {
+			setIsDisabled(true);
+		} else {
 			setIsDisabled(false);
 		}
 	}, [score]);
@@ -240,8 +262,21 @@ export const useScoreTable = () => {
 			dataIndex: 'state',
 			key: 'state',
 			align: 'right',
-			render: (text, a, id) => (
-				<button type="button" onClick={() => showUpdateModal()}>
+			render: (text, a, idx) => (
+				<button
+					type="button"
+					onClick={() =>
+						showUpdateModal(
+							{
+								key: data ? data[idx].gradeId : -1,
+								content: data ? data[idx].examName : '',
+								score: data ? data[idx].score : -1,
+								name: data ? data[idx].memberName : '',
+							},
+							idx,
+						)
+					}
+				>
 					<ModeEdtOutlineOutlinedIcon className="mr-2" />
 				</button>
 			),
@@ -261,5 +296,9 @@ export const useScoreTable = () => {
 		isUpdateLoading,
 		isUpdateModalOpen,
 		handleChangeSelectedExamId,
+		exam,
+		name,
+		score,
+		setScore,
 	};
 };
