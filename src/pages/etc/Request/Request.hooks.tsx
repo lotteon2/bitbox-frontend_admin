@@ -67,6 +67,7 @@ export const useRequestModal = () => {
 				Toast(true, `사유서가 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}되었어요.`);
 				setIsModalOpen(false);
 				setComment('');
+				refetch();
 			})
 			.catch((err) => {
 				Toast(false, `사유서 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}에 실패했어요.`);

@@ -3,7 +3,6 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ModeEdtOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
-import { Avatar } from 'antd';
 import { Toast } from '../../../components/common/Toast';
 import { DataType } from '../../../components/common/Table';
 import { useUserStore } from '../../../stores/user/user.store';

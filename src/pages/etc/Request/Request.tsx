@@ -4,6 +4,7 @@ import { useRequestTable } from './Request.hooks';
 import Button from '../../../components/common/Button';
 import Table from '../../../components/common/Table';
 import { REASON_STATEMENT } from '../../../constants/ReasonStatementType';
+import { ATTENDANCE } from '../../../constants/AttendanceType';
 
 const Request = () => {
 	const {
@@ -72,13 +73,17 @@ const Request = () => {
 							readOnly
 						/>
 						<br />
-						<div className="text-primary3">반려 / 승인 사유를 적어주세요.</div>
-						<textarea
-							value={comment}
-							id="swal2-textarea"
-							className="swal2-textarea"
-							onChange={(e) => setComment(e.target.value)}
-						/>
+						{requestData[selectedColumnIdx].reasonState !== REASON_STATEMENT.REJECT && (
+							<>
+								<div className="text-primary3">반려 / 승인 사유를 적어주세요.</div>
+								<textarea
+									value={comment}
+									id="swal2-textarea"
+									className="swal2-textarea"
+									onChange={(e) => setComment(e.target.value)}
+								/>
+							</>
+						)}
 					</div>
 				</Modal>
 			)}
