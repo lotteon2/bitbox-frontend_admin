@@ -21,6 +21,7 @@ export const useExamModal = () => {
 	const [perfectScore, setPerfectScore] = useState<number | null>(null);
 	const [name, setName] = useState<string>('');
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const myClassesOption = useUserStore((state) => state.myClassesOption);
 	const classId = useClassStore((state) => state.classId);
 
 	const { mutateAsync } = useCreateExamMutation();
@@ -37,7 +38,11 @@ export const useExamModal = () => {
 
 	const handleOk = async () => {
 		setIsLoading(true);
-		await mutateAsync({ classId, examName: name, perfectScore: perfectScore as number })
+		await mutateAsync({
+			classId: classId === -1 ? myClassesOption[0].value : classId,
+			examName: name,
+			perfectScore: perfectScore as number,
+		})
 			.then((res) => {
 				console.log(res);
 				Toast(true, '시험이 추가되었어요');

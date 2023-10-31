@@ -146,7 +146,7 @@ export const useScoreTable = () => {
 				const temp: { value: number; label: string }[] = [];
 				if (classId === -1) {
 					dispatchClassId(myClassesOption[0].value);
-					if (myClasses[0].exams.length > 0) {
+					if (myClasses[0].exams && myClasses[0].exams.length > 0) {
 						myClasses[0].exams.forEach((it) => {
 							temp.push({
 								value: it.examId,
@@ -157,7 +157,8 @@ export const useScoreTable = () => {
 					setExamsOption([...temp]);
 				} else {
 					const idx = myClasses.findIndex((it) => it.classId === classId);
-					if (myClasses[idx].exams.length > 0) {
+					console.log('myClasses', myClasses);
+					if (myClasses[idx].exams && myClasses[idx].exams.length > 0) {
 						myClasses[idx].exams.forEach((it) => {
 							temp.push({
 								value: it.examId,
