@@ -23,7 +23,6 @@ export const useInvitedStudent = () => {
 	const { mutateAsync } = useDeleteInvitedMutation();
 	const [invitedStudents, setInvitedStudents] = useState<DataType[]>([]);
 	const handleDeleteInvitedStudent = async (email: string) => {
-		// TODO : 종민이에게 뭘로 삭제할 지 확인 후 수정
 		await mutateAsync(email)
 			.then((res) => {
 				console.log(res);
@@ -41,14 +40,15 @@ export const useInvitedStudent = () => {
 			title: '이메일',
 			dataIndex: 'email',
 			key: 'email',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '반',
 			dataIndex: 'class',
 			key: 'class',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '',
@@ -134,7 +134,6 @@ export const useStudentModal = () => {
 	const handleDeleteStudentAlert = (id: string) => {
 		console.log(id);
 		Alert({ title: '교육생 정보를 삭제하시겠습니까?', text: '삭제하시면 되돌릴 수 없습니다' }).then((result) => {
-			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				handleDeleteStudent(id);
 			}
@@ -143,31 +142,25 @@ export const useStudentModal = () => {
 
 	const studentColumns: ColumnsType<DataType> = [
 		{
-			title: '',
-			dataIndex: 'imageSrc',
-			key: 'imageSrc',
-			render: (text) => <Avatar src={text || null} size="large" />,
-			width: '100px',
-		},
-		{
 			title: '이름',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '이메일',
 			dataIndex: 'email',
 			key: 'email',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '반',
 			dataIndex: 'class',
 			key: 'class',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '',

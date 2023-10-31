@@ -20,7 +20,7 @@ export const useChangeScoreModal = () => {
 	const [name, setName] = useState<string>();
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 	const [selectedGradeId, setSelectedGradeId] = useState<number>(0);
-	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
+	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(-1);
 
 	const { data, refetch } = useGetAllScoreByExamIdQuery();
 	const { mutateAsync } = usePatchGradeMutation();
@@ -65,7 +65,7 @@ export const useChangeScoreModal = () => {
 	};
 
 	useEffect(() => {
-		if (!data) return;
+		if (!data || selectedColumnIdx === -1) return;
 		if (score === data[selectedColumnIdx].score) {
 			setIsDisabled(true);
 		} else {
@@ -134,6 +134,7 @@ export const useScoreTable = () => {
 		}
 		return () => {
 			dispatchClassId(-1);
+			dispatchSelectedExamId(-1);
 		};
 	}, []);
 

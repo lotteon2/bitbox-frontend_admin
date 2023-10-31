@@ -199,8 +199,8 @@ export const useAttendanceTable = () => {
 			title: '교육생',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '출석 상태',
@@ -219,18 +219,21 @@ export const useAttendanceTable = () => {
 			dataIndex: 'entranceTime',
 			key: 'entranceTime',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '퇴실시간',
 			dataIndex: 'quitTime',
 			key: 'quitTime',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '참고',
 			dataIndex: 'attendanceModifyReason',
 			key: 'attendanceModifyReason',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '',

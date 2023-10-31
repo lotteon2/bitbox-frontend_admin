@@ -220,12 +220,14 @@ export const useClassTable = () => {
 			dataIndex: 'class',
 			key: 'class',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '반 코드',
 			dataIndex: 'classCode',
 			key: 'classCode',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '수료 여부',
@@ -238,8 +240,8 @@ export const useClassTable = () => {
 			title: '대표 담당자',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text: string) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '',

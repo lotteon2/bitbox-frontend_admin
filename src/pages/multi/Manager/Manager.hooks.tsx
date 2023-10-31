@@ -241,15 +241,15 @@ export const useManagerTable = () => {
 			title: '이름',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '이메일',
 			dataIndex: 'email',
 			key: 'email',
-			render: (text) => <a href="/dashboard">{text}</a>,
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '권한',
@@ -272,6 +272,7 @@ export const useManagerTable = () => {
 			dataIndex: 'class',
 			key: 'class',
 			align: 'center',
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '',
