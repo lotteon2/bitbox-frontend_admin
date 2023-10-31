@@ -115,7 +115,12 @@ export const useStudentModal = () => {
 		state.myClassesOption,
 		state.myClasses,
 	]);
-	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
+	const [classId, dispatchClassId, classValue, dispatchClassValue] = useClassStore((state) => [
+		state.classId,
+		state.dispatchSelectedClassId,
+		state.classValue,
+		state.dispatchSelectedClassValue,
+	]);
 	const [studentsData, setStudentsData] = useState<DataType[]>([]);
 
 	const { mutateAsync } = useCreateStudentMutation();
@@ -217,6 +222,10 @@ export const useStudentModal = () => {
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		dispatchClassId(Number(value));
+		console.log('myClassesOption', myClassesOption);
+		const selectedOption = myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === Number(value))];
+		console.log('selectedOption', selectedOption);
+		dispatchClassValue(selectedOption.label);
 		console.log(`selected ${value}`);
 	}, []);
 
@@ -279,5 +288,7 @@ export const useStudentModal = () => {
 		handleChangeSelectedClassId,
 		studentsData,
 		studentColumns,
+		classId,
+		classValue,
 	};
 };

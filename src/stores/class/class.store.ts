@@ -4,6 +4,7 @@ import { ClassState, ClassStateDispatcher } from './class.types';
 
 const initialState: ClassState = {
 	classId: -1,
+	classValue: '',
 };
 
 export const useClassStore = create(
@@ -11,6 +12,9 @@ export const useClassStore = create(
 		...initialState,
 		dispatchSelectedClassId: (value: number) => {
 			set({ classId: value });
+		},
+		dispatchSelectedClassValue: (value: string) => {
+			set({ classValue: value });
 		},
 	})),
 );

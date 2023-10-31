@@ -22,6 +22,8 @@ function Student() {
 		handleChangeSelectedClassId,
 		studentColumns,
 		studentsData,
+		classId,
+		classValue,
 	} = useStudentModal();
 
 	const { invitedStudentColumns, invitedStudents } = useInvitedStudent();
@@ -47,7 +49,7 @@ function Student() {
 			>
 				<div className="my-10 flex flex-col justify-center">
 					<div className="text-grayscale5 mb-5">*반드시 카카오 로그인이 가능한 계정으로 초대해주세요.</div>
-					<SelectClass options={myClassesOption} handleChange={handleChangeSelectedClassId} isReadOnly isFull />
+					<input id="swal2-input" className="swal2-input w-full" value={classValue} readOnly disabled />
 					<form className="w-full flex justify-between items-center" onSubmit={handleClickAddBtn}>
 						<input
 							id="swal2-input"
