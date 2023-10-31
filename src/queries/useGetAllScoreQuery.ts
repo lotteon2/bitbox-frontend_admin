@@ -13,7 +13,6 @@ export const useGetAllScoreByExamIdQuery = (
 	initialEnabled = true,
 ) => {
 	const [enabled, setEnabled] = useState(initialEnabled);
-	const [classId] = useClassStore((state) => [state.classId]);
 	const [myClasses] = useUserStore((state) => [state.myClasses]);
 	const [selectedExamId] = useExamStore((state) => [state.selectedExamId]);
 
@@ -22,10 +21,10 @@ export const useGetAllScoreByExamIdQuery = (
 	};
 
 	const data = useQuery(
-		[GET_ALL_SCORE_QUERY_KEY, classId],
+		[GET_ALL_SCORE_QUERY_KEY, selectedExamId],
 		() => gradeApi.getGradesByExamId(selectedExamId === -1 ? myClasses[0].exams[0].examId : selectedExamId),
 		{
-			enabled: true && Boolean(classId),
+			enabled: true && Boolean(selectedExamId),
 			onSettled: (result) => {
 				setEnabled(initialEnabled);
 				onSettled?.(result);

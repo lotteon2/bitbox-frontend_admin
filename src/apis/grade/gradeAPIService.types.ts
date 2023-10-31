@@ -13,4 +13,9 @@ export interface GetGradesResponseDataByExamId {
 	gradeId: number;
 	score: number;
 	examName: string;
+	perfectScore: number;
+}
+
+export interface UpdateGradeByGradeIdParams {
+	score: number;
 }

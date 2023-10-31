@@ -1,7 +1,10 @@
 import APIService from '../../libs/core/api/APIService';
-import { GetGradesResponseDataForDashBoard, GetGradesResponseDataByExamId } from './gradeAPIService.types';
+import {
+	GetGradesResponseDataForDashBoard,
+	GetGradesResponseDataByExamId,
+	UpdateGradeByGradeIdParams,
+} from './gradeAPIService.types';
 
-// TODO : 추후 BASE_URL 변경
 const BASE_URL = `${process.env.REACT_APP_API_URL}/admin-service/admin/grade`;
 
 class GradeAPIService extends APIService {
@@ -18,6 +21,11 @@ class GradeAPIService extends APIService {
 
 	async getGradesByExamId(examId: number) {
 		const { data } = await this.get<GetGradesResponseDataByExamId[]>(`/exam/${examId}`);
+		return data;
+	}
+
+	async updateGradeByGradeId(gradeId: number, params: UpdateGradeByGradeIdParams) {
+		const { data } = await this.patch(`${gradeId}`, params);
 		return data;
 	}
 }

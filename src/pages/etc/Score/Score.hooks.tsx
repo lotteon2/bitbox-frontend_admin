@@ -67,57 +67,6 @@ export const useChangeScoreModal = () => {
 	};
 };
 
-// export const useAddScoreModal = () => {
-// 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-// 	const [isLoading, setIsLoading] = useState<boolean>(false);
-// 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-// 	const [examName, setExamName] = useState<string>('');
-// 	const [perfectScore, setPerfectScore] = useState<string>('');
-
-// 	const clearValues = () => {
-// 		setIsDisabled(true);
-// 	};
-
-// 	const showModal = () => {
-// 		setIsModalOpen(true);
-// 		setExamName('');
-// 		setPerfectScore('');
-// 	};
-
-// 	const handleOk = () => {
-// 		setIsLoading(true);
-// 		Toast(true, '성적이 등록되었어요.');
-// 		clearValues();
-// 		setIsLoading(false);
-// 		setIsModalOpen(false);
-// 	};
-
-// 	const handleCancel = () => {
-// 		setIsModalOpen(false);
-// 		clearValues();
-// 	};
-
-// 	useEffect(() => {
-// 		if (examName && perfectScore) {
-// 			setIsDisabled(false);
-// 		}
-// 	}, [examName, perfectScore]);
-
-// 	return {
-// 		examName,
-// 		setExamName,
-// 		perfectScore,
-// 		setPerfectScore,
-// 		isModalOpen,
-// 		setIsModalOpen,
-// 		isLoading,
-// 		showModal,
-// 		handleOk,
-// 		handleCancel,
-// 		isDisabled,
-// 	};
-// };
-
 export const useScoreTable = () => {
 	const navigate = useNavigate();
 	const [scoreData, setScoreData] = useState<DataType[]>([]);
@@ -247,6 +196,7 @@ export const useScoreTable = () => {
 				content: it.examName,
 				name: it.memberName,
 				score: it.score,
+				avgScore: it.perfectScore,
 			});
 		});
 		setScoreData([...temp]);
@@ -259,23 +209,17 @@ export const useScoreTable = () => {
 			width: '0px',
 		},
 		{
-			title: '',
-			dataIndex: 'imageSrc',
-			key: 'imageSrc',
-			render: (text) => <Avatar src={text || null} size="large" />,
-			width: '100px',
-		},
-		{
 			title: '교육생',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text) => <a href="/dashboard">{text}</a>,
+			align: 'center',
+			render: (text: string) => <span>{text}</span>,
 		},
 		{
 			title: '시험명',
 			dataIndex: 'content',
 			key: 'content',
-			render: (text: string) => <a href="/dashboard">{text.length > 12 ? text.slice(0, 10).concat('...') : text}</a>,
+			render: (text: string) => <span>{text.length > 12 ? text.slice(0, 10).concat('...') : text}</span>,
 			align: 'center',
 		},
 		{
@@ -283,6 +227,14 @@ export const useScoreTable = () => {
 			dataIndex: 'score',
 			key: 'score',
 			align: 'center',
+			render: (text: string) => <span>{text}</span>,
+		},
+		{
+			title: '만점',
+			dataIndex: 'avgScore',
+			key: 'avgScore',
+			align: 'center',
+			render: (text: string) => <span>{text}</span>,
 		},
 		{
 			title: '',

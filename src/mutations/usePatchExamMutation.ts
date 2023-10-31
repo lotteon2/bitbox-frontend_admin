@@ -1,7 +1,7 @@
 import { useIsMutating } from 'react-query';
 import { useMutation } from '../libs/core/react-query/hooks';
 import { examApi } from '../apis/exam/examAPIService';
-import { CreateExamParams, UpdateExamParams } from '../apis/exam/examAPIService.typex';
+import { UpdateExamParams } from '../apis/exam/examAPIService.typex';
 
 const USE_PATCH_EXAM_MUTATION_KEY = '@exam/patch';
 
