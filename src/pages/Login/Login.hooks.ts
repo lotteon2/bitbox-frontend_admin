@@ -26,7 +26,6 @@ export const useLogin = () => {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				// 'application/x-www-form-urlencoded': 'charset=UTF-8',
 			},
 			credentials: 'include',
 			body: JSON.stringify({
@@ -35,7 +34,11 @@ export const useLogin = () => {
 			}),
 		})
 			.then((res) => {
-				return res.json();
+				if (res.ok) {
+					return res.json();
+				}
+
+				throw new Error();
 			})
 			.then((res) => {
 				console.log(res);
@@ -49,26 +52,8 @@ export const useLogin = () => {
 				}
 			})
 			.catch((err) => {
-				console.log(err);
 				Toast(false, '아이디 비밀번호를 다시 확인해주세요');
 			});
-
-		// await mutateAsync({ email, password })
-		// 	.then((res: LoginResponseData) => {
-		// 		console.log(res);
-		// 		dispatchIsLogin(true);
-		// 		dispatchAuthority(res.authority);
-		// 		dispatchIsFirstLogin(res.firstLogin);
-		// 		localStorage.setItem('accessToken', res.accessToken);
-		// 		Toast(true, '로그인에 성공하였어요!');
-		// 		// if (res.firstLogin) {
-		// 		// 	navigate('/first');
-		// 		// }
-		// 	})
-		// 	.catch((err) => {
-		// 		console.error(err);
-		// 		Toast(false, '아이디 비밀번호를 다시 확인해주세요');
-		// 	});
 	};
 
 	return {

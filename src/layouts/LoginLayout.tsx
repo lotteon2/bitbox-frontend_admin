@@ -14,7 +14,7 @@ export default function LoginLayout() {
 	}, [isLogin, navigate]);
 
 	return (
-		<div className="w-[1920px] h-screen flex justify-center items-center">
+		<div className="w-full h-screen flex justify-center items-center">
 			<Outlet />
 		</div>
 	);
