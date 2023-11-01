@@ -24,6 +24,7 @@ export const useExamModal = () => {
 	const myClassesOption = useUserStore((state) => state.myClassesOption);
 	const classId = useClassStore((state) => state.classId);
 
+	const { refetch } = useGetAllExamQuery();
 	const { mutateAsync } = useCreateExamMutation();
 
 	const clearValues = () => {
@@ -46,6 +47,7 @@ export const useExamModal = () => {
 			.then((res) => {
 				console.log(res);
 				Toast(true, '시험이 추가되었어요');
+				refetch();
 				clearValues();
 				setIsModalOpen(false);
 			})
@@ -254,6 +256,7 @@ export const useExamTable = () => {
 			title: '',
 			dataIndex: 'key',
 			key: 'key',
+			render: (text: number) => <span className="hidden">{text}</span>,
 		},
 		{
 			title: '시험 이름',

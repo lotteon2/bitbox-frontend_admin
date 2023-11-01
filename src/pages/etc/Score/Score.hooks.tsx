@@ -230,6 +230,7 @@ export const useScoreTable = () => {
 			dataIndex: 'key',
 			key: 'key',
 			width: '0px',
+			render: (text: string) => <div className="hidden">{text}</div>,
 		},
 		{
 			title: '교육생',
