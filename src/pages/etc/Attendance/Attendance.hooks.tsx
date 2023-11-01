@@ -23,10 +23,10 @@ export const useAttendanceModal = () => {
 	const [name, setName] = useState<string>('');
 	const [attendanceState, setAttendanceState] = useState<string>(getAttendacne(ATTENDANCE.ATTENDANCE));
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [selectedExamId, setSelectedExamId] = useState<number>(-1);
+	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
 
 	const { mutateAsync } = usePatchAttendanceMutation();
-	const { refetch } = useGetAllAttendanceQuery();
+	const { refetch, data } = useGetAllAttendanceQuery();
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -41,7 +41,7 @@ export const useAttendanceModal = () => {
 		console.log(value);
 		console.log('initAttendanceState', initAttendanceState);
 		console.log('initName', initName);
-		setSelectedExamId(value);
+		setSelectedColumnIdx(value);
 		setIsModalOpen(true);
 		setAttendanceState(initAttendanceState);
 		setName(initName);
@@ -49,7 +49,7 @@ export const useAttendanceModal = () => {
 
 	const handleOk = async () => {
 		setIsLoading(true);
-		await mutateAsync({ attendanceId: selectedExamId, attendanceState, attendanceModifyReason: comment })
+		await mutateAsync({ attendanceId: selectedColumnIdx, attendanceState, attendanceModifyReason: comment })
 			.then((res) => {
 				Toast(true, '출석 상태가 변경되었어요.');
 				clearValues();
@@ -70,10 +70,11 @@ export const useAttendanceModal = () => {
 	};
 
 	useEffect(() => {
-		if (attendanceState) {
+		if (!data || selectedColumnIdx === -1) return;
+		const prev = data.findIndex((it) => it.attendanceId === selectedColumnIdx);
+		if (attendanceState !== data[prev].attendanceState) {
 			setIsDisabled(false);
-			console.log(isModalOpen);
-		}
+		} else setIsDisabled(true);
 	}, [attendanceState, isModalOpen]);
 
 	return {
@@ -132,11 +133,6 @@ export const useAttendanceTable = () => {
 	const handleChangeSelectedClassId = (value: string) => {
 		console.log(`selected ${value}`);
 		dispatchClassId(Number(value));
-	};
-
-	/* search bar */
-	const handleSearch = () => {
-		console.log('검색해요');
 	};
 
 	useEffect(() => {
@@ -263,7 +259,6 @@ export const useAttendanceTable = () => {
 		columns,
 		myClassesOption,
 		handleChangeSelectedClassId,
-		handleSearch,
 		isUpdateModalOpen,
 		handleUpdateModalCancel,
 		handleUpdateModalOk,

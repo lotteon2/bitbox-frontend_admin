@@ -6,20 +6,19 @@ import SelectClass from '../../../components/common/SelectClass';
 import { useAttendanceModal, useAttendanceTable } from './Attendance.hooks';
 import Button from '../../../components/common/Button';
 import 'dayjs/locale/ko';
-import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
+import { ATTENDANCE, getAttendacne, translateAttendance } from '../../../constants/AttendanceType';
 
 export const getAttendanceValueTypeForSelect = () => {
 	const result = [];
 	const attendanceArray = Object.values(ATTENDANCE);
 	for (let i = 0; i < 3; i += 1) {
-		result.push({ value: getAttendacne(attendanceArray[i]), label: getAttendacne(attendanceArray[i]) });
+		result.push({ value: getAttendacne(attendanceArray[i]), label: translateAttendance(attendanceArray[i]) });
 	}
 	return result;
 };
 
 const Attendance = () => {
 	const {
-		handleSearch,
 		onChangeDate,
 		attendanceData,
 		columns,
@@ -53,7 +52,6 @@ const Attendance = () => {
 						value={searchName}
 						onChange={(e) => dispatchSearchName(e.target.value)}
 						maxLength={10}
-						onSearch={handleSearch}
 					/>
 				</div>
 			</div>
