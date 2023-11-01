@@ -16,7 +16,7 @@ const DashBoard = () => {
 		<div>
 			<div className="h-1/2">
 				<SelectClass handleChange={handleChangeSelectedClassId} options={myClassesOption} />
-				<div className="flex justify-between w-full">
+				<div className="flex justify-between w-full sm:flex-col sm:gap-10 md:flex-row lg:flex-row xl:flex-row">
 					<BarChart chartName="출석률" data={attendanceData as BarChartDataType[]} />
 					<BarChart chartName="평균 성적" data={gradeData as BarChartDataType[]} />
 				</div>

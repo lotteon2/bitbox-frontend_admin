@@ -25,13 +25,12 @@ const Login = () => {
 				<div className="pb-8 flex items-center justify-center">
 					<img className="w-[60px]" src={Logo} alt="로고" />
 				</div>
-				<p className="pb-8 font-regular text-3xl dark:text-grayscale1">관리자로 로그인 하기</p>
+				<p className="pb-8 font-regular text-3xl dark:text-grayscale1 break-keep">관리자로 로그인 하기</p>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
 					wrapperCol={{ span: 16 }}
 					style={{ maxWidth: 600, width: '100%' }}
-					initialValues={{ remember: true }}
 					onFinish={onFinish}
 					autoComplete="off"
 				>
