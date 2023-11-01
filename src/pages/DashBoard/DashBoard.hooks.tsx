@@ -10,6 +10,7 @@ import { useGetAllRequestQuery } from '../../queries/useGetAllRequestQuery';
 import { useClassStore } from '../../stores/class/class.store';
 import TableStateChip from '../../components/common/TableStateChip';
 import { useGetGradeByClassIdForDashBoardQuery } from '../../queries/useGetGradeByClassIdForDashBoardQuery';
+import { useGetAttendanceByClassIdForDashBoardQuery } from '../../queries/useGetAttendanceByClassIdForDashBoard';
 
 export const useDashBoard = () => {
 	const navigate = useNavigate();
@@ -22,21 +23,22 @@ export const useDashBoard = () => {
 
 	const { data } = useGetAllRequestQuery();
 	const { data: dashboardGradeData } = useGetGradeByClassIdForDashBoardQuery();
+	const { data: dashboardAttendanceData } = useGetAttendanceByClassIdForDashBoardQuery();
 
 	const handleChangeSelectedClassId = (value: string) => {
 		dispatchClassId(Number(value));
 		console.log(`selected ${value}`);
 	};
 
-	const getAttendancesByClassId = useCallback(async () => {
-		console.log('getAttendancesByClassId', classId);
-		await attendanceApi
-			.getAttendanceInfoByClassIdForDashBoard(classId === -1 ? myClassesOption[0].value : classId)
-			.then((res: BarChartDataType[]) => {
-				setAttendanceData(res);
-				console.log(attendanceData);
-			});
-	}, []);
+	// const getAttendancesByClassId = useCallback(async () => {
+	// 	console.log('getAttendancesByClassId', classId);
+	// 	await attendanceApi
+	// 		.getAttendanceInfoByClassIdForDashBoard(classId === -1 ? myClassesOption[0].value : classId)
+	// 		.then((res: BarChartDataType[]) => {
+	// 			setAttendanceData(res);
+	// 			console.log(attendanceData);
+	// 		});
+	// }, []);
 
 	// const getGradesByClassId = useCallback(async () => {
 	// 	console.log('getGradesByClassId', classId);
@@ -75,7 +77,6 @@ export const useDashBoard = () => {
 				dispatchClassId(myClassesOption[0].value);
 			}
 			console.log('selectedClassId', classId);
-			getAttendancesByClassId();
 		}
 		console.log(myClassesOption);
 	}, [isLogin, classId]);
@@ -110,6 +111,14 @@ export const useDashBoard = () => {
 		dashboardGradeData.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
 		setGradeData([...newGradeData]);
 	}, [dashboardGradeData]);
+
+	useEffect(() => {
+		if (!dashboardAttendanceData) {
+			setAttendanceData([]);
+			return;
+		}
+		setAttendanceData([...dashboardAttendanceData]);
+	}, [dashboardAttendanceData]);
 
 	useEffect(() => {
 		if (!isLogin) {
