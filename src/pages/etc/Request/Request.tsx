@@ -72,7 +72,7 @@ const Request = () => {
 								rel="noreferrer noopener"
 								className="flex justify-between w-full"
 							>
-								첨부 파일
+								첨부 파일을 눌러서 확인해주세요!
 							</a>
 						)}
 						<br />

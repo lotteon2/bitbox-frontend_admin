@@ -229,6 +229,7 @@ export const useRequestTable = () => {
 		{
 			key: 'imageSrc',
 			dataIndex: 'imageSrc',
+			render: (text) => <span className="hidden">{text}</span>,
 		},
 	];
 
