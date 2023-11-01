@@ -6,7 +6,6 @@ import { AxiosError } from 'axios';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import dayjs from 'dayjs';
 import { Toast } from '../../../components/common/Toast';
-import TableStateChip from '../../../components/common/TableStateChip';
 import { DataType } from '../../../components/common/Table';
 import AttendanceState from '../../../components/common/AttendanceState';
 import { useGetAllAttendanceQuery } from '../../../queries/useGetAllAttendanceQuery';
@@ -21,7 +20,7 @@ export const useAttendanceModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [comment, setComment] = useState<string>(''); // comment
 	const [name, setName] = useState<string>('');
-	const [attendanceState, setAttendanceState] = useState<string>(getAttendacne(ATTENDANCE.ATTENDANCE));
+	const [attendanceState, setAttendanceState] = useState<string>(ATTENDANCE.ATTENDANCE);
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
 
