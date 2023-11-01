@@ -171,6 +171,7 @@ export const useRequestTable = () => {
 				name: it.memberName,
 				isRead: it.read,
 				reasonState: it.reasonState,
+				imageSrc: it.reasonAttachedFile,
 			});
 			setRequestData([...temp]);
 		});
@@ -224,6 +225,10 @@ export const useRequestTable = () => {
 		{
 			key: 'isRead',
 			dataIndex: 'isRead',
+		},
+		{
+			key: 'imageSrc',
+			dataIndex: 'imageSrc',
 		},
 	];
 

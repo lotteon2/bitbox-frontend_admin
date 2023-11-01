@@ -65,6 +65,16 @@ const Request = () => {
 						<div className="flex justify-between w-full">
 							{requestData[selectedColumnIdx].date} {requestData[selectedColumnIdx].name}
 						</div>
+						{requestData[selectedColumnIdx].imageSrc && (
+							<a
+								href={requestData[selectedColumnIdx].imageSrc}
+								target="_blank"
+								rel="noreferrer noopener"
+								className="flex justify-between w-full"
+							>
+								첨부 파일
+							</a>
+						)}
 						<br />
 						<textarea
 							value={requestData[selectedColumnIdx].content}
