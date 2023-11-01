@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../apis/auth/authAPIService';
 import { useUserStore } from '../../stores/user/user.store';
-import { LoginResponseData } from '../../apis/auth/authAPIService.types';
 import { Toast } from '../../components/common/Toast';
-import { useLoginMutation } from '../../mutations/useLoginMutation';
-import { useGetMyAdimInfoQuery } from '../../queries/useGetMyAdminInfoQuery';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
-	const { mutateAsync } = useLoginMutation();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isLogin, dispatchIsLogin, dispatchAuthority, dispatchIsFirstLogin] = useUserStore((state) => [
@@ -20,7 +15,6 @@ export const useLogin = () => {
 	]);
 
 	const onFinish = async () => {
-		console.log(email, password);
 		fetch('https://bitbox.kro.kr/authentication-service/auth/admin', {
 			method: 'POST',
 			headers: {

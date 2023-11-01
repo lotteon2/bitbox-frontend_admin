@@ -1,11 +1,10 @@
 import React from 'react';
 import { Modal } from 'antd';
-import Table, { DataType } from '../../../components/common/Table';
+import Table from '../../../components/common/Table';
 import SelectClass from '../../../components/common/SelectClass';
 import Button from '../../../components/common/Button';
 import { useManagerModal, useManagerTable } from './Manager.hooks';
 import ProfileUpdater from '../../../components/common/ProfileUpdater';
-import { useUpdateProfileModal } from '../../../hooks/useUpdateProfile';
 import { AUTHORITY, getAuthority } from '../../../constants/AuthorityType';
 
 export const getAuthorityValueTypeForSelect = () => {
@@ -18,7 +17,6 @@ export const getAuthorityValueTypeForSelect = () => {
 };
 
 function Manager() {
-	const [filteredInfo, setFilterInfo] = React.useState<string>();
 	const {
 		email,
 		setEmail,

@@ -9,9 +9,8 @@ interface BarChartInterface {
 
 const BarChart: React.FC<BarChartInterface> = ({ chartName, data }) => {
 	const [chartWidth, setChartWidth] = useState<number>(700);
-	const { height, width } = useWindowDimensions();
+	const { width } = useWindowDimensions();
 	useEffect(() => {
-		// eslint-disable-next-line no-restricted-globals
 		if (!width) return;
 		if (width < 640) {
 			setChartWidth(250);
@@ -22,8 +21,6 @@ const BarChart: React.FC<BarChartInterface> = ({ chartName, data }) => {
 		} else {
 			setChartWidth(700);
 		}
-		console.log(width);
-		// eslint-disable-next-line no-restricted-globals
 	}, [width]);
 	return (
 		<div className={`shadow-lg grayscale3 flex flex-col items-center rounded-xl w-[${chartWidth + 100}px]`}>

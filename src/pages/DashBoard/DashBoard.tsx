@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ColumnsType } from 'antd/es/table';
 import SelectClass from '../../components/common/SelectClass';
 import BarChart from '../../components/DashBoard/BarChart';
-import Table, { DataType } from '../../components/common/Table';
+import Table from '../../components/common/Table';
 import { useDashBoard } from './DashBoard.hooks';
 import { BarChartDataType } from '../../components/DashBoard/BarChartDataType';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { ColumnsType } from 'antd/es/table';
-import { Avatar, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { useNavigate } from 'react-router-dom';
