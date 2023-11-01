@@ -103,10 +103,11 @@ export const useManagerTable = () => {
 	const [selectedIdx, setSelectedIdx] = useState<number>();
 	const [selectedName, setSelectedName] = useState<string>('');
 	const [selectedImageSrc, setSelectedImageSrc] = useState<string>('');
-	const [isLogin, myClassesOption, myClasses] = useUserStore((state) => [
+	const [isLogin, myClassesOption, myClasses, memberAuthority] = useUserStore((state) => [
 		state.isLogin,
 		state.myClassesOption,
 		state.myClasses,
+		state.authority,
 	]);
 	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 
@@ -206,6 +207,12 @@ export const useManagerTable = () => {
 	useEffect(() => {
 		if (!isLogin) {
 			navigate('/login');
+		}
+		if (memberAuthority) {
+			if (memberAuthority === AUTHORITY.TEACHER) {
+				Toast(false, '강사님은 접근 권한이 없는 페이지에요.');
+				navigate('/404');
+			}
 		}
 		return () => {
 			dispatchClassId(-1);

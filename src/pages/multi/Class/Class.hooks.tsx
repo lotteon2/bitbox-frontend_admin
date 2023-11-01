@@ -5,12 +5,16 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { Dropdown } from 'antd';
 import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { DataType } from '../../../components/common/Table';
 import { Toast } from '../../../components/common/Toast';
 import { Alert } from '../../../components/common/Alert';
 import { useCreateClassMutation } from '../../../mutations/useCreateClassMutation';
 import { useGetAllClassQuery } from '../../../queries/useGetAllClassQuery';
 import { usePatchClassMutation } from '../../../mutations/usePatchClassMutation';
+import { useUserStore } from '../../../stores/user/user.store';
+import { AUTHORITY } from '../../../constants/AuthorityType';
+import { useClassStore } from '../../../stores/class/class.store';
 
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -110,6 +114,7 @@ export const useClassUpdateModal = () => {
 };
 
 export const useClassTable = () => {
+	const navigate = useNavigate();
 	const [classesData, setClassesData] = useState<DataType[]>([]);
 	const {
 		isModalOpen: isUpdateModalOpen,
@@ -129,6 +134,8 @@ export const useClassTable = () => {
 	const [selectedClassCode, setSelectedClassCode] = useState<string>();
 	const [selectedClassName, setSelectedClassName] = useState<string>();
 	const [selectedIsGraduate, setSelectedIsGraduate] = useState<boolean>();
+	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
+	const [isLogin, memberAuthority] = useUserStore((state) => [state.isLogin, state.authority]);
 
 	const graduateOptions = [
 		{ value: '교육', label: '교육' },
@@ -159,6 +166,21 @@ export const useClassTable = () => {
 				setIsLoadingUpdateClass(false);
 			});
 	};
+
+	useEffect(() => {
+		if (!isLogin) {
+			navigate('/login');
+		}
+		if (memberAuthority) {
+			if (memberAuthority === AUTHORITY.TEACHER) {
+				Toast(false, '강사님은 접근 권한이 없는 페이지에요.');
+				navigate('/404');
+			}
+		}
+		return () => {
+			dispatchClassId(-1);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (classesData.length > 0) {
