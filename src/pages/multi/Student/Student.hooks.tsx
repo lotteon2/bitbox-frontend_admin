@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import emailjs from '@emailjs/browser';
 import { ColumnsType } from 'antd/es/table';
 import { Dropdown } from 'antd';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -197,6 +198,18 @@ export const useStudentModal = () => {
 					setEmail('');
 					Toast(true, '교육생이 초대되었습니다.');
 					refetch();
+					const templateParams = {
+						name: email,
+					};
+
+					emailjs.send('service_7t9od8h', 'template_nh61f8q', templateParams, 'pSia3ISCGBQ7MtMZk').then(
+						(result: any) => {
+							console.log(result.text);
+						},
+						(error: any) => {
+							console.log(error.text);
+						},
+					);
 				})
 				.catch((err) => {
 					Toast(false, '교육생 초대에 실패하였습니다.');

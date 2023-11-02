@@ -5,7 +5,6 @@ import { useUserStore } from './stores/user/user.store';
 export const useAppMount = () => {
 	const queryClientRef = useRef(createQueryClient());
 	requestUserPermission();
-
 	return {
 		queryClientRef,
 		useAppMount,

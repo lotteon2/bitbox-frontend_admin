@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@emailjs/browser": "^3.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@handsontable/react": "^13.1.0",
@@ -20,6 +21,8 @@
     "antd": "^5.9.2",
     "axios": "^1.5.0",
     "dayjs": "^1.11.10",
+    "emailjs": "^4.0.3",
+    "emailjs-com": "^3.2.0",
     "handsontable": "^13.1.0",
     "http-proxy-middleware": "^2.0.6",
     "https": "^1.0.0",

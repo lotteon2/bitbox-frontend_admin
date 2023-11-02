@@ -139,13 +139,13 @@ export const useDashBoard = () => {
 			title: '제목',
 			dataIndex: 'title',
 			key: 'title',
-			render: (text) => <a href="/dashboard">{text}</a>,
+			render: (text) => <span>{text}</span>,
 		},
 		{
 			title: '내용',
 			dataIndex: 'content',
 			key: 'content',
-			render: (text: string) => <a href="/dashboard">{text.length > 12 ? text.slice(0, 10).concat('...') : text}</a>,
+			render: (text: string) => <span>{text.length > 12 ? text.slice(0, 10).concat('...') : text}</span>,
 			align: 'center',
 		},
 		{
