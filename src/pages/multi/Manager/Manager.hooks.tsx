@@ -264,10 +264,6 @@ export const useManagerTable = () => {
 			key: 'rate',
 			align: 'center',
 			width: '100px',
-			filters: [
-				{ text: '강사', value: '강사' },
-				{ text: '매니저', value: '매니저' },
-			],
 			render: (text) => (
 				<div className="w-full">
 					<Badge status={text} />

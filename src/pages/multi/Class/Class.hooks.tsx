@@ -15,6 +15,7 @@ import { usePatchClassMutation } from '../../../mutations/usePatchClassMutation'
 import { useUserStore } from '../../../stores/user/user.store';
 import { AUTHORITY } from '../../../constants/AuthorityType';
 import { useClassStore } from '../../../stores/class/class.store';
+import { useGetMyAdimInfoQuery } from '../../../queries/useGetMyAdminInfoQuery';
 
 export const useClassModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -136,6 +137,7 @@ export const useClassTable = () => {
 	const [selectedIsGraduate, setSelectedIsGraduate] = useState<boolean>();
 	const [classId, dispatchClassId] = useClassStore((state) => [state.classId, state.dispatchSelectedClassId]);
 	const [isLogin, memberAuthority] = useUserStore((state) => [state.isLogin, state.authority]);
+	const { refetch: refetchAdminInfo } = useGetMyAdimInfoQuery();
 
 	const graduateOptions = [
 		{ value: '교육', label: '교육' },
@@ -223,6 +225,7 @@ export const useClassTable = () => {
 			.then(() => {
 				Toast(true, '클래스 정보가 삭제됐어요.');
 				refetch();
+				refetchAdminInfo();
 			})
 			.catch((err: AxiosError) => Toast(false, '클래스 정보 삭제에 실패했어요.'));
 	};
