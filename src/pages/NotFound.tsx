@@ -3,26 +3,6 @@ import { NavLink } from 'react-router-dom';
 import NotFoundImg from '../assets/images/notfound.mp4';
 
 const NotFound = () => {
-	// useEffect(() => {
-	// 	fetch('http://localhost:8000/auth/refresh', {
-	// 		method: 'POST',
-
-	// 		headers: {
-	// 			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-	// 		},
-
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => {
-	// 			console.log(origin);
-	// 			console.log(res.headers.get('set-cookie')); // undefined
-	// 			console.log(document.cookie); // nope
-	// 			return res.json();
-	// 		})
-	// 		.then((json) => {
-	// 			console.log(json);
-	// 		});
-	// }, []);
 	return (
 		<div>
 			<video muted autoPlay loop className="m-auto">
