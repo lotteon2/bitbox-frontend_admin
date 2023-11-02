@@ -78,7 +78,7 @@ export const useAttendanceModal = () => {
 		) {
 			setIsDisabled(false);
 		} else setIsDisabled(true);
-	}, [attendanceState, isModalOpen]);
+	}, [attendanceState]);
 
 	return {
 		isDisabled,
