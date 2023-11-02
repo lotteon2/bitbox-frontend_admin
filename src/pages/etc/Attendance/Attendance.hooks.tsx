@@ -71,7 +71,11 @@ export const useAttendanceModal = () => {
 	useEffect(() => {
 		if (!data || selectedColumnIdx === -1) return;
 		const prev = data.findIndex((it) => it.attendanceId === selectedColumnIdx);
-		if (data[prev].attendanceState && attendanceState !== data[prev].attendanceState) {
+		if (
+			data[prev].attendanceState !== undefined &&
+			data[prev].attendanceState &&
+			attendanceState !== data[prev].attendanceState
+		) {
 			setIsDisabled(false);
 		} else setIsDisabled(true);
 	}, [attendanceState, isModalOpen]);
