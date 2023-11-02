@@ -1,13 +1,9 @@
-import { ColumnsType } from 'antd/es/table';
-import { Avatar, Modal } from 'antd';
-import { HotTable, HotColumn } from '@handsontable/react';
+import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import BarChart from '../../../components/DashBoard/BarChart';
 import Button from '../../../components/common/Button';
 import SelectClass from '../../../components/common/SelectClass';
-import Table, { DataType } from '../../../components/common/Table';
-import TableStateChip from '../../../components/common/TableStateChip';
-import { useChangeScoreModal, useScoreTable } from './Score.hooks';
+import Table from '../../../components/common/Table';
+import { useScoreTable } from './Score.hooks';
 import 'handsontable/dist/handsontable.min.css';
 import 'pikaday/css/pikaday.css';
 
