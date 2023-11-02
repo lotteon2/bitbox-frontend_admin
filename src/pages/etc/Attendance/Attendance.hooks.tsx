@@ -22,7 +22,7 @@ export const useAttendanceModal = () => {
 	const [name, setName] = useState<string>('');
 	const [attendanceState, setAttendanceState] = useState<string>(ATTENDANCE.ATTENDANCE);
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(0);
+	const [selectedColumnIdx, setSelectedColumnIdx] = useState<number>(-1);
 
 	const { mutateAsync } = usePatchAttendanceMutation();
 	const { refetch, data } = useGetAllAttendanceQuery();
