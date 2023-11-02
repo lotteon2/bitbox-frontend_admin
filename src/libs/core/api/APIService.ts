@@ -110,43 +110,43 @@ axios.interceptors.request.use((config) => {
 	return config;
 });
 
-axios.interceptors.response.use(
-	(res) => {
-		return res;
-	},
-	async (error: any) => {
-		const {
-			config,
-			response: { status },
-		} = error;
+// axios.interceptors.response.use(
+// 	(res) => {
+// 		return res;
+// 	},
+// 	async (error: any) => {
+// 		const {
+// 			config,
+// 			response: { status },
+// 		} = error;
 
-		// localStorage에 accessToken이 있는데 HTTP response code가 401이 왔을 때
-		if (status === HttpStatusCode.Unauthorized && localStorage.getItem('accessToken') !== null) {
-			const originalRequest = config; // 원래 요청 저장
+// 		// localStorage에 accessToken이 있는데 HTTP response code가 401이 왔을 때
+// 		if (status === HttpStatusCode.Unauthorized && localStorage.getItem('accessToken') !== null) {
+// 			const originalRequest = config; // 원래 요청 저장
 
-			// refresh 요청
-			const response = await axios.post(
-				`https://bitbox.kro.kr/authentication-service/auth/refresh`,
-				{},
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-					},
-				},
-			);
+// 			// refresh 요청
+// 			const response = await axios.post(
+// 				`https://bitbox.kro.kr/authentication-service/auth/refresh`,
+// 				{},
+// 				{
+// 					headers: {
+// 						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+// 					},
+// 				},
+// 			);
 
-			// 이 요청의 응답이 403이 오면 refresh 실패.
-			if (response.status === HttpStatusCode.Forbidden) {
-				localStorage.removeItem('accessToken');
-				return;
-			}
+// 			// 이 요청의 응답이 403이 오면 refresh 실패.
+// 			if (response.status === HttpStatusCode.Forbidden) {
+// 				localStorage.removeItem('accessToken');
+// 				return;
+// 			}
 
-			localStorage.setItem('accessToken', response.data.accessToken);
+// 			localStorage.setItem('accessToken', response.data.accessToken);
 
-			// 원래 하려던 요청 다시 보낸다
-			originalRequest.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-			// eslint-disable-next-line consistent-return
-			return axios(originalRequest);
-		}
-	},
-);
+// 			// 원래 하려던 요청 다시 보낸다
+// 			originalRequest.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+// 			// eslint-disable-next-line consistent-return
+// 			return axios(originalRequest);
+// 		}
+// 	},
+// );
