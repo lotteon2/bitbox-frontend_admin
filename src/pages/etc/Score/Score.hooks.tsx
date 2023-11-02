@@ -66,7 +66,7 @@ export const useChangeScoreModal = () => {
 
 	useEffect(() => {
 		if (!data || selectedColumnIdx === -1) return;
-		if (score !== undefined && score > data[selectedColumnIdx].score) {
+		if (score !== undefined && score > data[selectedColumnIdx].perfectScore) {
 			Toast(false, '만점보다 높은 점수는 입력할 수 없어요.');
 			setIsDisabled(true);
 		} else if (score === data[selectedColumnIdx].score) {
