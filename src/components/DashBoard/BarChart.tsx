@@ -15,9 +15,9 @@ const BarChart: React.FC<BarChartInterface> = ({ chartName, data }) => {
 		if (width < 640) {
 			setChartWidth(250);
 		} else if (width < 768) {
-			setChartWidth(400);
+			setChartWidth((width - 150) / 2);
 		} else if (width < 1024) {
-			setChartWidth(500);
+			setChartWidth((width - 150) / 2);
 		} else {
 			setChartWidth(700);
 		}

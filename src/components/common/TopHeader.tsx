@@ -12,6 +12,8 @@ import { useUserStore } from '../../stores/user/user.store';
 import { usePatchMyInfoMutation } from '../../mutations/usePatchMyInfoMutation';
 import { Toast } from './Toast';
 import { useGetMyAdimInfoQuery } from '../../queries/useGetMyAdminInfoQuery';
+import Header from './Header';
+import { useHamburgerStore } from '../../stores/hamburger/hamburgerStore';
 
 const TopHeader = () => {
 	const navigate = useNavigate();
@@ -22,9 +24,13 @@ const TopHeader = () => {
 		state.isLogin,
 		state.dispatchIsLogin,
 	]);
+	const [isHamburgerClicked, setIsHamburgerClicked] = useHamburgerStore((state) => [
+		state.isHamburgerClicked,
+		state.dispatchIsHamburgerClicked,
+	]);
 	const [selectedName, setSelectedName] = useState<string>(name || '');
 	const [selectedProfileImg, setSelectedProfileImg] = useState<string>(profileImg || '');
-
+	const [isNavBarOpen, setIsNavBarOpen] = useState<boolean>(false);
 	const { isModalOpen, setIsModalOpen, showModal, isLoading, setIsLoading, isDisabled, setIsDisabled, handleCancel } =
 		useUpdateProfileModal();
 
@@ -66,13 +72,19 @@ const TopHeader = () => {
 		}
 	}, [selectedName, selectedProfileImg]);
 
+	const handleClick = () => {
+		setIsHamburgerClicked(!isHamburgerClicked);
+	};
+
 	return (
 		<div className="h-16 relative">
-			<div className="right-10 top-5 flex flex-row gap-5 justify-between">
-				<div>
-					<div className="hamburger absolute left-10 top-10">
-						<LunchDiningIcon />
-					</div>
+			<div className="right-10 top-5 flex align-center flex-row gap-5 justify-between">
+				<div
+					className="hamburger absolute left-10 top-10 cursor-pointer h-[40px] flex align-center"
+					onClick={handleClick}
+					role="presentation"
+				>
+					<LunchDiningIcon />
 				</div>
 				<div className="absolute flex gap-5 right-10 top-10">
 					<Badge status={authority} />
@@ -116,6 +128,7 @@ const TopHeader = () => {
 						setImageUrl={setSelectedProfileImg}
 					/>
 				</div>
+				{isNavBarOpen && <Header />}
 			</div>
 		</div>
 	);

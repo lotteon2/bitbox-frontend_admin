@@ -42,7 +42,7 @@ a{
 .hamburger{
   display: none;
   @media screen and (max-width: 641px) {
-    display: block;
+    display: flex;
   }
 }
 
