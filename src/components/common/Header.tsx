@@ -5,7 +5,6 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 import PersonIcon from '@mui/icons-material/Person';
 import { useUserStore } from '../../stores/user/user.store';
 import { AUTHORITY } from '../../constants/AuthorityType';
-import { useHamburgerStore } from '../../stores/hamburger/hamburgerStore';
 
 export default function Header() {
 	const activeStyle = {
