@@ -69,6 +69,11 @@ export default function MainLayout() {
 		dispatchEmail(data.adminEmail);
 		dispatchAuthority(data.adminAuthority);
 		dispatchMyClassees(data.classInfoResponses);
+		const temp: { value: number; label: string }[] = [];
+		data.classInfoResponses.forEach((it: classInfoResponse) => {
+			temp.push({ value: it.classId, label: it.className });
+		});
+		dispatchMyClassesOption([...temp]);
 	}, [data]);
 
 	return (
