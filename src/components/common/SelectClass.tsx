@@ -4,7 +4,6 @@ import { AUTHORITY } from '../../constants/AuthorityType';
 
 interface SelectClassIntferface {
 	handleChange: (value: string) => void;
-	defaultValue?: string;
 	options: { value: string | number | keyof typeof AUTHORITY; label: string }[];
 	placeholder?: string;
 	isFull?: boolean;
@@ -12,7 +11,6 @@ interface SelectClassIntferface {
 }
 const SelectClass: React.FC<SelectClassIntferface> = ({
 	handleChange,
-	defaultValue,
 	options,
 	placeholder,
 	isFull,

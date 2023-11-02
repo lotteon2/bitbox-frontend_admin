@@ -14,6 +14,7 @@ import { useGetAllExamQuery } from '../../../queries/useGetAllExamQuery';
 import { useClassStore } from '../../../stores/class/class.store';
 import { useCreateExamMutation } from '../../../mutations/useCreateExamMutation';
 import { usePatchExamMutation } from '../../../mutations/usePatchExamMutation';
+import { useGetMyAdimInfoQuery } from '../../../queries/useGetMyAdminInfoQuery';
 
 export const useExamModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -24,6 +25,7 @@ export const useExamModal = () => {
 	const myClassesOption = useUserStore((state) => state.myClassesOption);
 	const classId = useClassStore((state) => state.classId);
 
+	const { refetch: refetchAdminInfo } = useGetMyAdimInfoQuery();
 	const { refetch } = useGetAllExamQuery();
 	const { mutateAsync } = useCreateExamMutation();
 
@@ -48,6 +50,7 @@ export const useExamModal = () => {
 				console.log(res);
 				Toast(true, '시험이 추가되었어요');
 				refetch();
+				refetchAdminInfo();
 				clearValues();
 				setIsModalOpen(false);
 			})
