@@ -266,6 +266,7 @@ export const useStudentModal = () => {
 		if (!isLogin) {
 			navigate('/login');
 		}
+		dispatchClassValue(myClassesOption[0].label);
 		return () => {
 			dispatchClassId(-1);
 		};

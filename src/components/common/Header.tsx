@@ -13,17 +13,8 @@ export default function Header() {
 	};
 
 	const memberAuthority = useUserStore((state) => state.authority);
-	const [isHamburgerClicked, setIsHamburgerClicked] = useHamburgerStore((state) => [
-		state.isHamburgerClicked,
-		state.dispatchIsHamburgerClicked,
-	]);
 	const [etcNav, setEtcNav] = useState<string>('/etc/attendance');
 	const [multiNav, setMultiNav] = useState<string>('/multi/student');
-	/** TODO: 경로 임의로 넣어놔서 나중에 편한대로 수정하면 됨!!
-	 *  1. NavLink의 to 부분 경로 수정
-	 *  2. 교육생 관리 하위의 onClick set() 경로 수정
-	 *  3. routes -> intex.tsx의 경로 수정 및 컴포넌트 생성 & 연결
-	 */
 
 	return (
 		<ul className="sidebar w-full h-[100%] flex flex-col pl-5 pt-10 gap-10 bg-primary1 dark:bg-grayscale6 dark:text-grayscale1">
