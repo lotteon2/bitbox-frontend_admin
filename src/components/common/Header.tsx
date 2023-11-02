@@ -32,7 +32,7 @@ export default function Header() {
 					<SpaceDashboardIcon fontSize="large" /> 대시보드
 				</NavLink>
 			</li>
-			{(memberAuthority === AUTHORITY.MANAGER || memberAuthority === AUTHORITY.ADMIN) && (
+			{memberAuthority !== AUTHORITY.TEACHER && (
 				<>
 					<li>
 						<NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to={multiNav}>
