@@ -18,5 +18,3 @@ export interface UpdateRequestStateParams {
 	reasonState: string;
 	rejectReason: string;
 }
-
-// reason sta
