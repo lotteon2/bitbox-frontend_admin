@@ -61,8 +61,6 @@ export default function MainLayout() {
 	}, [isLogin, isFirstLogin, navigate, getMyInfo]);
 
 	useEffect(() => {
-		console.log('admininfo change');
-		console.log(data);
 		if (!data) return;
 		dispatchName(data.adminName);
 		dispatchProfileImg(data.adminProfileImg);

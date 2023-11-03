@@ -47,7 +47,6 @@ export const useExamModal = () => {
 			perfectScore: perfectScore as number,
 		})
 			.then((res) => {
-				console.log(res);
 				Toast(true, '시험이 추가되었어요');
 				refetch();
 				refetchAdminInfo();
@@ -109,12 +108,10 @@ export const useExamUpdateModal = () => {
 		setSelectedClassName(className);
 		setIsModalOpen(true);
 		setSelectedExamId(examId);
-		console.log('EXAM ID', examId);
 	};
 
 	const handleOk = async () => {
 		setIsLoading(true);
-		console.log(selectedExamId, updateName, updatePerfectScore);
 		await mutateAsync({
 			examId: selectedExamId as number,
 			params: {
@@ -122,7 +119,6 @@ export const useExamUpdateModal = () => {
 				perfectScore: updatePerfectScore,
 			},
 		}).then((res) => {
-			console.log(res);
 			Toast(true, '시험 정보가 수정되었어요');
 			refetch();
 		});
@@ -135,7 +131,6 @@ export const useExamUpdateModal = () => {
 	};
 
 	useEffect(() => {
-		console.log(updateName, updatePerfectScore);
 		if (updatePerfectScore && updateName) {
 			setIsDisabled(false);
 		}
@@ -205,7 +200,6 @@ export const useExamTable = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [classId, myClassesOption]);
 
@@ -214,7 +208,6 @@ export const useExamTable = () => {
 	}, [classId]);
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.length) {
 			setExamsData([]);
 			return;
@@ -234,7 +227,6 @@ export const useExamTable = () => {
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		dispatchClassId(Number(value));
-		console.log(`selected ${value}`);
 	}, []);
 
 	const deleteExam = async (idx: number) => {

@@ -7,7 +7,6 @@ export interface CreateAdminParams {
 	adminName: string;
 }
 
-// TODO : 타입 변경 확실치않음
 export interface CreateAdminResponseData {
 	uuid: string;
 }

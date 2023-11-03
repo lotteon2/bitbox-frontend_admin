@@ -30,8 +30,6 @@ export const useChangeScoreModal = () => {
 	};
 
 	const showModal = async (record: DataType, rowIndex: number) => {
-		console.log(record);
-		console.log(rowIndex);
 		setIsModalOpen(true);
 		setSelectedColumnIdx(rowIndex);
 		setSelectedGradeId(record.key);
@@ -44,7 +42,6 @@ export const useChangeScoreModal = () => {
 		setIsLoading(true);
 		await mutateAsync({ gradeId: selectedGradeId, params: { score: score || -1 } })
 			.then((res) => {
-				console.log(res);
 				Toast(true, '성적이 변경되었어요.');
 				clearValues();
 				setIsModalOpen(false);
@@ -123,12 +120,10 @@ export const useScoreTable = () => {
 	const { data } = useGetAllScoreByExamIdQuery();
 
 	const handleChangeSelectedClassId = (value: string) => {
-		console.log(`selected ${value}`);
 		dispatchClassId(Number(value));
 	};
 
 	const handleChangeSelectedExamId = (value: string) => {
-		console.log(`selected examId ${value}`);
 		dispatchSelectedExamId(Number(value));
 	};
 
@@ -146,7 +141,6 @@ export const useScoreTable = () => {
 		if (!data?.length) {
 			setScoreData([]);
 			if (myClassesOption.length > 0) {
-				console.log('here', classId);
 				const temp: { value: number; label: string }[] = [];
 				if (classId === -1) {
 					dispatchClassId(myClassesOption[0].value);
@@ -161,7 +155,6 @@ export const useScoreTable = () => {
 					setExamsOption([...temp]);
 				} else {
 					const idx = myClasses.findIndex((it) => it.classId === classId);
-					console.log('myClasses', myClasses);
 					if (myClasses[idx].exams && myClasses[idx].exams.length > 0) {
 						myClasses[idx].exams.forEach((it) => {
 							temp.push({
@@ -171,14 +164,11 @@ export const useScoreTable = () => {
 						});
 					}
 					setExamsOption([...temp]);
-					console.log(examsOption);
 				}
-				console.log('selectedClassId', classId);
 			}
 			return;
 		}
 		if (myClassesOption.length > 0) {
-			console.log('here', classId);
 			const temp: { value: number; label: string }[] = [];
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
@@ -202,20 +192,15 @@ export const useScoreTable = () => {
 					});
 				}
 				setExamsOption([...temp]);
-				console.log(examsOption);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [classId, myClassesOption]);
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.length) {
 			setScoreData([]);
 			return;
 		}
-
-		console.log(myClassesOption);
 		const temp: DataType[] = [];
 		data.forEach((it) => {
 			temp.push({

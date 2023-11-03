@@ -10,7 +10,6 @@ const CREATE_ADMIN_MUTATION_KEY = '@admin/create';
 export const useCreateAdminMutation = () => {
 	const classId: number = useClassStore((state) => state.classId);
 	const myClassesOption = useUserStore((state) => state.myClassesOption);
-	console.log('ADMIN', classId);
 	const { mutateAsync } = useMutation(
 		(params: CreateAdminParams) => adminApi.createAdmin(classId === -1 ? myClassesOption[0].value : classId, params),
 		{

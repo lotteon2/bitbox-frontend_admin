@@ -12,13 +12,13 @@ import { useGetAllAttendanceQuery } from '../../../queries/useGetAllAttendanceQu
 import { useUserStore } from '../../../stores/user/user.store';
 import { useClassStore } from '../../../stores/class/class.store';
 import { usePatchAttendanceMutation } from '../../../mutations/usePatchAttendanceMutation';
-import { ATTENDANCE, getAttendacne } from '../../../constants/AttendanceType';
+import { ATTENDANCE } from '../../../constants/AttendanceType';
 import { useAttendanceSearchStore } from '../../../stores/attendanceSearch/attendanceSearch.store';
 
 export const useAttendanceModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [comment, setComment] = useState<string>(''); // comment
+	const [comment, setComment] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [attendanceState, setAttendanceState] = useState<string>(ATTENDANCE.ATTENDANCE);
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -37,9 +37,6 @@ export const useAttendanceModal = () => {
 	};
 
 	const showModal = (value: number, initAttendanceState: keyof typeof ATTENDANCE, initName: string) => {
-		console.log(value);
-		console.log('initAttendanceState', initAttendanceState);
-		console.log('initName', initName);
 		setSelectedColumnIdx(value);
 		setIsModalOpen(true);
 		setAttendanceState(initAttendanceState);
@@ -128,13 +125,11 @@ export const useAttendanceTable = () => {
 	const { data, fetchQuery, refetch } = useGetAllAttendanceQuery();
 
 	const onChangeDate: DatePickerProps['onChange'] = (date, dateString) => {
-		console.log(date, dateString);
 		setSelectedDate(date);
 		dispatchSelectedDateString(dateString);
 	};
 
 	const handleChangeSelectedClassId = (value: string) => {
-		console.log(`selected ${value}`);
 		dispatchClassId(Number(value));
 	};
 
@@ -161,12 +156,10 @@ export const useAttendanceTable = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [classId, myClassesOption]);
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.length) {
 			setAttendanceData([]);
 			return;

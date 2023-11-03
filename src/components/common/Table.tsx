@@ -52,9 +52,7 @@ const Table: React.FC<TableInterface<DataType>> = ({ columns, data, tableName, s
 				onRow={(record, rowIndex) => {
 					return {
 						onClick: (event) => {
-							console.log(event);
-							console.log(record);
-							return showModal ? showModal(record, rowIndex as number) : console.log('hi');
+							return showModal ? showModal(record, rowIndex as number) : console.log('');
 						},
 					};
 				}}

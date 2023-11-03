@@ -41,7 +41,6 @@ export const useClassModal = () => {
 		setIsLoading(true);
 		await mutateAsync({ className: name, classCode: classCode as number })
 			.then((res) => {
-				console.log(res);
 				Toast(true, '반이 추가되었어요');
 				clearValues();
 				setIsModalOpen(false);
@@ -85,7 +84,6 @@ export const useClassUpdateModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const { data } = useGetAllClassQuery();
 
 	const clearValues = () => {
 		setIsDisabled(true);
@@ -93,7 +91,6 @@ export const useClassUpdateModal = () => {
 
 	const showModal = () => {
 		setIsModalOpen(true);
-		// console.log(data?.[id]);
 	};
 
 	const handleCancel = () => {
@@ -146,7 +143,6 @@ export const useClassTable = () => {
 
 	const handleUpdateOk = async () => {
 		setIsUpdateClassModalOpen(true);
-		console.log(selectedClassId);
 		setIsLoadingUpdateClass(true);
 		await mutateAsync({
 			classId: selectedClassId as number,
@@ -198,7 +194,6 @@ export const useClassTable = () => {
 	}, [selectedIdx, selectedClassName, selectedIsGraduate]);
 
 	useEffect(() => {
-		console.log('data', data);
 		const temp: DataType[] = [];
 		if (!data?.length) {
 			setClassesData([]);
@@ -232,7 +227,6 @@ export const useClassTable = () => {
 
 	const handleDelete = (id: number) => {
 		Alert({ title: '클래스 정보를 삭제하시겠습니까?', text: '삭제하시면 되돌릴 수 없습니다' }).then(async (result) => {
-			// 만약 Promise리턴을 받으면,
 			if (result.isConfirmed) {
 				deleteClass(classesData[id].key);
 			}

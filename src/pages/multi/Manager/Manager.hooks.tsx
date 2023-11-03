@@ -36,7 +36,6 @@ export const useManagerModal = () => {
 
 	const handleChangeSelectedClassIdForAdd = useCallback((value: string) => {
 		dispatchClassId(Number(value));
-		console.log(`selected ${value}`);
 	}, []);
 
 	const clearValues = () => {
@@ -128,7 +127,6 @@ export const useManagerTable = () => {
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		dispatchClassId(Number(value));
-		console.log(`selected ${value}`);
 	}, []);
 
 	const handleUpdateOk = async () => {
@@ -155,7 +153,6 @@ export const useManagerTable = () => {
 	};
 
 	useEffect(() => {
-		console.log('imageUrl', selectedImageSrc);
 		if (admins.length > 0) {
 			if (
 				selectedName === admins[selectedIdx as number]?.name &&

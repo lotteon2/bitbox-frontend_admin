@@ -17,7 +17,6 @@ type AddClassesToRows = (
 ) => void;
 
 export const addClassesToRows: AddClassesToRows = (TD, row, column, prop, value, cellProperties) => {
-	// Adding classes to `TR` just while rendering first visible `TD` element
 	if (column !== 0) {
 		return;
 	}
@@ -28,14 +27,12 @@ export const addClassesToRows: AddClassesToRows = (TD, row, column, prop, value,
 		return;
 	}
 
-	// Add class to selected rows
 	if (cellProperties.instance.getDataAtRowProp(row, '0')) {
 		Handsontable.dom.addClass(parentElement, SELECTED_CLASS);
 	} else {
 		Handsontable.dom.removeClass(parentElement, SELECTED_CLASS);
 	}
 
-	// Add class to odd TRs
 	if (row % 2 === 0) {
 		Handsontable.dom.addClass(parentElement, ODD_ROW_CLASS);
 	} else {

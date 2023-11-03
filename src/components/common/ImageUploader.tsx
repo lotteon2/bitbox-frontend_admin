@@ -18,7 +18,6 @@ const ImageUploader: React.FC<ImageUploaderInterface> = ({ imageUrl, setImageUrl
 		inputRef.current?.click();
 	}, []);
 
-	// 이미지 처리
 	const handleChangeFile = async (event: any) => {
 		event.preventDefault();
 		const formData = new FormData();

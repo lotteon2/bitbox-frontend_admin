@@ -12,9 +12,6 @@ export const useGetAllExamQuery = (onSettled?: (data?: GetExamResponseData[]) =>
 	const [classId] = useClassStore((state) => [state.classId]);
 	const [myClassesOption] = useUserStore((state) => [state.myClassesOption]);
 
-	console.log('CLASSID', classId);
-	console.log('myClassesOption', myClassesOption);
-
 	const fetchQuery = () => {
 		setEnabled(true);
 	};
@@ -30,8 +27,6 @@ export const useGetAllExamQuery = (onSettled?: (data?: GetExamResponseData[]) =>
 			},
 		},
 	);
-
-	console.log(data.data);
 
 	return {
 		fetchQuery,

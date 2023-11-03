@@ -24,7 +24,6 @@ export const useGetAllAttendanceQuery = (
 		setEnabled(true);
 	};
 
-	console.log('searchName', searchName);
 	const data = useQuery(
 		[GET_ALL_ATTENDANCE_QUERY_KEY, classId, selectedDateString, searchName],
 		() =>
@@ -41,8 +40,6 @@ export const useGetAllAttendanceQuery = (
 			},
 		},
 	);
-
-	console.log('ATTENDANCE', data.data);
 
 	return {
 		fetchQuery,

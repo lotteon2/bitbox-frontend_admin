@@ -27,33 +27,7 @@ export const useDashBoard = () => {
 
 	const handleChangeSelectedClassId = (value: string) => {
 		dispatchClassId(Number(value));
-		console.log(`selected ${value}`);
 	};
-
-	// const getAttendancesByClassId = useCallback(async () => {
-	// 	console.log('getAttendancesByClassId', classId);
-	// 	await attendanceApi
-	// 		.getAttendanceInfoByClassIdForDashBoard(classId === -1 ? myClassesOption[0].value : classId)
-	// 		.then((res: BarChartDataType[]) => {
-	// 			setAttendanceData(res);
-	// 			console.log(attendanceData);
-	// 		});
-	// }, []);
-
-	// const getGradesByClassId = useCallback(async () => {
-	// 	console.log('getGradesByClassId', classId);
-	// 	await gradeApi
-	// 		.getGradesByClassId(classId === -1 ? myClassesOption[0].value : classId)
-	// 		.then((res: GetGradesResponseDataForDashBoard[]) => {
-	// 			const newGradeData: BarChartDataType[] = [];
-	// 			res.map((it) => newGradeData.push({ num: it.avgScore, name: it.examName }));
-	// 			setGradeData((prev) => newGradeData);
-	// 		})
-	// 		.catch((err) => {
-	// 			Toast(false, '반별 성적 데이터를 불러오는데 실패했습니다');
-	// 			return [];
-	// 		});
-	// }, []);
 
 	useEffect(() => {
 		if (!data?.reasonStatements?.length) {
@@ -64,7 +38,6 @@ export const useDashBoard = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [classId, myClassesOption]);
 
@@ -76,13 +49,10 @@ export const useDashBoard = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
-		console.log(myClassesOption);
 	}, [isLogin, classId]);
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.reasonStatements?.length) {
 			setRequestData([]);
 			return;

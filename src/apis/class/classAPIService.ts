@@ -24,7 +24,6 @@ class ClassAPIService extends APIService {
 		return data;
 	}
 
-	// class 삭제, 수정
 	async updateClasses(classId: number, params: UpdateClassParams) {
 		const { data } = await this.patch<boolean>(`/${classId}`, params);
 		return data;

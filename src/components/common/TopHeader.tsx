@@ -53,7 +53,6 @@ const TopHeader = () => {
 	const [current, setCurrent] = useState('1');
 
 	const onClick: MenuProps['onClick'] = (e) => {
-		console.log('click ', e);
 		setCurrent(e.key);
 	};
 	const [selectedName, setSelectedName] = useState<string>(name || '');
@@ -139,7 +138,6 @@ const TopHeader = () => {
 	};
 
 	const handleOk = async () => {
-		console.log('ok');
 		setIsLoading(true);
 		await mutateAsync({
 			adminProfileImg: selectedProfileImg,
@@ -159,17 +157,12 @@ const TopHeader = () => {
 	};
 
 	useEffect(() => {
-		console.log(name, selectedName, profileImg, selectedProfileImg);
 		if (name !== selectedName || (profileImg !== null && profileImg !== selectedProfileImg)) {
 			setIsDisabled(false);
 		} else {
 			setIsDisabled(true);
 		}
 	}, [selectedName, selectedProfileImg]);
-
-	useEffect(() => {
-		console.log('isHamburger', isHamburgerClicked);
-	}, [isHamburgerClicked]);
 
 	return (
 		<div className="h-16 relative">

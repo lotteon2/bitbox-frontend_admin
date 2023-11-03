@@ -13,7 +13,6 @@ class GradeAPIService extends APIService {
 		this.setBaseUrl(BASE_URL);
 	}
 
-	// 대시 보드용
 	async getGradesByClassId(classId: number) {
 		const { data } = await this.get<GetGradesResponseDataForDashBoard[]>(`class/${classId}`);
 		return data;

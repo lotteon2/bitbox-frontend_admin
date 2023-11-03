@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-// Image, password, 이름 수정
 export const useUpdateProfileModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);

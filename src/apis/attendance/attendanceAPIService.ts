@@ -12,12 +12,10 @@ class AttendanceAPIService extends APIService {
 
 	async getAttendanceInfoByClassIdForDashBoard(classId: number) {
 		const { data } = await this.get<BarChartDataType[]>(`/dashboard/${classId}`);
-		console.log(data);
 		return data;
 	}
 
 	async getAllAttendanceInfo(classId: number, localDate: string, memberName: string) {
-		console.log('memberName', memberName);
 		const { data } = await this.get<GetAllAttendanceInfoResponse[]>(
 			`/${classId}?current=${localDate}&memberName=${encodeURIComponent(memberName)}`,
 		);

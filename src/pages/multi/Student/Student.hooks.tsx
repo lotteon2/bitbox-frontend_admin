@@ -26,14 +26,12 @@ export const useInvitedStudent = () => {
 	const handleDeleteInvitedStudent = async (email: string) => {
 		await mutateAsync(email)
 			.then((res) => {
-				console.log(res);
 				Toast(true, '교육생 초대가 취소되었어요.');
 				refetch();
 			})
 			.catch((err) => {
 				Toast(false, '교육생 초대 취소에 실패했어요.');
 			});
-		console.log(email);
 	};
 
 	const invitedStudentColumns: ColumnsType<DataType> = [
@@ -81,7 +79,6 @@ export const useInvitedStudent = () => {
 	];
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.length) {
 			setInvitedStudents([]);
 			return;
@@ -138,7 +135,6 @@ export const useStudentModal = () => {
 	};
 
 	const handleDeleteStudentAlert = (id: string) => {
-		console.log(id);
 		Alert({ title: '교육생 정보를 삭제하시겠습니까?', text: '삭제하시면 되돌릴 수 없습니다' }).then((result) => {
 			if (result.isConfirmed) {
 				handleDeleteStudent(id);
@@ -183,17 +179,14 @@ export const useStudentModal = () => {
 	];
 
 	const handleClickAddBtn = async (e: React.MouseEvent<Element, MouseEvent> | React.FormEvent<HTMLFormElement>) => {
-		console.log(email);
 		e.preventDefault();
 		if (!email) {
 			Toast(false, '이메일을 입력해주세요.');
 		} else {
 			const { classCode } = myClasses[myClasses.findIndex((it) => it.classId === classId)];
 			const { className } = myClasses[myClasses.findIndex((it) => it.classId === classId)];
-			console.log(classCode, className, classId, email);
 			await mutateAsync({ email, classId, classCode, className })
 				.then((res) => {
-					console.log(res);
 					setInvitedEmails((prev) => [...prev, email]);
 					setEmail('');
 					Toast(true, '교육생이 초대되었습니다.');
@@ -204,18 +197,17 @@ export const useStudentModal = () => {
 
 					emailjs.send('service_7t9od8h', 'template_nh61f8q', templateParams, 'pSia3ISCGBQ7MtMZk').then(
 						(result: any) => {
-							console.log(result.text);
+							Toast(true, '교육생에게 이메일이 발송되었습니다.');
 						},
 						(error: any) => {
-							console.log(error.text);
+							Toast(false, '교육생에게 이메일이 발송되지 않았습니다.');
 						},
 					);
 				})
 				.catch((err) => {
 					Toast(false, '교육생 초대에 실패하였습니다.');
 				});
-			console.log(classCode, className, classId, email);
-			await authApi.getAllInvitedStudents().then((res) => console.log('res', res));
+			await authApi.getAllInvitedStudents();
 		}
 	};
 
@@ -235,11 +227,8 @@ export const useStudentModal = () => {
 
 	const handleChangeSelectedClassId = useCallback((value: string) => {
 		dispatchClassId(Number(value));
-		console.log('myClassesOption', myClassesOption);
 		const selectedOption = myClassesOption[myClassesOption.findIndex((myClass) => myClass.value === Number(value))];
-		console.log('selectedOption', selectedOption);
 		dispatchClassValue(selectedOption.label);
-		console.log(`selected ${value}`);
 	}, []);
 
 	useEffect(() => {
@@ -271,7 +260,6 @@ export const useStudentModal = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [invitedEmails, isLogin, myClassesOption, navigate, classId]);
 

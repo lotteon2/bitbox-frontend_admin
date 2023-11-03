@@ -14,9 +14,6 @@ const NotFound = () => {
 			credentials: 'include',
 		})
 			.then((res) => {
-				console.log(origin);
-				console.log(res.headers.get('set-cookie')); // undefined
-				console.log(document.cookie); // nope
 				return res.json();
 			})
 			.then((res) => {

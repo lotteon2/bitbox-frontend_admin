@@ -16,7 +16,6 @@ export const useFirstLogin = () => {
 	]);
 
 	const onFinish = async () => {
-		console.log(password, checkPassword);
 		if (password !== checkPassword) {
 			Toast(false, '입력한 두 비밀번호가 달라요.');
 		} else {

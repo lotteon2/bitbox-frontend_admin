@@ -34,7 +34,6 @@ export const useRequestModal = () => {
 		if (!data?.reasonStatements[selectedColumnKey as number].read) {
 			await mutateAsync(record.key)
 				.then((res) => {
-					console.log(res);
 					Toast(true, '사유서 읽음 처리에 성공했어요.');
 					refetch();
 				})
@@ -42,8 +41,6 @@ export const useRequestModal = () => {
 					Toast(false, '사유서 읽음 처리에 실패했어요.');
 				});
 		}
-		console.log(rowIndex);
-		console.log(record);
 	};
 
 	const handleOk = () => {
@@ -63,7 +60,6 @@ export const useRequestModal = () => {
 			},
 		})
 			.then((res) => {
-				console.log(res);
 				Toast(true, `사유서가 ${state === REASON_STATEMENT.APPROVE ? '승인' : '반려'}되었어요.`);
 				setIsModalOpen(false);
 				setComment('');
@@ -75,7 +71,6 @@ export const useRequestModal = () => {
 	};
 
 	const handleChangeRequestState = async (idx: number, state: keyof typeof REASON_STATEMENT) => {
-		console.log(state);
 		if (state === REASON_STATEMENT.APPROVE) {
 			updateRequestState(idx, state);
 		} else {
@@ -129,7 +124,6 @@ export const useRequestTable = () => {
 	const { data } = useGetAllRequestQuery();
 
 	const handleChangeSelectedClassId = (value: string) => {
-		console.log(`selected ${value}`);
 		dispatchClassId(Number(value));
 	};
 
@@ -151,12 +145,10 @@ export const useRequestTable = () => {
 			if (classId === -1) {
 				dispatchClassId(myClassesOption[0].value);
 			}
-			console.log('selectedClassId', classId);
 		}
 	}, [classId, myClassesOption]);
 
 	useEffect(() => {
-		console.log('data', data);
 		if (!data?.reasonStatements?.length) {
 			setRequestData([]);
 			return;

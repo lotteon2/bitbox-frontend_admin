@@ -32,7 +32,6 @@ class AuthAPIService extends APIService {
 
 	async deleteInvitedStudent(deleteEmail: string) {
 		const { data } = await this.delete('/invitation', undefined, { headers: { email: deleteEmail } });
-		console.log(this.headers);
 		return data;
 	}
 }

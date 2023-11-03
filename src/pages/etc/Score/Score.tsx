@@ -28,8 +28,6 @@ const Score = () => {
 		setScore,
 	} = useScoreTable();
 
-	console.log('examsOption', examsOption);
-
 	return (
 		<div>
 			<div className="flex justify-between w-full my-5">

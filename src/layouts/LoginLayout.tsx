@@ -7,7 +7,6 @@ export default function LoginLayout() {
 	const [isLogin, isFirstLogin] = useUserStore((state) => [state.isLogin, state.isFirstLogin]);
 
 	useEffect(() => {
-		console.log(isLogin);
 		if (isLogin && !isFirstLogin) {
 			navigate('/');
 		}

@@ -35,7 +35,6 @@ export const useLogin = () => {
 				throw new Error();
 			})
 			.then((res) => {
-				console.log(res);
 				dispatchIsLogin(true);
 				dispatchAuthority(res.authority);
 				dispatchIsFirstLogin(res.firstLogin);

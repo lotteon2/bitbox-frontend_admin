@@ -14,7 +14,6 @@ class MemberAPIService extends APIService {
 	}
 
 	async getAllStudentsByClassIdAndPageAndSize(params: GetAllStudentByClassIdAndPageAndSizeParams) {
-		console.log('here');
 		const { data } = await this.get<GetAllStudentsResponseData>(
 			`${params.classId}?page=${params.page}&size=${params.size}`,
 		);

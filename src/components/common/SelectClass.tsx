@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Select } from 'antd';
 import { AUTHORITY } from '../../constants/AuthorityType';
 
@@ -16,9 +16,6 @@ const SelectClass: React.FC<SelectClassIntferface> = ({
 	isFull,
 	isReadOnly = false,
 }) => {
-	useEffect(() => {
-		console.log('SelectClass');
-	}, []);
 	return (
 		<Select
 			className={'mt-auto mb-auto '.concat(isFull ? 'w-full' : 'w-[200px]')}
